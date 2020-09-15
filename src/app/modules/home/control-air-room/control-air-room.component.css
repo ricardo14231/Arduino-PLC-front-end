@@ -1,0 +1,7 @@
+.controlAirRoom{
+    display: inline-block;
+    position: relative;
+    height: 400px;
+    margin-right: 10px;
+    width: 20%;
+}

@@ -1,0 +1,38 @@
+.dataRoom{
+    display: inline-block;
+    position: relative;
+    height: 400px;
+    margin-right: 10px;
+    width: 30%;
+}
+ 
+.dataRoom > div{
+    position: relative;
+    margin-top: 5px;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.dataRoom .temperatureAndHumidity{
+    background-color: aqua;
+    padding: 10px 0px;
+}
+
+.temperatureAndHumidity span{
+    display: block;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.dataRoom .stateAir, .dataRoom .statePresence{
+    padding: 40px 10px;
+}
+
+.dataRoom .stateAir{
+    background-color: khaki;
+}
+
+.dataRoom .statePresence{
+    background-color: lightcoral;
+}
