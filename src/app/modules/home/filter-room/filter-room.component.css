@@ -1,0 +1,13 @@
+.filter-room{
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+}
+
+.filter-pavilion, .filter-shift{
+    width: 300px;
+}
+
+.filter-shift{
+    left: 50px;
+}

@@ -1,7 +1,101 @@
+fieldset{
+    top: 0px;
+}
+
 .controlAirRoom{
-    display: inline-block;
     position: relative;
+    width: 80%;
+    min-width: 80%;
     height: 400px;
-    margin-right: 10px;
-    width: 20%;
+    min-height: 400px;
+    padding: 20px 10px;
+}
+
+.controlAirRoom .displayControl{
+    display: block;
+    position: relative;
+    width: 100px;
+    height: 30px;
+    margin: 0 auto;
+    padding: 5px 10px;
+    border: 1px solid #c5c5c5;
+    border-radius: 4px;
+    text-align: center;
+    letter-spacing: 1.5px;
+}
+
+.btnTemperature, .configAir, .turnOnShutdown{
+    position: relative;
+    top: 40px;
+    display: flex;
+}
+
+.btnTemperature{
+    flex-direction: column;
+}
+
+.btnTemperature span{
+    margin: 10px auto;
+}
+
+.btnTemperature button {
+    width: 50px;
+    height: 40px;
+    margin: 0 auto;
+    background-color: #bfbfbf;
+    border: 1px solid #c5c5c5;
+    font-size: 20px;
+}
+
+.configAir{
+    top: 80px;
+    justify-content: center;
+}
+
+.configAir label{
+    transform: translateY(-5px);
+    margin: 0 5px;
+}
+
+.configAir label img{
+    position: relative;
+    width: 30px;
+    cursor: pointer;
+}
+
+.configAir label img:active{
+    opacity: 0.5;
+}
+
+.configAir #send{
+    margin-left: 30px;
+}
+
+.turnOnShutdown{
+    position: absolute;
+    top: calc(100% - 80px);
+    background-color: #c5c5c5;
+    padding: 5px;
+    border-radius: 4px;
+    width: 96%;
+    height: 70px;
+    transform: translate(-24px, 5px);
+    left: 30px;
+}
+
+.turnOnShutdown button{
+    margin: 0 auto;
+    width: 90px;
+    height: 50px;
+    top: 5px;
+    color: #000;
+    letter-spacing: 1.5px;
+}
+
+.turnOnShutdown button:first-child{
+    background-color: #0f0;
+}
+
+.turnOnShutdown button:last-child{
+    background-color: #f00;
 }

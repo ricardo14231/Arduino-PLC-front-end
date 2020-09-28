@@ -1,3 +1,50 @@
 <fieldset class="scheduleRoom">
-    <legend>Horários</legend>
+  <legend>Horário</legend>
+    
+    <div class="mat-elevation-z2">
+      <table mat-table class="full-width-table" matSort aria-label="Elements" >
+       
+        <ng-container matColumnDef="hour">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Hora</th>
+          <td mat-cell *matCellDef="let row">{{ row.hour }}</td>
+        </ng-container>
+        <div>{{schedule}}</div>
+        <ng-container matColumnDef="mon">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>SEG</th>
+          <td mat-cell *matCellDef="let row">{{row.mon}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="tue">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>TER</th>
+          <td mat-cell *matCellDef="let row">{{row.tue}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="wed">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>QUA</th>
+          <td mat-cell *matCellDef="let row">{{row.wed}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="thu">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>QUI</th>
+          <td mat-cell *matCellDef="let row">{{row.thu}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="fri">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>SEX</th>
+          <td mat-cell *matCellDef="let row">{{row.fri}}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="sat">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>SAB</th>
+          <td mat-cell *matCellDef="let row">{{row.sat}}</td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  
+    </div>
 </fieldset>
+
+
+

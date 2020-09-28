@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import { MaterialModule } from '../../shared/materialModule/material.module';
 import { HomeComponent } from './home.component';
@@ -10,6 +11,7 @@ import { DataRoomComponent } from './data-room/data-room.component';
 import { ControlAirRoomComponent } from './control-air-room/control-air-room.component';
 
 
+
 const homeComponent = [
     HomeComponent,
     FilterRoomComponent,
@@ -17,15 +19,17 @@ const homeComponent = [
     RoomComponent,
     ScheduleRoomComponent,
     DataRoomComponent,
-    ControlAirRoomComponent
+    ControlAirRoomComponent,
+    ScheduleRoomComponent
 ]
 
 @NgModule({
   declarations: [ 
-    homeComponent
+    homeComponent, 
   ],
   imports: [
-    MaterialModule,
+    CommonModule,
+    MaterialModule
   ],
   providers: [],
   exports: [

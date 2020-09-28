@@ -1,4 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 
 import { ScheduleRoomComponent } from './schedule-room.component';
 
@@ -6,12 +10,17 @@ describe('ScheduleRoomComponent', () => {
   let component: ScheduleRoomComponent;
   let fixture: ComponentFixture<ScheduleRoomComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ScheduleRoomComponent ]
-    })
-    .compileComponents();
-  });
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ ScheduleRoomComponent ],
+      imports: [
+        NoopAnimationsModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+      ]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ScheduleRoomComponent);
@@ -19,7 +28,7 @@ describe('ScheduleRoomComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should compile', () => {
     expect(component).toBeTruthy();
   });
 });

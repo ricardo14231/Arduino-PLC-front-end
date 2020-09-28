@@ -1,4 +1,8 @@
-.conatinerRoom{
-    width: 90%;
-    height: 350px;
+.containerRoom{
+    width: 100%;
+    height: 320px;
+}
+
+.room{
+    margin-right: 20px;
 }

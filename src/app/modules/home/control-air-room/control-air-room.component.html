@@ -1,3 +1,28 @@
 <fieldset class="controlAirRoom">
     <legend>Controle ar-condicionado</legend>
+
+    <span class="displayControl"> {{ dataRoom?.name_room }} </span>
+
+    <div class="btnTemperature">
+        <button mat-button> + </button>
+        <span>Temperatura</span>
+        <button mat-button> - </button>
+    </div>
+
+    <div class="configAir">
+        <input type="checkbox" id="cool" [checked]="dataRoom?.state_cool_air == 0">
+        <label for="cool" ><img alt="Cool" src="assets/imgControl/cool.svg"> </label>
+        
+        <input type="checkbox" id="fan" [checked]="dataRoom?.state_fan_air == 0">
+        <label for="fan" >  <img alt="Cool" src="assets/imgControl/fan.svg" > </label>
+        
+        <label id="send" > <img alt="Cool" src="assets/imgControl/send.svg" > </label>
+        
+    </div>
+
+    <div class="turnOnShutdown">
+        <button mat-button color="primary"> Ligar </button>
+        <button mat-button> Desligar </button>
+    </div>
+
 </fieldset>

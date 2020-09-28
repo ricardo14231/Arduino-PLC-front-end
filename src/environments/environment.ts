@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  API_APP: 'http://localhost:3000/',
+  API_ARDUINO: 'http://192.168.0.130/'
 };
 
 /*

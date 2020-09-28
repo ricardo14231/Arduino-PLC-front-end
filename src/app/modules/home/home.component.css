@@ -1,3 +1,29 @@
 .containerFieldset{
-    display: inline;
+    display: flex;
+    position: relative;
+    top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+} 
+
+.containerSchedule, .containerData, .containerAir{
+    position: relative;
+    margin-right: 10px;
+    height: 400px;
 }
+
+.containerSchedule{
+    width: 50%;   
+}
+
+.containerData{
+    width: 30%;
+}
+
+.containerAir{
+    width: calc(20% - 20px);
+}
+
+
+
+

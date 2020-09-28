@@ -1,11 +1,7 @@
 .dataRoom{
-    display: inline-block;
-    position: relative;
+    width: 100%;
     height: 400px;
-    margin-right: 10px;
-    width: 30%;
 }
- 
 .dataRoom > div{
     position: relative;
     margin-top: 5px;

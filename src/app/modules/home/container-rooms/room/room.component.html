@@ -1,1 +1,17 @@
-<p>room works!</p>
+<mat-card class="cardRoom">
+    <mat-card-header class="cardHeader">
+      <mat-card-title> {{ room.name_room }} </mat-card-title>
+      <img src="assets/imgControl/clock.svg" alt="Horário" title="Horário">
+    </mat-card-header>
+    <mat-card-content class="paramAir">
+      <h4>Ar: 
+        <div *ngIf="room.state_air == 0; then airTurnOn else airTurnOff"></div>
+        <ng-template #airTurnOn> <span class="turnOn">Ligado</span> </ng-template>
+        <ng-template #airTurnOff> <span class="turnOff">Desligado</span> </ng-template>
+
+      </h4>
+      <span>{{ room.current_temperature_air }} º</span>
+
+    </mat-card-content>
+    
+</mat-card>

@@ -1,7 +1,7 @@
-.scheduleRoom{
-    display: inline-block;
-    position: relative;
-    height: 400px;
-    margin-right: 10px;
-    width: 40%;
+fieldset{
+  height: 400px;
+}
+
+.full-width-table {
+  width: 100%;
 }
