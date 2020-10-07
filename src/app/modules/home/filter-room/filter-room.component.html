@@ -2,8 +2,8 @@
   
     <mat-form-field appearance="fill" class="filter-pavilion">
       <mat-label>Pavilhão</mat-label>
-      <select matNativeControl required (change)="selectedPavilion($event)">
-        <option value="0">Selecione</option>
+      <select matNativeControl (change)="selectedPavilion($event)" required>
+        <option value="-1">Selecione</option>
         <option *ngFor="let pavilion of pavilions" [value]="pavilion.id_pavilion" > {{ pavilion.name_pavilion }} </option>
   
       </select>
@@ -11,11 +11,11 @@
 
     <mat-form-field appearance="fill" class="filter-shift">
         <mat-label>Turno</mat-label>
-        <select matNativeControl required>
-          <option value="">Selecione</option>
-          <option value="1">Matutino</option>
-          <option value="2">Vespertino</option>
-          <option value="3">Noturno</option>
+        <select matNativeControl (change)="selectedShiftSchedule($event)" required>
+          <option value="notSelected">Selecione</option>
+          <option value="shift_morning">Matutino</option>
+          <option value="shift_afternoon">Vespertino</option>
+          <option value="shift_night">Noturno</option>
         </select>
     </mat-form-field>
     

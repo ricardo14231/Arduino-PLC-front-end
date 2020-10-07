@@ -30,3 +30,42 @@ legend{
     background-color: #f1f1f1;
 }
 
+a{
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
+}
+
+
+/*
+    CSS Mat-SnacBar
+*/
+.mat-snack-bar-container{
+    position: relative;
+    color: #f5f5f5;
+    top: 50px;
+    width: 350px;
+    word-break: break-word;
+}
+
+.mat-simple-snackbar-action button{
+    color: #f5f5f5;
+}
+
+.dangerMessage{
+    background-color: #d32f2f;
+}
+
+.alertMessage{
+    background-color: #FFA035;
+}
+
+.successMessage{
+    background-color: #43a047;
+}
+
+.primaryMessage{
+    background-color: #3f51b5;
+}

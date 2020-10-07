@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-import { cardRoom } from 'src/app/shared/models/room/cardRoom.model';
+import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
 import { RoomService } from '../room/room.service';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class AirService {
 
   private readonly API = environment.API_APP;
 
-  public selectedRoom(room: cardRoom): void{
+  public selectedRoom(room: CardRoom): void{
 
   }
 

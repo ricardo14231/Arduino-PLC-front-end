@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { cardRoom } from 'src/app/shared/models/room/cardRoom.model';
+
+import { ScheduleService } from 'src/app/core/services/schedule/schedule.service';
+import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
 
 @Component({
   selector: 'app-room',
@@ -8,12 +10,17 @@ import { cardRoom } from 'src/app/shared/models/room/cardRoom.model';
 })
 export class RoomComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private scheduleService: ScheduleService,
+  ) { }
 
   @Input()
-  room: cardRoom;
+  room: CardRoom;
 
   ngOnInit(): void {
   }
 
+  public clickedSchedule(idRoom): void{
+    this.scheduleService.clickedSchedule(idRoom);
+  }
 }

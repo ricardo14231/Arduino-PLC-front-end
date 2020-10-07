@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from 'src/app/core/services/room/room.service';
-import { cardRoom } from 'src/app/shared/models/room/cardRoom.model';
+import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
 
 @Component({
   selector: 'app-container-rooms',
@@ -13,7 +13,7 @@ export class ContainerRoomsComponent implements OnInit {
     private roomService: RoomService,
   ) { }
 
-  rooms: cardRoom[];
+  rooms: CardRoom[];
 
   ngOnInit(): void {
     this.listRoom();

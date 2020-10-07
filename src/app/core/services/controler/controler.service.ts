@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-import { cardRoom } from 'src/app/shared/models/room/cardRoom.model';
+import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
 import { RoomService } from '../room/room.service';
 
 @Injectable({
@@ -18,7 +18,7 @@ export class ControlerService {
 
   private readonly API = environment.API_APP;
 
-  roomEmitter: EventEmitter<cardRoom> = new EventEmitter();
+  roomEmitter: EventEmitter<CardRoom> = new EventEmitter();
 
     /*
   public initObservableRoom(): void{

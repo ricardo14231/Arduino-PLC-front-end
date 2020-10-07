@@ -2,6 +2,10 @@ fieldset{
   height: 400px;
 }
 
-.full-width-table {
-  width: 100%;
+table {
+  width: 100%; 
 }
+
+tr th, tr td{
+  width: 70px;
+} 

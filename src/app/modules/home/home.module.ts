@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule }   from '@angular/forms';
 
 import { MaterialModule } from '../../shared/materialModule/material.module';
 import { HomeComponent } from './home.component';
@@ -29,7 +30,8 @@ const homeComponent = [
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule
   ],
   providers: [],
   exports: [

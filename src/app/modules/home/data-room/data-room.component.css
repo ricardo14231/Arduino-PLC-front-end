@@ -1,5 +1,6 @@
 .dataRoom{
     width: 100%;
+    min-width: 350px;
     height: 400px;
 }
 .dataRoom > div{
@@ -11,11 +12,11 @@
 }
 
 .dataRoom .temperatureAndHumidity{
-    background-color: aqua;
+    background-color: #00ffff;
     padding: 10px 0px;
 }
 
-.temperatureAndHumidity span{
+.temperatureAndHumidity > span{
     display: block;
     border-radius: 10px;
     padding: 10px;
@@ -26,9 +27,22 @@
 }
 
 .dataRoom .stateAir{
-    background-color: khaki;
+    background-color: #f0e68c;
 }
 
 .dataRoom .statePresence{
-    background-color: lightcoral;
+    background-color: #f08080;
+}
+
+
+/* Ver isso */
+.dataRoom div span {
+    font-weight: 500;
+}
+
+.dataRoom span > span{
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    padding: 4px;
+    font-weight: 400;
 }

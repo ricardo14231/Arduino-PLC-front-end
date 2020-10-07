@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Pavilion } from 'src/app/shared/models/pavilion.model';
 import { PavilionService } from '../../../core/services/pavilion/pavilion.service';
 import { RoomService } from 'src/app/core/services/room/room.service';
+import { ScheduleService } from 'src/app/core/services/schedule/schedule.service';
 
 @Component({
   selector: 'app-filter-room',
@@ -13,7 +14,8 @@ export class FilterRoomComponent implements OnInit {
 
   constructor(
     private pavilionService: PavilionService,
-    private roomService: RoomService
+    private roomService: RoomService,
+    private scheduleService: ScheduleService,
   ) { }
 
   pavilions: Pavilion[];
@@ -26,6 +28,13 @@ export class FilterRoomComponent implements OnInit {
 
   public selectedPavilion(event): void{
     this.roomService.selectedPavilion(event.target.value);
+    this.scheduleService.cleanSchedule();
+  }
+
+  
+  public selectedShiftSchedule(event): void{
+    this.scheduleService.selectedShift(event.target.value);
+    this.scheduleService.cleanSchedule();
   }
 
 }

@@ -1,41 +1,55 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-//import { ScheduleRoomDataSource, ScheduleRoomItem } from './schedule-room-datasource';
+import { MessageService } from 'src/app/core/services/message/message.service';
+import { ScheduleService } from 'src/app/core/services/schedule/schedule.service';
+
 
 @Component({
   selector: 'app-schedule-room',
   templateUrl: './schedule-room.component.html',
   styleUrls: ['./schedule-room.component.css']
 })
-export class ScheduleRoomComponent implements AfterViewInit, OnInit {
+
+export class ScheduleRoomComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  //@ViewChild(MatTable) table: MatTable<ScheduleRoomItem>;
-    dataSource: any//ScheduleRoomDataSource;
+  @ViewChild(MatTable) table: MatTable<any>;
+  dataSource: any//ScheduleRoomDataSource;
 
-  schedule = {
-    hour: ["07:00", "07:00", "07:00", "07:00", "07:00", "07:00"],
-    mon: ["AULA", "AULA", "AULA", "AULA", "AULA", "AULA"],
-    tue: ["AULA", "AULA", "AULA", "AULA", "AULA", "AULA"],
-    wed: ["AULA", "AULA", "AULA", "AULA", "AULA", "AULA"],
-    thu: ["AULA", "AULA", "AULA", "AULA", "AULA", "AULA"],
-    fri: ["AULA", "AULA", "AULA", "AULA", "AULA", "AULA"],
-    sat: ["AULA", "AULA", "AULA", "AULA", "AULA", "AULA"], 
-  }
+  constructor(
+    private scheduleService: ScheduleService,
+    private messageService: MessageService,
+  ){}
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['hour', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
   ngOnInit() {
-    this.dataSource = this.schedule//new ScheduleRoomDataSource();
-    console.log(this.dataSource.hour)
+    this.cleanSchedule();
+
+    this.showSchedule();
   }
 
-  ngAfterViewInit() {
-   // this.dataSource.sort = this.sort;
-   // this.dataSource.paginator = this.paginator;
-//    this.table.dataSource = this.dataSource;
+  private showSchedule(): void{
+    this.scheduleService.scheduleEmitter.subscribe(res => {
+      
+      if(res[0].schedule_room != null){
+        this.dataSource = JSON.parse(res[0].schedule_room);
+        this.messageService.openSnackBar("Sucesso ao exibir horário!", "successMessage");
+      }else{
+        this.scheduleService.cleanSchedule();
+        this.messageService.openSnackBar("Não existe horário cadastrado para o filtro selecionado!", "alertMessage");
+      }
+    })
+
   }
+
+  private cleanSchedule(): void{
+    this.scheduleService.cleanScheduleEmitter.subscribe(res => {
+      this.dataSource = res;
+    });
+  }
+
 }

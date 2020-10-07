@@ -1,22 +1,24 @@
 <fieldset class="controlAirRoom">
     <legend>Controle ar-condicionado</legend>
 
-    <span class="displayControl"> {{ dataRoom?.name_room }} </span>
-
+    <span class="displayNameRoom"> {{ dataRoom?.name_room }} </span>
+    
+    <div class="displayTemperatureAir" > <span>{{ current_temperature }}</span> </div>
+    
     <div class="btnTemperature">
-        <button mat-button> + </button>
+        <button mat-button (click)="turnUpAir()"> + </button>
         <span>Temperatura</span>
-        <button mat-button> - </button>
+        <button mat-button (click)="turnDownAir()"> - </button>
     </div>
 
     <div class="configAir">
-        <input type="checkbox" id="cool" [checked]="dataRoom?.state_cool_air == 0">
+        <input type="checkbox" id="cool" [checked]="current_state_cool" [(ngModel)]="current_state_cool">
         <label for="cool" ><img alt="Cool" src="assets/imgControl/cool.svg"> </label>
         
-        <input type="checkbox" id="fan" [checked]="dataRoom?.state_fan_air == 0">
-        <label for="fan" >  <img alt="Cool" src="assets/imgControl/fan.svg" > </label>
+        <input type="checkbox" id="fan" [checked]="current_state_fan" [(ngModel)]="current_state_fan">
+        <label for="fan"><img alt="fan" src="assets/imgControl/fan.svg" > </label>
         
-        <label id="send" > <img alt="Cool" src="assets/imgControl/send.svg" > </label>
+        <label id="send" (click)="sendCommand()"> <img alt="Cool" src="assets/imgControl/send.svg" > </label>
         
     </div>
 

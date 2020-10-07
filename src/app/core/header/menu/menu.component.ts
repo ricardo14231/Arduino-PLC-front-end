@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import {  } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -10,19 +11,21 @@ export class MenuComponent implements OnInit {
 
   constructor() { }
 
-  @Input()
-  opened: boolean = false;
+  openedMenu: boolean = false;
+
+  @Output()
+  closedStart: Observable<void>
 
   ngOnInit(): void {
-    
   }
 
-  menu(){
-    if(this.opened)
-    return this.opened= false;
-    else
-    return this.opened= true;
-console.log(1)
+  public openMenu(event): void{
+    this.openedMenu = event;
+  }
+
+  close(){
+    console.log(this.openedMenu)
+
   }
 
 }
