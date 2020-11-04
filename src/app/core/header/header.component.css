@@ -4,10 +4,15 @@
 }
 
 .btnMenu{
-    margin-right: 20px;
+    position: relative;
+    left: 30px;
+    transform: scale(2);
+    filter: invert(100%) sepia(2%) saturate(3%) hue-rotate(355deg) brightness(103%) contrast(100%);
 }
 
 img{
+    position: relative;
+    left: 70px;
     cursor: pointer;
 }
 

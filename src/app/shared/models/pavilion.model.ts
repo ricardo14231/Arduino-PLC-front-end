@@ -1,6 +1,7 @@
 
 export interface Pavilion {
-    id?: number,
-    name: String,
-    amount_room_pavilion: number
+    id_pavilion?: number,
+    name_pavilion: String,
+    amount_room_pavilion: number,
+    active_pavilion: boolean
 }

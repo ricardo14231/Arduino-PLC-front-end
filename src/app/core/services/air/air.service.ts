@@ -19,6 +19,10 @@ export class AirService {
 
   private readonly API = environment.API_APP;
 
+  public listActiveAir(): Observable<any> {
+    return this.http.get<any>(`${this.API}listActiveAir`);
+  }
+
   public selectedRoom(room: CardRoom): void{
 
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ArduinoService } from 'src/app/core/services/arduino/arduino.service';
 import { ControlerService } from 'src/app/core/services/controler/controler.service';
 import { MessageService } from 'src/app/core/services/message/message.service';
 import { RoomService } from 'src/app/core/services/room/room.service';
@@ -14,6 +15,7 @@ export class ControlAirRoomComponent implements OnInit {
   constructor(
     private controlerService: ControlerService,
     private roomService: RoomService,
+    private arduinoService: ArduinoService,
     private messageService: MessageService
   ) { }
 
@@ -63,6 +65,22 @@ export class ControlAirRoomComponent implements OnInit {
     console.log(this.current_state_cool)
     console.log(this.current_state_fan)
 
+    this.arduinoService.sendTemprature('http://192.168.0.130', this.current_temperature, this.current_state_cool, this.current_state_fan).subscribe((res) => {
+
+    });
+
+  }
+
+  public turnOn(): void{
+    this.arduinoService.sendTurnOnShutdown('http://192.168.0.130','liga').subscribe((res) => {
+      console.log(res)
+    }), error => console.log(error);
+  }
+  
+  public shutdown(): void{
+    this.arduinoService.sendTurnOnShutdown('http://192.168.0.130','desliga').subscribe((res) => {
+      console.log(res)
+    }), error => console.log(error);
   }
 
 }

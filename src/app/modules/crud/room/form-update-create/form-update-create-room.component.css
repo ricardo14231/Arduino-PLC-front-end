@@ -1,0 +1,35 @@
+
+fieldset .filter-pavilion, fieldset .filter-air{
+    position: relative;
+    top: 10px;  
+    display: inline-block;
+}
+
+.filter-pavilion .select-pavilion, .filter-air .select-current-air, .filter-air .select-new-air{
+    position: relative;
+    width: 300px;
+    margin-right: 30px;
+}
+
+.filter-air{
+    left: 100px;
+} 
+
+
+.form-room .name_room{
+    position: relative;
+    top: 10px;
+}
+.form-room .name_room ::ng-deep.mat-form-field{
+    width: 400px;
+}
+
+.form-room .active{
+    position: relative;
+    top: 30px;
+}
+
+.form-room .active ::ng-deep.mat-checkbox{
+    position: relative;
+    left: 5px;
+}

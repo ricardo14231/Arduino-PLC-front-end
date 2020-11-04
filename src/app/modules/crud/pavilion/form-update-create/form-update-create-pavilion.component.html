@@ -1,0 +1,36 @@
+<div class="container-crud">
+    <span class="title-container-crud">Pavilhão</span>
+    <div class="btn-nav">
+        <button mat-raised-button color="primary" class="newItem" routerLink="/homePavilion/list"> <img src="assets/crud/list.svg"> Lista </button>
+    </div>
+
+    <fieldset>
+        <legend>Criar novo pavilhão</legend>
+        <form class="form-pavilion" #pavilionForm="ngForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="name_pavilion">
+                <mat-label>Nome</mat-label>
+                <input matInput placeholder="Nome Pavilhão" id="name_pavilion" name="name_pavilion" [(ngModel)]="pavilion.name_pavilion" minlength="3" maxlength="45" required>
+
+            </mat-form-field>
+            
+           <mat-form-field class="amount_room">
+                <mat-label>Qtd. Sala</mat-label>
+                <input type="number" matInput id="amount_room_pavilion" name="amount_room_pavilion" [value]="pavilion.amount_room_pavilion" [(ngModel)]="pavilion.amount_room_pavilion" required>
+                
+            </mat-form-field>
+ 
+            <div class="active">
+                <mat-label>Ativo</mat-label>
+                <mat-checkbox id="active_pavilion" name="active_pavilion" [(ngModel)]="pavilion.active_pavilion"></mat-checkbox>   
+            </div> 
+            
+            <div class="btnActionForm">
+                <button mat-raised-button color="warn" type="button" class="cancel" routerLink="/homePavilion/list"> <img src="assets/crud/cancel.svg"> Cancelar </button>
+                <button mat-raised-button color="primary" type="submit" class="save" [disabled]="!pavilionForm.form.valid"> <img src="assets/crud/save.svg"> Salvar </button>
+            </div>
+        </form>
+
+       
+    </fieldset>
+
+</div>

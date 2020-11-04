@@ -1,5 +1,4 @@
 import { Component, OnInit, Output } from '@angular/core';
-import {  } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -21,11 +20,6 @@ export class MenuComponent implements OnInit {
 
   public openMenu(event): void{
     this.openedMenu = event;
-  }
-
-  close(){
-    console.log(this.openedMenu)
-
   }
 
 }

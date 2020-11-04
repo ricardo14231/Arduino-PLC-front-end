@@ -1,0 +1,61 @@
+
+.main{
+    height: 100%;
+}
+
+.main .sidenav{
+    width: 100px;
+    height: calc(100% - 40px);
+    float: left;
+    position: relative;
+    top: 50px;
+    padding: 5px;
+}
+
+.main .container-main-crud{
+    float: right;
+    padding: 0 0 0 10px;
+    width: calc(100% - 100px);
+    height: 100%;
+}
+
+img{
+    width: 48px;
+    filter: invert(22%) sepia(1%) saturate(1444%) hue-rotate(335deg) brightness(104%) contrast(76%);
+    position: relative;
+    left: 21px;
+    top: 10px;
+}
+
+ul{
+    box-shadow: 2px 2px 2px 2px #c5c5c5;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    height: 70px;
+    background-color: #fff;
+}
+
+ul li{
+    height: 100%;
+}
+
+ul li a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+
+ul:active{
+    opacity: 0.8;
+}
+
+ul:hover > li, .active-link{
+    background-color: #c5c5c5;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+ul:hover > li img, .active-link img {
+    filter: invert(100%) sepia(2%) saturate(3%) hue-rotate(355deg) brightness(103%) contrast(100%);
+}

@@ -1,0 +1,18 @@
+.form-pavilion .name_pavilion{
+    width: 400px;
+}
+
+.form-pavilion .amount_room{
+    width: 100px;
+    left: 20px;
+}
+
+.form-pavilion .active{
+    position: relative;
+    top: 20px;
+}
+
+.form-pavilion .active ::ng-deep.mat-checkbox{
+    position: relative;
+    left: 5px;
+}

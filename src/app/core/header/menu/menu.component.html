@@ -9,21 +9,21 @@
         MENU
     </div>
 
-    <div>
+    <div class="optionsMenu">
         <ul>
-            <li> <img src="assets/menu/pavilion.svg"><a>Configurações de Pavilhão</a></li>
+            <a routerLink="/homePavilion/list" (click)="drawer.toggle()"><li> <img src="assets/menu/pavilion.svg">Configurações de Pavilhão</li></a>
         </ul>
         <ul>
-            <li> <img src="assets/menu/class.svg"><a>Configurações de Sala</a></li>
+            <a routerLink="/homeRoom/list" (click)="drawer.toggle()"><li><img src="assets/menu/class.svg">Configurações de Sala</li></a>
         </ul>
         <ul>
-            <li> <img src="assets/menu/air-conditioning.svg"><a>Configurações de Ar-condicionado</a></li>
+            <a routerLink="/listPavilion" (click)="drawer.toggle()"> <li><img src="assets/menu/air-conditioning.svg">Configurações de Ar-condicionado</li></a>
         </ul>
         <ul>
-            <li> <img src="assets/menu/schedule.svg"><a>Configurações de Horário</a></li>
+            <a routerLink="/listPavilion" (click)="drawer.toggle()"> <li><img src="assets/menu/schedule.svg">Configurações de Horário</li></a>
         </ul>
         <ul>
-            <li> <img src="assets/menu/user.svg"><a>Configurações de Usuário</a></li>
+            <a routerLink="/listPavilion" (click)="drawer.toggle()"> <li><img src="assets/menu/user.svg">Configurações de Usuário</li></a>
         </ul>
     </div>
         
@@ -37,7 +37,6 @@
         <div class="mainScreen">
             <router-outlet></router-outlet>
         </div>
-x
         <app-footer></app-footer>
 
     </mat-drawer-content>

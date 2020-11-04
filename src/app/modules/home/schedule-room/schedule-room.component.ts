@@ -33,16 +33,17 @@ export class ScheduleRoomComponent implements OnInit {
   }
 
   private showSchedule(): void{
-    this.scheduleService.scheduleEmitter.subscribe(res => {
+    /* this.scheduleService.scheduleEmitter.subscribe(res => {
+      console.log(res)
       
-      if(res[0].schedule_room != null){
+      if(res != [] && res[0].schedule_room != null){
         this.dataSource = JSON.parse(res[0].schedule_room);
         this.messageService.openSnackBar("Sucesso ao exibir horário!", "successMessage");
       }else{
         this.scheduleService.cleanSchedule();
         this.messageService.openSnackBar("Não existe horário cadastrado para o filtro selecionado!", "alertMessage");
       }
-    })
+    }, error => console.log(error)); */
 
   }
 

@@ -21,19 +21,24 @@ export class FilterRoomComponent implements OnInit {
   pavilions: Pavilion[];
 
   ngOnInit(): void {
-    this.pavilionService.listPavilion().subscribe(res => {
+    this.pavilionService.listActivePavilion().subscribe(res => {
       this.pavilions = res;
     });
   }
 
   public selectedPavilion(event): void{
-    this.roomService.selectedPavilion(event.target.value);
+    this.roomService.selectedPavilion(event.value);
     this.scheduleService.cleanSchedule();
   }
 
   
   public selectedShiftSchedule(event): void{
-    this.scheduleService.selectedShift(event.target.value);
+    this.scheduleService.selectedShift(event.value);
+    this.scheduleService.cleanSchedule();
+  }
+
+  ngOnDestroy(): void{
+    this.scheduleService.selectedShift('notSelected');
     this.scheduleService.cleanSchedule();
   }
 

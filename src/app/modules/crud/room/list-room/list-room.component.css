@@ -1,0 +1,21 @@
+.filter-pavilion{
+    width: 300px;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-column-name_room{
+    width: 30%;
+}
+
+
+.mat-column-name_pavilion{
+    width: 30%;
+}
+
+.mat-column-air{
+    width: 20%;
+}
+

@@ -1,0 +1,27 @@
+<div class="main">
+
+    <div class="sidenav">
+        <ul>
+            <li><a routerLink="/home" routerLinkActive="active-link"><img src="assets/menu/home.svg"></a></li>
+        </ul>
+        <ul>
+            <li><a routerLink="/homePavilion/list" routerLinkActive="active-link"><img src="assets/menu/pavilion.svg"></a></li>
+        </ul>
+        <ul>
+            <li><a routerLink="/homeRoom/list" routerLinkActive="active-link"> <img src="assets/menu/class.svg"></a></li>
+        </ul>
+        <ul>
+           <li><a routerLink="/homeAir/list" routerLinkActive="active-link"><img src="assets/menu/air-conditioning.svg"></a></li>
+        </ul>
+        <ul>
+            <li><a routerLink="/homeSchedule/list" routerLinkActive="active-link"><img src="assets/menu/schedule.svg"></a></li>
+        </ul>
+        <ul>
+            <li><a routerLink="/homeUser/list" routerLinkActive="active-link"><img src="assets/menu/user.svg"></a></li>
+        </ul>
+    </div>
+
+    <div class="container-main-crud">
+        <router-outlet></router-outlet>
+    </div>
+</div>
