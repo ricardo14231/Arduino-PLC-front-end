@@ -19,3 +19,7 @@ table {
     width: 20%;
 }
 
+table td img{
+    margin-right: 8px;
+}
+

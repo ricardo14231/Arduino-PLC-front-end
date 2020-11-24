@@ -1,0 +1,35 @@
+.filter-room{
+    font-size: 16px;
+    width: 100%;
+}
+
+.filter-room{
+    width: 300px;
+}
+
+fieldset .scheduleRoom{
+    height: 400px;
+    margin-bottom: 10px;
+}
+
+.form-schedule .active{
+    position: relative;
+    top: 30px;
+}
+
+.form-schedule .active ::ng-deep.mat-checkbox{
+    position: relative;
+    left: 5px;
+}
+
+ 
+
+.setScheduleNull{
+    position: absolute;
+    right: 90px;
+}
+
+.setScheduleNull ::ng-deep.mat-checkbox{
+    position: relative;
+    left: 5px;
+}

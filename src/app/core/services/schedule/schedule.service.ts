@@ -19,13 +19,13 @@ export class ScheduleService {
   ) { }
    
   public shiftSchedule: string = "notSelected";
-  public scheduleEmitter = new EventEmitter<Schedule[]>();
+  public scheduleEmitter = new EventEmitter<Schedule>();
   public cleanScheduleEmitter = new EventEmitter();
 
   private readonly API = environment.API_APP;
 
-  public listSchedule(id_room: number, shift_schedule: string): Observable<Schedule[]> {
-    return this.http.get<Schedule[]>(`${this.API}listSchedule/${id_room}/${shift_schedule}`);
+  private listSchedule(id_room: number, shift_schedule: string): Observable<Schedule> {
+    return this.http.get<Schedule>(`${this.API}listSchedule/${id_room}/${shift_schedule}`);
   }
 
   public selectedShift(shift): void{
@@ -33,10 +33,10 @@ export class ScheduleService {
   }
 
   
-  public clickedSchedule(idRoom: number): void{
+  public showSchedule(id_room: number): void{
     
     if(this.shiftSchedule != "notSelected"){
-      this.listSchedule(idRoom, this.shiftSchedule).subscribe((res: Schedule[]) => {
+      this.listSchedule(id_room, this.shiftSchedule).subscribe((res: Schedule) => {
         this.scheduleEmitter.emit(res);
       });
     }else{

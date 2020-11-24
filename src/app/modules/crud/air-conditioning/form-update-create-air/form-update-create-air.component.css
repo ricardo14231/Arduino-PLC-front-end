@@ -1,0 +1,47 @@
+
+
+
+.form-air .name_air, .form-air .temperature-container{
+    display: inline;
+}
+
+.form-air .temperature-container{
+    margin-left: 50px;
+}
+
+.form-air .name_air ::ng-deep.mat-form-field{
+    width: 400px;
+}
+
+.form-air .temperature-container{
+    width: 250px;
+}
+
+.form-air .temperature-container ::ng-deep.mat-form-field{
+    width: 100px;
+    
+}
+
+.temperature_min_air, .temperature_max_air{
+    display: inline;
+    margin-right: 20px;
+}
+
+.form-air .url_device_air ::ng-deep.mat-form-field{
+    width: 400px;
+}
+
+.form-air .url_device_air{
+    clear: both;
+}
+
+
+.form-air .active{
+    position: relative;
+    top: 30px;
+}
+
+.form-air .active ::ng-deep.mat-checkbox{
+    position: relative;
+    left: 5px;
+}

@@ -1,0 +1,83 @@
+<div class="container-crud">
+    <span class="title-container-crud">Horário</span>
+    <div class="btn-nav">
+        <button mat-raised-button color="primary" class="newItem" routerLink="/homeSchedule/new"> <img src="assets/crud/add_circle.svg"> Novo</button>
+    </div>
+    <fieldset>
+        <legend>Lista</legend>
+
+        <mat-form-field appearance="fill" class="filter-room">
+            <mat-label>Sala</mat-label>
+            <mat-select matNativeControl [(ngModel)]="id_room_selected" (selectionChange)="changedRoom()" required>
+                <mat-option> Limpar </mat-option>
+                <mat-option *ngFor="let room of rooms" [value]="room.id_room" > {{ room.name_room }} </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="filter-shift">
+            <mat-label>Turno</mat-label>
+            <mat-select matNativeControl [(ngModel)]="shift_selected" (selectionChange)="changedShiftSchedule()" required>
+              <mat-option value="notSelected">Limpar</mat-option>
+              <mat-option value="shift_morning">Matutino</mat-option>
+              <mat-option value="shift_afternoon">Vespertino</mat-option>
+              <mat-option value="shift_night">Noturno</mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <button mat-raised-button color="primary" class="btnFilter" (click)="showDataFilter()"> <img src="assets/crud/filter.svg"> Filtrar</button>
+
+        <div class="btnActions">
+            <img src="assets/crud/edit.svg" class="imgEdit" alt="Editar" title="Editar" (click)="editAir()">
+            <img src="assets/crud/delete.svg" class="imgDelete" alt="Deletar" title="Deletar" (click)="openDialogDelete()">
+            <img src="assets/crud/description.svg" class="imgDescription" alt="Detalhe" title="Detalhe">
+        </div>
+
+        <fieldset class="scheduleRoom">
+            
+            <div class="mat-elevation-z2">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" matSort>
+                
+                <ng-container matColumnDef="hour">
+                    <th mat-header-cell *matHeaderCellDef>Hora</th>
+                    <td mat-cell *matCellDef="let row">{{ row.hour }}</td>
+                </ng-container>
+                
+                <ng-container matColumnDef="mon">
+                    <th mat-header-cell *matHeaderCellDef>SEG</th>
+                    <td mat-cell *matCellDef="let row">{{row.mon}}</td>
+                </ng-container>
+            
+                <ng-container matColumnDef="tue">
+                    <th mat-header-cell *matHeaderCellDef>TER</th>
+                    <td mat-cell *matCellDef="let row">{{row.tue}}</td>
+                </ng-container>
+            
+                <ng-container matColumnDef="wed">
+                    <th mat-header-cell *matHeaderCellDef>QUA</th>
+                    <td mat-cell *matCellDef="let row">{{row.wed}}</td>
+                </ng-container>
+            
+                <ng-container matColumnDef="thu">
+                    <th mat-header-cell *matHeaderCellDef>QUI</th>
+                    <td mat-cell *matCellDef="let row">{{row.thu}}</td>
+                </ng-container>
+            
+                <ng-container matColumnDef="fri">
+                    <th mat-header-cell *matHeaderCellDef>SEX</th>
+                    <td mat-cell *matCellDef="let row">{{row.fri}}</td>
+                </ng-container>
+            
+                <ng-container matColumnDef="sat">
+                    <th mat-header-cell *matHeaderCellDef>SAB</th>
+                    <td mat-cell *matCellDef="let row">{{row.sat}}</td>
+                </ng-container>
+            
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        
+            </div>
+          </fieldset>
+    </fieldset>
+
+</div>

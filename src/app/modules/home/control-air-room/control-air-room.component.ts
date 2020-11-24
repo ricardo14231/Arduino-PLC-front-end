@@ -34,6 +34,7 @@ export class ControlAirRoomComponent implements OnInit {
   public selectedRoom(): void {
     this.roomService.cardRoomEmitter.subscribe( res => {
       this.dataRoom = res;
+   
       this.current_temperature = 25//this.dataRoom.current_temperature_air;
       this.temperature_min = this.dataRoom.temperature_min_air;
       this.temperature_max = this.dataRoom.temperature_max_air;
@@ -47,7 +48,7 @@ export class ControlAirRoomComponent implements OnInit {
     if(this.current_temperature < this.temperature_max){
       this.current_temperature++;
     }else{
-      this.messageService.openSnackBar("Temperatura máxima atingida!", "dangerMessage")
+      this.messageService.openSnackBar("Temperatura máxima atingida!", "dangerMessage");
     }
   }
 
@@ -55,7 +56,7 @@ export class ControlAirRoomComponent implements OnInit {
     if(this.current_temperature > this.temperature_min){
       this.current_temperature--;
     }else{
-      this.messageService.openSnackBar("Temperatura minima atingida!", "dangerMessage")
+      this.messageService.openSnackBar("Temperatura minima atingida!", "dangerMessage");
     }
   }
 
@@ -65,22 +66,21 @@ export class ControlAirRoomComponent implements OnInit {
     console.log(this.current_state_cool)
     console.log(this.current_state_fan)
 
-    this.arduinoService.sendTemprature('http://192.168.0.130', this.current_temperature, this.current_state_cool, this.current_state_fan).subscribe((res) => {
+    this.arduinoService.sendTemprature(this.dataRoom.url_device_air, this.current_temperature, this.current_state_cool, this.current_state_fan).subscribe((res) => {
 
     });
 
   }
 
   public turnOn(): void{
-    this.arduinoService.sendTurnOnShutdown('http://192.168.0.130','liga').subscribe((res) => {
+    this.arduinoService.sendTurnOnShutdown(this.dataRoom.url_device_air,'liga').subscribe((res) => {
       console.log(res)
-    }), error => console.log(error);
+    });
   }
   
   public shutdown(): void{
-    this.arduinoService.sendTurnOnShutdown('http://192.168.0.130','desliga').subscribe((res) => {
+    this.arduinoService.sendTurnOnShutdown(this.dataRoom.url_device_air,'desliga').subscribe((res) => {
       console.log(res)
-    }), error => console.log(error);
+    });
   }
-
 }

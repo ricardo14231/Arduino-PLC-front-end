@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator'; //Ver isso
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
 import { Pavilion } from 'src/app/shared/models/pavilion.model';
@@ -25,9 +25,7 @@ export class ListPavilionComponent implements OnInit {
   ) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
   displayedColumns: string[] = ['id', 'name', 'amount_room', 'active', 'actions'];
-  
   dataSource: MatTableDataSource<Pavilion>;
 
   ngOnInit(): void {

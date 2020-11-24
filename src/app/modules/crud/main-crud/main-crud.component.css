@@ -18,7 +18,7 @@
     width: calc(100% - 100px);
     height: 100%;
 }
-
+ 
 img{
     width: 48px;
     filter: invert(22%) sepia(1%) saturate(1444%) hue-rotate(335deg) brightness(104%) contrast(76%);

@@ -7,6 +7,11 @@ import { ListPavilionComponent } from './modules/crud/pavilion/list-pavilion/lis
 import { ListRoomComponent  } from './modules/crud/room/list-room/list-room.component';
 import { FormUpdateCreatePavilionComponent } from './modules/crud/pavilion/form-update-create/form-update-create-pavilion.component';
 import { FormUpdateCreateRoomComponent } from './modules/crud/room/form-update-create/form-update-create-room.component';
+import { ListAirComponent } from './modules/crud/air-conditioning/list-air/list-air.component';
+import { FormUpdateCreateAirComponent } from './modules/crud/air-conditioning/form-update-create-air/form-update-create-air.component';
+import { ListScheduleComponent } from './modules/crud/schedule/list-schedule/list-schedule.component';
+import { FormUpdateCreateScheduleComponent } from './modules/crud/schedule/form-update-create-schedule/form-update-create-schedule.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},  
@@ -27,7 +32,21 @@ const routes: Routes = [
         { path: 'edit', component: FormUpdateCreateRoomComponent },
 
       ]
-    }
+  },
+  { path: 'homeAir', component: MainComponent, 
+      children: [
+        { path: 'list', component: ListAirComponent },
+        { path: 'new', component: FormUpdateCreateAirComponent  },
+        { path: 'edit', component: FormUpdateCreateAirComponent },
+      ]
+  },
+  { path: 'homeSchedule', component: MainComponent, 
+      children: [
+        { path: 'list', component: ListScheduleComponent },
+        { path: 'new', component: FormUpdateCreateScheduleComponent },
+        { path: 'edit', component: FormUpdateCreateScheduleComponent },
+      ]
+  },
 ];
 
 @NgModule({

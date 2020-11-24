@@ -23,7 +23,7 @@ export class ListRoomComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
-    private pavlionService: PavilionService,
+    private pavilionService: PavilionService,
     public dialog: MatDialog,
     private router: Router,
     private messageService: MessageService,
@@ -38,22 +38,16 @@ export class ListRoomComponent implements OnInit {
   private subscription: Subscription[] = [];
 
   rooms: CrudRoom[] = [];
-  private eventSelectedPavilion: {
-    value: 1
-  }
   
-
   ngOnInit(): void {
   }
 
   ngAfterViewInit() {
-
     this.subscription.push( 
-      this.pavlionService.listActivePavilion().subscribe((res: Pavilion[]) =>{
+      this.pavilionService.listActivePavilion().subscribe((res: Pavilion[]) =>{
       this.pavilions = res;
       })
     );
-
   }
 
   public editRoom(element): void{

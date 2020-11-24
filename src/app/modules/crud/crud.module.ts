@@ -10,6 +10,11 @@ import { ListPavilionComponent } from '../../modules/crud/pavilion/list-pavilion
 import { ListRoomComponent } from '../../modules/crud/room/list-room/list-room.component';
 import { FormUpdateCreateRoomComponent } from '../../modules/crud/room/form-update-create/form-update-create-room.component';
 import { DialogDeleteItemComponent } from './dialog-delete-item/dialog-delete-item.component';
+import { FormUpdateCreateAirComponent } from './air-conditioning/form-update-create-air/form-update-create-air.component';
+import { ListAirComponent } from './air-conditioning/list-air/list-air.component';
+import { FormUpdateCreateScheduleComponent } from './schedule/form-update-create-schedule/form-update-create-schedule.component';
+import { ListScheduleComponent } from './schedule/list-schedule/list-schedule.component';
+import { TableScheduleComponent } from './schedule/table-schedule/table-schedule.component';
 
 const crudComponent = [ 
     MainComponent,
@@ -17,12 +22,14 @@ const crudComponent = [
     ListPavilionComponent,
     ListRoomComponent,
     FormUpdateCreateRoomComponent,
-    DialogDeleteItemComponent
+    DialogDeleteItemComponent,
+    FormUpdateCreateAirComponent, 
+    ListAirComponent 
 ]
 
 @NgModule({
   declarations: [ 
-    crudComponent, 
+    crudComponent, FormUpdateCreateScheduleComponent, ListScheduleComponent, TableScheduleComponent, 
   ],
   imports: [
     MaterialModule,

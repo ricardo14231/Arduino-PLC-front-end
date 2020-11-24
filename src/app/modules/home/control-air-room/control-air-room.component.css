@@ -10,8 +10,8 @@ fieldset{
     min-height: 400px;
     padding: 10px;
 }
-
-.controlAirRoom .displayNameRoom, .displayTemperatureAir{
+ 
+.controlAirRoom .displayNameRoom, .controlAirRoom .displayTemperatureAir{
     display: block;
     position: relative;
     width: 100px;
@@ -22,6 +22,12 @@ fieldset{
     border-radius: 4px;
     text-align: center;
     letter-spacing: 1.5px;
+}
+
+.controlAirRoom .displayNameRoom{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .controlAirRoom .displayTemperatureAir{

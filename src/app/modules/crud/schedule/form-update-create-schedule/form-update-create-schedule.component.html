@@ -1,0 +1,141 @@
+<div class="container-crud">
+    <span class="title-container-crud">Horário</span>
+    <div class="btn-nav">
+        <button mat-raised-button color="primary" class="newItem" routerLink="/homeSchedule/list"> <img src="assets/crud/list.svg"> Lista </button>
+    </div>
+ 
+    <fieldset>
+        <legend>Novo horário</legend>
+
+        <mat-form-field appearance="fill" class="filter-room">
+            <mat-label>Sala</mat-label>
+            <mat-select matNativeControl [(ngModel)]="schedule.fk_id_room" required>
+                <mat-option> Limpar </mat-option>
+                <mat-option *ngFor="let room of rooms" [value]="room.id_room" > {{ room.name_room }} </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <form class="form-schedule" #scheduleForm="ngForm" (ngSubmit)="onSubmit(scheduleForm)">
+            <mat-accordion>
+
+                <!--
+                    Painel expansível - horário Matutino
+                -->
+                <mat-expansion-panel [expanded]="true">
+                                 
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Matutino
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Horário matutino
+                            <div class="setScheduleNull">
+                                <mat-label>Não informado</mat-label>
+                                <mat-checkbox id="setScheduleNull" name="schedule_null" [(ngModel)]="schedule_null"></mat-checkbox>   
+                            </div> 
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <app-table-schedule [shift_hour]="shift_morning" ></app-table-schedule>
+
+                </mat-expansion-panel>
+
+                <!--
+                    Painel expansível - horário Vespertino
+                -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Vespertino
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Horário vespertino
+                            <div class="setScheduleNull">
+                                <mat-label>Não informado</mat-label>
+                                <mat-checkbox id="setScheduleNull" name="schedule_null" [(ngModel)]="schedule_null"  (click)="set(false)"></mat-checkbox>   
+                            </div> 
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                   <!--  <app-table-schedule></app-table-schedule> -->
+                    
+                </mat-expansion-panel>
+
+                <!--
+                    Painel expansível - horário Noturno
+                -->
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Noturno
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            Horário noturno
+                            <div class="setScheduleNull">
+                                <mat-label>Não informado</mat-label>
+                                <mat-checkbox id="setScheduleNull" name="schedule_moning" [(ngModel)]="schedule_moning_null"></mat-checkbox>   
+                            </div> 
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                 <!--    <app-table-schedule></app-table-schedule> -->
+                    
+                </mat-expansion-panel>
+
+            </mat-accordion>
+
+            <div class="active">
+                <mat-label>Ativo</mat-label>
+                <mat-checkbox id="active_schedule" name="active_schedule" [(ngModel)]="schedule.active_schedule"></mat-checkbox>   
+            </div> 
+            
+            <div class="btnActionForm">
+                <button mat-raised-button color="warn" type="button" class="cancel" routerLink="/homeSchedule/list"> <img src="assets/crud/cancel.svg"> Cancelar </button>
+                <button mat-raised-button color="primary" type="submit" class="save" [disabled]="!scheduleForm.form.valid"> <img src="assets/crud/save.svg"> Salvar </button>
+            </div>
+        </form>       
+    </fieldset>
+</div>
+
+<!-- 
+(selectionChange)="changedShiftSchedule()"
+
+(selectionChange)="changedRoom()"  
+
+
+
+<mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        This is the expansion title
+      </mat-panel-title>
+      <mat-panel-description>
+        This is a summary of the content
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>This is the primary content of the panel.</p>
+  </mat-expansion-panel>
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Self aware panel
+      </mat-panel-title>
+      <mat-panel-description>
+        Currently I am {{panelOpenState ? 'open' : 'closed'}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+
+
+
+
+
+
+
+-->

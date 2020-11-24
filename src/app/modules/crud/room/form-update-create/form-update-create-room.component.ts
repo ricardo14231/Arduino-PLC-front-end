@@ -5,6 +5,7 @@ import { AirService } from 'src/app/core/services/air/air.service';
 import { MessageService } from 'src/app/core/services/message/message.service';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
 import { RoomService } from 'src/app/core/services/room/room.service';
+import { Air } from 'src/app/shared/models/air/listAir.model';
 import { Pavilion } from 'src/app/shared/models/pavilion.model';
 import { CrudRoom } from 'src/app/shared/models/room/crudRoom.model';
 
@@ -71,8 +72,8 @@ export class FormUpdateCreateRoomComponent implements OnInit {
       })
     );
     
-    this.subscription.push( 
-      this.airService.listActiveAir().subscribe((res) => {
+    this.subscription.push(
+      this.airService.listUnallocatedActiveAir().subscribe((res: Air[]) => {  
         this.airs = res;
       })
     );
@@ -128,7 +129,7 @@ export class FormUpdateCreateRoomComponent implements OnInit {
       this.room.fk_id_new_air = this.room.fk_id_air;
     }
   }
-  
+   
 
   ngOnDestroy(): void{
     this.subscription.map( sub => {

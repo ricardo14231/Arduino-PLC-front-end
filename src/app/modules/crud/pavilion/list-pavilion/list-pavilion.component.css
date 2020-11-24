@@ -6,3 +6,6 @@ table {
     width: 40%;
 }
 
+table td img{
+    margin-right: 8px;
+}

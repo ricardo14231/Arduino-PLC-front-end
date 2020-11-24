@@ -6,5 +6,6 @@ export interface CardRoom{
     state_cool_air: number,
     state_fan_air: number,
     temperature_min_air: number,
-    temperature_max_air: number
+    temperature_max_air: number,
+    url_device_air: string
 }

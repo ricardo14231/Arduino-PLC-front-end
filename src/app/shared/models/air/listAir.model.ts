@@ -1,6 +1,6 @@
 import { Timestamp } from 'rxjs';
 
-export interface ListAir{
+export interface Air{
     id_air?: number, 
     name_air: string, 
     current_temperature_air: number, 
@@ -11,8 +11,5 @@ export interface ListAir{
     temperature_min_air: number, 
     temperature_max_air: number, 
     url_device_air: string, 
-    active_air: boolean, 
-    deleted_air: boolean, 
-    update_air: string, 
-    create_air: string
+    active_air: boolean
 }

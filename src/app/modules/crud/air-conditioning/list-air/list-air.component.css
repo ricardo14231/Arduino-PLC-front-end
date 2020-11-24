@@ -1,0 +1,22 @@
+.filter-pavilion{
+    width: 300px;
+}
+
+table {
+    width: 100%;
+}
+
+.mat-column-id_air, .mat-column-allocated , .mat-column-temperature_min, .mat-column-temperature_max, .mat-column-active_air{
+    width: 8%;
+}
+
+
+.mat-column-name_air, .mat-column-url_device{
+    width: 25%;
+}
+
+
+table td img{
+    margin-right: 8px;
+}
+

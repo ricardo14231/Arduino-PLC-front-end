@@ -1,7 +1,7 @@
 <fieldset class="controlAirRoom">
     <legend>Controle ar-condicionado</legend>
 
-    <span class="displayNameRoom"> {{ dataRoom?.name_room }} </span>
+    <span class="displayNameRoom" [title]="dataRoom?.name_room"> {{ dataRoom?.name_room }} </span>
     
     <div class="displayTemperatureAir" > <span>{{ current_temperature }}</span> </div>
     

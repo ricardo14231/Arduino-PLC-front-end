@@ -21,6 +21,6 @@ export class RoomComponent implements OnInit {
   }
 
   public clickedSchedule(idRoom): void{
-    this.scheduleService.clickedSchedule(idRoom);
+    this.scheduleService.showSchedule(idRoom);
   }
 }

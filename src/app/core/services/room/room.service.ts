@@ -22,7 +22,6 @@ export class RoomService {
   roomEmitter: EventEmitter<CrudRoom> = new EventEmitter();
   cardRoomEmitter: EventEmitter<CardRoom> = new EventEmitter();
 
-
   public readRoomByIdPavilion(id_pavilion: number): Observable<CardRoom[]>{
     return this.http.get<CardRoom[]>(`${this.API}readRoomByIdPavilion/${id_pavilion}`)
   }
@@ -36,7 +35,7 @@ export class RoomService {
   }
 
   public listActiveRoom(): Observable<CardRoom[]>{
-    return this.http.get<CardRoom[]>(`${this.API}/listActiveRoom`);
+    return this.http.get<CardRoom[]>(`${this.API}listActiveRoom`);
   }
 
   public createRoom(room: CrudRoom): Observable<any> {
