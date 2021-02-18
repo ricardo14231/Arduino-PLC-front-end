@@ -6,7 +6,10 @@
 
     </div>
     <div class="stateAir">
-        <span>Estado do ar-condicionado: <span>ligado</span> </span>
+        <span>Estado do ar-condicionado: 
+            <span *ngIf="turn_on_air; else turn"> Ligado </span>
+            <ng-template #turn><span> Desligado </span></ng-template>
+        </span>
     </div>
     <div class="statePresence">
         <span>Movimentação:  

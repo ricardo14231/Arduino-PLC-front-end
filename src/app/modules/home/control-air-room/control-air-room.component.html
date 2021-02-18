@@ -3,8 +3,11 @@
 
     <span class="displayNameRoom" [title]="dataRoom?.name_room"> {{ dataRoom?.name_room }} </span>
     
-    <div class="displayTemperatureAir" > <span>{{ current_temperature }}</span> </div>
-    
+    <div class="displayTemperatureAir"> 
+        <span *ngIf="current_temperature != 0; else elseTemp">{{ current_temperature }}</span> 
+        <ng-template #elseTemp><span> 00 </span></ng-template>
+    </div>
+
     <div class="btnTemperature">
         <button mat-button (click)="turnUpAir()"> + </button>
         <span>Temperatura</span>

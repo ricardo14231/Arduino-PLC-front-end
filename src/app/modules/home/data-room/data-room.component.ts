@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ArduinoService } from 'src/app/core/services/arduino/arduino.service';
+import { RoomService } from 'src/app/core/services/room/room.service';
 import { Sensors } from 'src/app/shared/models/arduino/sensors.model';
 
 @Component({
@@ -10,21 +11,30 @@ import { Sensors } from 'src/app/shared/models/arduino/sensors.model';
 export class DataRoomComponent implements OnInit {
 
   constructor(
-    private arduinoService: ArduinoService
+    private arduinoService: ArduinoService,
+    private roomService: RoomService
   ) { }
 
   sensors: Sensors;
+  turn_on_air: boolean;
 
   ngOnInit(): void {
     this.initObjSensors();
     this.dataRoom();
+    this.roomInfo();
   }
 
   public dataRoom(): void{
-    this.arduinoService.dataRoomEmitter.subscribe( (res) => {
+    this.arduinoService.dataRoomEmitter.subscribe((res) => {
       this.sensors = res.sensores;
       console.log( this.sensors)
 
+    });
+  }
+
+  private roomInfo(): void{
+    this.roomService.cardRoomEmitter.subscribe((res) => {
+      this.turn_on_air = Boolean(res.turn_on_air);
     });
   }
 

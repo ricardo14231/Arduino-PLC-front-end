@@ -13,7 +13,7 @@ import { ControlAirRoomComponent } from './control-air-room/control-air-room.com
 
 
 
-const homeComponent = [
+const homeCompo = [
     HomeComponent,
     FilterRoomComponent,
     ContainerRoomsComponent,
@@ -26,7 +26,7 @@ const homeComponent = [
 
 @NgModule({
   declarations: [ 
-    homeComponent, 
+    homeCompo, 
   ],
   imports: [
     CommonModule,
@@ -35,7 +35,7 @@ const homeComponent = [
   ],
   providers: [],
   exports: [
-    homeComponent
+    homeCompo
   ]
 })
 export class HomeModule { }

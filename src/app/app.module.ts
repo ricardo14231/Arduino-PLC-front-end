@@ -11,6 +11,7 @@ import { HomeModule } from './modules/home/home.module';
 import { CrudModule } from './modules/crud/crud.module';
 
 import { DialogDeleteItemComponent } from './modules/crud/dialog-delete-item/dialog-delete-item.component';
+import { DialogLoadingComponent } from './core/dialog-loading/dialog-loading.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { DialogDeleteItemComponent } from './modules/crud/dialog-delete-item/dia
     CrudModule
   ],
   entryComponents: [
-    DialogDeleteItemComponent
+    DialogDeleteItemComponent,
+    DialogLoadingComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

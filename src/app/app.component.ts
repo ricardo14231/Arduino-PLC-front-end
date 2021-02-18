@@ -7,9 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-arduino-plc';
-
-  teste(event){
-    //console.log(event.srcElement)
-  }
-
 }
