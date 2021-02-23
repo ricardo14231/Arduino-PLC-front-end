@@ -3,12 +3,16 @@
     width: 100%;
 }
 
-.filter-room, .filter-shift{
+.filter-pavilion, .filter-room, .filter-shift{
     width: 300px;
 }
 
+.filter-room {
+    left: 20px;
+}
+
 .filter-shift{
-    left: 50px;
+    left: 70px;
 }
 
 .btnFilter{

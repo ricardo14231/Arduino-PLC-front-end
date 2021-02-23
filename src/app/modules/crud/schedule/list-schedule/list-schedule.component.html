@@ -6,6 +6,14 @@
     <fieldset>
         <legend>Lista</legend>
 
+        <mat-form-field appearance="fill" class="filter-pavilion">
+            <mat-label>Pavilhão</mat-label>
+            <mat-select matNativeControl [(ngModel)]="id_pavilion_selected" (selectionChange)="initRoomsPavilionSelected()" required>
+                <mat-option> Limpar </mat-option>
+                <mat-option *ngFor="let pavilion of pavilions" [value]="pavilion.id_pavilion" > {{ pavilion.name_pavilion }} </mat-option>
+            </mat-select>
+        </mat-form-field>
+
         <mat-form-field appearance="fill" class="filter-room">
             <mat-label>Sala</mat-label>
             <mat-select matNativeControl [(ngModel)]="id_room_selected" (selectionChange)="changedRoom()" required>

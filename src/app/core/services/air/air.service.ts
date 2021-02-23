@@ -14,13 +14,14 @@ export class AirService {
 
   constructor(
     private http: HttpClient,
-    private roomService: RoomService
-
+    private roomService: RoomService,
+   
   ) { }
 
   private readonly API = environment.API_APP;
-  
-  public airEmitter:EventEmitter<Air> = new EventEmitter(); 
+  private roomSelected: CardRoom
+
+  public airEmitter: EventEmitter<Air> = new EventEmitter(); 
 
   public listUnallocatedActiveAir(): Observable<Air[]> {
     return this.http.get<Air[]>(`${this.API}listUnallocatedActiveAir`);
@@ -43,12 +44,15 @@ export class AirService {
   }
 
   public updateAir(air: Air): Observable<any>{
-    console.log(air)
     return this.http.post<any>(`${this.API}updateAir`, air);
   }
 
   public deleteAir(id_air: number): Observable<any>{
     return this.http.delete<any>(`${this.API}deleteAir/${id_air}`);
+  }
+
+  public currentAirData(fk_id_air: number): Observable<any> {
+    return this.http.get<any>(`${this.API}currentAirData/${fk_id_air}`);
   }
 
   public selectedRoom(room: CardRoom): void{
@@ -62,5 +66,13 @@ export class AirService {
       this.airEmitter.emit(air);
     }, 200)
   }
+
+  public roomSelectedAir(): void {
+    this.roomService.roomEmitter.subscribe((res: CardRoom) => {
+      this.roomSelected = res;    
+      console.log(res)
+    })
+  }
+
 
 }

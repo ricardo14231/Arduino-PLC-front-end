@@ -1,5 +1,6 @@
 export interface CardRoom{
     id_room?: number,
+    fk_id_air?: number,
     name_room: string,
     state_air: number,
     current_temperature_air: number,

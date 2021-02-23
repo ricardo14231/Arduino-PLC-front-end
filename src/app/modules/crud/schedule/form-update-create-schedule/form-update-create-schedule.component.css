@@ -1,10 +1,9 @@
-.filter-room{
-    font-size: 16px;
-    width: 100%;
+.filter-pavilion, .filter-room {
+    width: 300px;
 }
 
-.filter-room{
-    width: 300px;
+.filter-pavilion {
+    margin-right: 20px;
 }
 
 fieldset .scheduleRoom{
@@ -21,8 +20,6 @@ fieldset .scheduleRoom{
     position: relative;
     left: 5px;
 }
-
- 
 
 .setScheduleNull{
     position: absolute;

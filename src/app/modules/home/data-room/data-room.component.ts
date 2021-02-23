@@ -27,8 +27,6 @@ export class DataRoomComponent implements OnInit {
   public dataRoom(): void{
     this.arduinoService.dataRoomEmitter.subscribe((res) => {
       this.sensors = res.sensores;
-      console.log( this.sensors)
-
     });
   }
 

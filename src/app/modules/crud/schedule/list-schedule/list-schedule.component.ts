@@ -8,6 +8,8 @@ import { ScheduleService } from 'src/app/core/services/schedule/schedule.service
 import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
 import { DialogDeleteItemComponent } from '../../dialog-delete-item/dialog-delete-item.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Pavilion } from 'src/app/shared/models/pavilion.model';
+import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
 
 
 @Component({
@@ -19,9 +21,10 @@ export class ListScheduleComponent implements OnInit {
 
   constructor(
     private scheduleService: ScheduleService,
+    private pavilionService: PavilionService,
     private roomService: RoomService,
     private messageService: MessageService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) { }
 
   @ViewChild(MatTable) table: MatTable<any>;
@@ -30,6 +33,8 @@ export class ListScheduleComponent implements OnInit {
   public rooms: CardRoom[];
   public id_room_selected: number = -1;
   public shift_selected: string = "notSelected";  
+  public pavilions: Pavilion [];
+  public id_pavilion_selected: number = -1;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['hour', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -37,16 +42,26 @@ export class ListScheduleComponent implements OnInit {
   ngOnInit(): void {
     this.cleanSchedule();
     this.viewSchedule();
-    this.initSelectRoom();
+    this.initSelectPavilion();
   }
 
-  private initSelectRoom(){
-    this.roomService.listActiveRoom().subscribe(res => {
+  public initRoomsPavilionSelected() {
+    this.roomService.readRoomByIdPavilion(this.id_pavilion_selected).subscribe(res => {
       this.rooms = res;
     }), error => this.messageService.openSnackBar(error.error, 'messageDanger'); 
   }
 
+  private initSelectPavilion(): void {
+    this.pavilionService.listActivePavilion().subscribe(( res: Pavilion[]) => {
+      this.pavilions = res;
+    })
+  }
+
   public changedRoom(): void{
+    this.scheduleService.cleanSchedule(); 
+  }
+
+  public changedPavilion(): void{
     this.scheduleService.cleanSchedule(); 
   }
 

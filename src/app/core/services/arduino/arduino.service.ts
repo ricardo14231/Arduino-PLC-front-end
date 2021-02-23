@@ -62,7 +62,7 @@ export class ArduinoService {
   public selectedRoom(ip_device: string): void{
      
     //Abre o modal de loading
-    this.modalLoading.openDialogLoading();
+    //this.modalLoading.openDialogLoading();
     
     this.readSensors(ip_device).subscribe((res) => {
       this.dataRoomEmitter.emit(res);
@@ -74,7 +74,7 @@ export class ArduinoService {
   private handleError(error) {
 
     //Fecha o modal de loading
-    this.modalLoading.dialog.closeAll();
+   // this.modalLoading.dialog.closeAll();
 
 
     if (error.error instanceof ErrorEvent) {

@@ -14,9 +14,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { MatTabsModule } from '@angular/material/tabs';
 
 const materialModule = [
     MatToolbarModule,
@@ -33,8 +32,8 @@ const materialModule = [
     MatSnackBarModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatExpansionModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTabsModule
 ]
 
 @NgModule({
