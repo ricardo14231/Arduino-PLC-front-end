@@ -5,7 +5,7 @@
     </div>
 
     <fieldset>
-        <legend>Novo pavilhão</legend>
+        <legend> {{ edit ? "Atualizar Pavilhão" : "Novo Pavilhão" }} </legend>
         <form class="form-pavilion" #pavilionForm="ngForm" (ngSubmit)="onSubmit()">
             <mat-form-field class="name_pavilion">
                 <mat-label>Nome</mat-label>

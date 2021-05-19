@@ -44,7 +44,7 @@ export class PavilionService {
   public editPavilion(pavilion: Pavilion): void{
     
     /*
-      Verificar pq não está atualizando os dados da tela sem o delay
+      Atualizar os dados na tela sem o delay
     */
     setTimeout(()=>{    
       this.editPavilionEmitter.emit(pavilion); 

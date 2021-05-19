@@ -5,35 +5,53 @@
     </div>
  
     <fieldset>
-        <legend>Novo horário</legend>
+        <legend> {{ edit ? 'Atualizar Horário' : 'Novo horário' }} </legend>
 
         <form class="form-schedule" #scheduleForm="ngForm" (ngSubmit)="onSubmit(scheduleForm)">
 
-            <mat-form-field appearance="fill" class="filter-pavilion">
+            <mat-form-field *ngIf="!edit" appearance="fill" class="filter-pavilion">
                 <mat-label>Pavilhão</mat-label>
-                <mat-select matNativeControl [(ngModel)]="id_pavilion_selected" name="id_pavilion" (selectionChange)="initItemsRoomsPavilionSelected()" required>
+                <mat-select matNativeControl 
+                name="id_pavilion" 
+                (selectionChange)="initItemsRoomsPavilionSelected($event)" 
+                required>
                     <mat-option> Limpar </mat-option>
-                    <mat-option *ngFor="let pavilion of pavilions" [value]="pavilion.id_pavilion" > {{ pavilion.name_pavilion }} </mat-option>
+                    <mat-option *ngFor="let pavilion of pavilions" [value]="pavilion.id_pavilion"> {{ pavilion.name_pavilion }} </mat-option>
                 </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="filter-room">
-                <mat-label>Sala</mat-label>
-                <mat-select matNativeControl [(ngModel)]="schedule.fk_id_room" name="fk_id_room" required>
+                <mat-label> {{ edit ? scheduleEdit.name_room : "Sala" }}</mat-label>
+                <mat-select matNativeControl [(ngModel)]="schedule.fk_id_room" name="fk_id_room" [disabled]="edit" (selectionChange)="getIdScheduleRoom($event)" required>
                     <mat-option> Limpar </mat-option>
                     <mat-option *ngFor="let room of rooms" [value]="room.id_room" > {{ room.name_room }} </mat-option>
                 </mat-select>
             </mat-form-field>
 
-            <mat-tab-group dynamicHeight animationDuration="800ms">
-                <mat-tab label="Matutino">
-                  <app-table-schedule [shift]="this.schedule.shift_morning"></app-table-schedule>
+            <mat-tab-group dynamicHeight animationDuration="800ms" [(selectedIndex)]="indexTabGroup" (selectedIndexChange)="getIdScheduleRoom($event)"> 
+                <mat-tab label="Matutino" *ngIf="!edit">
+                    <div class="active_hour">
+                      <mat-checkbox id="unenabled_hour_morning" name="unenabled_hour_morning" [(ngModel)]="unenabled_hour_morning" labelPosition="before">Não informado</mat-checkbox>   
+                    </div> 
+                    <app-table-schedule [shift]="schedule.shift_morning" [enabled_hour]="unenabled_hour_morning"></app-table-schedule> 
                 </mat-tab>
-                <mat-tab label="Vespertino">
-                    <app-table-schedule [shift]="this.schedule.shift_afternoon"></app-table-schedule>
+                <mat-tab label="Vespertino" *ngIf="!edit">
+                    <div class="active_hour">
+                      <mat-checkbox id="unenabled_hour_afternoon" name="unenabled_hour_afternoon" [(ngModel)]="unenabled_hour_afternoon" labelPosition="before">Não informado</mat-checkbox>   
+                    </div> 
+                    <app-table-schedule [shift]="schedule.shift_afternoon" [enabled_hour]="unenabled_hour_afternoon"></app-table-schedule> 
                 </mat-tab>
-                <mat-tab label="Noturno">
-                    <app-table-schedule [shift]="this.schedule.shift_night"></app-table-schedule>
+                <mat-tab label="Noturno" *ngIf="!edit">
+                    <div class="active_hour">
+                      <mat-checkbox id="unenabled_hour_night" name="unenabled_hour_night" [(ngModel)]="unenabled_hour_night" labelPosition="before">Não informado</mat-checkbox>   
+                    </div> 
+                    <app-table-schedule [shift]="schedule.shift_night" [enabled_hour]="unenabled_hour_night"></app-table-schedule> 
+                </mat-tab>
+                <mat-tab [label]="getShiftSchedule()" *ngIf="edit">
+                    <div class="active_hour">
+                      <mat-checkbox id="unenabled_hour_edit" name="unenabled_hour_edit" [(ngModel)]="unenabled_hour_edit" labelPosition="before">Não informado</mat-checkbox>   
+                    </div> 
+                    <app-table-schedule [shift]="scheduleEdit.shift_time" [enabled_hour]="unenabled_hour_edit"></app-table-schedule>
                 </mat-tab>
             </mat-tab-group>
 

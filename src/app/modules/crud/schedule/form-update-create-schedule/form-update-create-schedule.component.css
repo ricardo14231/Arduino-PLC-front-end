@@ -16,17 +16,13 @@ fieldset .scheduleRoom{
     top: 30px;
 }
 
-.form-schedule .active ::ng-deep.mat-checkbox{
+.form-schedule .active ::ng-deep.mat-checkbox,  
+.form-schedule .active_hour ::ng-deep.mat-checkbox {
     position: relative;
     left: 5px;
 }
 
-.setScheduleNull{
-    position: absolute;
-    right: 90px;
+.form-schedule .active_hour {
+    padding: 10px 0px;
 }
 
-.setScheduleNull ::ng-deep.mat-checkbox{
-    position: relative;
-    left: 5px;
-}

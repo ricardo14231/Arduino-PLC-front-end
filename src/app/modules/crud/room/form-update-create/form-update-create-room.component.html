@@ -5,7 +5,7 @@
     </div>
  
     <fieldset>
-        <legend>Nova Sala</legend>
+        <legend> {{ edit ? "Atualizar Sala" : "Nova Sala" }}</legend>
         <form class="form-room" #roomForm="ngForm" (ngSubmit)="onSubmit(roomForm)">
             <div class="filter-pavilion">
                 <mat-form-field appearance="fill" class="select-pavilion">

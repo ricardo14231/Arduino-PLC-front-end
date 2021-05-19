@@ -1,4 +1,4 @@
-import { ClassTime } from "./classTime/ClassTime.model";
+import { ClassTime } from "../classTime/ClassTime.model";
 
 export interface Schedule {
   id_schedule?: number,

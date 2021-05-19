@@ -21,7 +21,7 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
   @Input()
   public pavilion: Pavilion;
   
-  private edit: boolean = false; 
+  public edit: boolean = false; 
   
   private subscription: Subscription[] = [];
 
@@ -45,9 +45,7 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
         this.router.navigate(['/homePavilion/list']);
       
       }), error => this.messageService.openSnackBar(error.error, 'dangerMessage')));
-  
     }
-    
   }
 
   public editPavilion(): void{

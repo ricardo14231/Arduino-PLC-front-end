@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MatTable } from '@angular/material/table';
 import { MessageService } from 'src/app/core/services/message/message.service';
@@ -10,7 +11,8 @@ import { DialogDeleteItemComponent } from '../../dialog-delete-item/dialog-delet
 import { MatDialog } from '@angular/material/dialog';
 import { Pavilion } from 'src/app/shared/models/pavilion.model';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
-
+import { Schedule } from 'src/app/shared/models/schedule/schedule.model';
+import { ScheduleCrud } from 'src/app/shared/models/schedule/scheduleCrud.model';
 
 @Component({
   selector: 'app-list-schedule',
@@ -23,6 +25,7 @@ export class ListScheduleComponent implements OnInit {
     private scheduleService: ScheduleService,
     private pavilionService: PavilionService,
     private roomService: RoomService,
+    private router: Router,
     private messageService: MessageService,
     public dialog: MatDialog
   ) { }
@@ -35,6 +38,7 @@ export class ListScheduleComponent implements OnInit {
   public shift_selected: string = "notSelected";  
   public pavilions: Pavilion [];
   public id_pavilion_selected: number = -1;
+  private scheduleEdit: ScheduleCrud 
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['hour', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -43,6 +47,7 @@ export class ListScheduleComponent implements OnInit {
     this.cleanSchedule();
     this.viewSchedule();
     this.initSelectPavilion();
+    this.initObjScheduleEdit();
   }
 
   public initRoomsPavilionSelected() {
@@ -55,6 +60,25 @@ export class ListScheduleComponent implements OnInit {
     this.pavilionService.listActivePavilion().subscribe(( res: Pavilion[]) => {
       this.pavilions = res;
     })
+  }
+
+  private initObjScheduleEdit(): void {
+    this.scheduleEdit = {
+      id_schedule: null,
+      id_room: null,
+      name_room: null,
+      shift: null,
+      shift_time: [{
+        "hour": null,
+        "mon": null,
+        "tue": null,
+        "wed": null,
+        "thu": null,
+        "fri": null,
+        "sat": null
+      }],
+      active_schedule: null
+    }
   }
 
   public changedRoom(): void{
@@ -82,6 +106,16 @@ export class ListScheduleComponent implements OnInit {
       
       if(res[0].schedule_room != null){
         this.dataSource = JSON.parse(res[0].schedule_room);
+        
+        this.scheduleEdit = {
+          id_schedule: res[0].id_schedule,
+          id_room: res[0].id_room,
+          name_room: res[0].name_room,
+          shift: res[0].shift,
+          shift_time: JSON.parse(res[0].schedule_room),
+          active_schedule: null
+        }
+      
         this.messageService.openSnackBar("Sucesso ao exibir horário!", "successMessage");
       }else{
         this.scheduleService.cleanSchedule();
@@ -94,6 +128,7 @@ export class ListScheduleComponent implements OnInit {
   private cleanSchedule(): void{
     this.scheduleService.cleanScheduleEmitter.subscribe(res => {
       this.dataSource = res;
+      this.scheduleEdit.id_schedule = null;
     });
   }
 
@@ -105,9 +140,17 @@ export class ListScheduleComponent implements OnInit {
     return true;
   }
 
-  public editAir(): void{
-    /* this.roomService.editRoom(element);
-    this.router.navigate(['homeRoom/edit']); */
+  public editSchedule(): void{
+    // Mudar o modo de varificar. Não atribuir null ao obj. 
+    if (this.scheduleEdit.id_schedule != null) {
+      this.scheduleEdit.id_room = this.id_room_selected;
+      this.scheduleEdit.shift = this.shift_selected;
+      this.scheduleService.editSchedule(this.scheduleEdit);
+      this.router.navigate(['homeSchedule/edit']); 
+    }else{
+      this.messageService.openSnackBar("Horário não selecionado!", "dangerMessage");
+    }
+    
   }
 
   public openDialogDelete(): void{

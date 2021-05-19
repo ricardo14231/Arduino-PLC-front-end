@@ -1,0 +1,11 @@
+table {
+    width: 100%;
+}
+
+.mat-column-name{
+    width: 40%;
+}
+
+table td img{
+    margin-right: 8px;
+}

@@ -7,3 +7,4 @@ export interface ClassTime {
   fri: string, 
   sat: string
 }
+ 

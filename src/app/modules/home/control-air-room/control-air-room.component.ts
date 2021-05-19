@@ -8,8 +8,6 @@ import { ModalLoadingService } from 'src/app/core/services/modal-loading/modal-l
 import { RoomService } from 'src/app/core/services/room/room.service';
 import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
 
-
-
 @Component({
   selector: 'app-control-air-room',
   templateUrl: './control-air-room.component.html',
@@ -40,9 +38,8 @@ export class ControlAirRoomComponent implements OnInit {
   }
 
   public selectedRoom(): void {
-    this.roomService.cardRoomEmitter.subscribe( res => {
+    this.roomService.cardRoomEmitter.subscribe((res) => {
       this.dataRoom = res;
-     
       this.current_temperature = this.dataRoom.current_temperature_air;
       this.temperature_min = this.dataRoom.temperature_min_air;
       this.temperature_max = this.dataRoom.temperature_max_air;

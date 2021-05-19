@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 import { MatTable } from '@angular/material/table';
-import { Schedule } from 'src/app/shared/models/schedule.model';
+import { ClassTime } from 'src/app/shared/models/classTime/ClassTime.model';
+
 
 @Component({
   selector: 'app-table-schedule',
@@ -18,7 +19,9 @@ export class TableScheduleComponent implements OnInit {
   @Input()
   public shift_hour: string[];
   @Input()
-  public shift: string[];
+  public shift: ClassTime[];
+  @Input()
+  public enabled_hour: boolean = false;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['hour', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -27,4 +30,8 @@ export class TableScheduleComponent implements OnInit {
     this.dataSource = this.shift;
   }
 
+  ngOnDestroy(): void {
+    this.shift = null;
+    this.dataSource = null;
+  }
 }

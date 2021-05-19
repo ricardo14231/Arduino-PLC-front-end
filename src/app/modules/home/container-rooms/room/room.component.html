@@ -5,7 +5,7 @@
     </mat-card-header>
     <mat-card-content class="paramAir">
       <h4>Ar: 
-        <div *ngIf="room.state_air == 1; then airTurnOn else airTurnOff"></div>
+        <div *ngIf="room.turn_on_air == 1; then airTurnOn else airTurnOff"></div>
         <ng-template #airTurnOn> <span class="turnOn">Ligado</span> </ng-template>
         <ng-template #airTurnOff> <span class="turnOff">Desligado</span> </ng-template>
 

@@ -31,7 +31,7 @@ export class ScheduleRoomComponent implements OnInit {
   private showSchedule(): void{
     this.scheduleService.scheduleEmitter.subscribe(res => {
       
-      if(res[0].schedule_room != null){
+      if(res[0].schedule_room != null && res[0].schedule_room != 'null'){
         this.dataSource = JSON.parse(res[0].schedule_room);
         this.messageService.openSnackBar("Sucesso ao exibir horário!", "successMessage");
       }else{

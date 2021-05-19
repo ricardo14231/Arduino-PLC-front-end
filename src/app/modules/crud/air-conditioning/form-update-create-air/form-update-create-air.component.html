@@ -5,7 +5,7 @@
     </div>
  
     <fieldset>
-        <legend>Novo ar-condicionado</legend>
+        <legend>{{ edit ? "Atualizar ar-condicionado" : "Novo ar-condicionado" }}</legend>
         <form class="form-air" #airForm="ngForm" (ngSubmit)="onSubmit()">
             
             <div class="name_air">

@@ -11,7 +11,7 @@ import { ListAirComponent } from './modules/crud/air-conditioning/list-air/list-
 import { FormUpdateCreateAirComponent } from './modules/crud/air-conditioning/form-update-create-air/form-update-create-air.component';
 import { ListScheduleComponent } from './modules/crud/schedule/list-schedule/list-schedule.component';
 import { FormUpdateCreateScheduleComponent } from './modules/crud/schedule/form-update-create-schedule/form-update-create-schedule.component';
-
+import { ListUserComponent } from './modules/crud/user/list-user/list-user.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},  
@@ -47,6 +47,13 @@ const routes: Routes = [
         { path: 'edit', component: FormUpdateCreateScheduleComponent },
       ]
   },
+  { path: 'homeUser', component: MainComponent, 
+    children: [
+    { path: 'list', component: ListUserComponent },
+    /* { path: 'new', component: '' },
+    { path: 'edit', component: FormUpdateCreateScheduleComponent }, */
+  ]
+},
 ];
 
 @NgModule({

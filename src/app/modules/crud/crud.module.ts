@@ -15,6 +15,8 @@ import { ListAirComponent } from './air-conditioning/list-air/list-air.component
 import { FormUpdateCreateScheduleComponent } from './schedule/form-update-create-schedule/form-update-create-schedule.component';
 import { ListScheduleComponent } from './schedule/list-schedule/list-schedule.component';
 import { TableScheduleComponent } from './schedule/table-schedule/table-schedule.component';
+import { ListUserComponent } from './user/list-user/list-user.component';
+import { FormUpdateCreateUserComponent } from './user/form-update-create-user/form-update-create-user.component';
 
 const crudComponent = [ 
     MainComponent,
@@ -29,7 +31,7 @@ const crudComponent = [
 
 @NgModule({
   declarations: [ 
-    crudComponent, FormUpdateCreateScheduleComponent, ListScheduleComponent, TableScheduleComponent, 
+    crudComponent, FormUpdateCreateScheduleComponent, ListScheduleComponent, TableScheduleComponent, ListUserComponent, FormUpdateCreateUserComponent, 
   ],
   imports: [
     MaterialModule,
