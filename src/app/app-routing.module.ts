@@ -12,6 +12,7 @@ import { FormUpdateCreateAirComponent } from './modules/crud/air-conditioning/fo
 import { ListScheduleComponent } from './modules/crud/schedule/list-schedule/list-schedule.component';
 import { FormUpdateCreateScheduleComponent } from './modules/crud/schedule/form-update-create-schedule/form-update-create-schedule.component';
 import { ListUserComponent } from './modules/crud/user/list-user/list-user.component';
+import { FormUpdateCreateUserComponent } from './modules/crud/user/form-update-create-user/form-update-create-user.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},  
@@ -50,8 +51,8 @@ const routes: Routes = [
   { path: 'homeUser', component: MainComponent, 
     children: [
     { path: 'list', component: ListUserComponent },
-    /* { path: 'new', component: '' },
-    { path: 'edit', component: FormUpdateCreateScheduleComponent }, */
+    { path: 'new', component: FormUpdateCreateUserComponent },
+    { path: 'edit', component: FormUpdateCreateUserComponent },
   ]
 },
 ];

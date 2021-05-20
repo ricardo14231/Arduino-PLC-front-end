@@ -1,0 +1,22 @@
+.form-user .name_user{
+    width: 400px;
+}
+
+.form-user .amount_room{
+    width: 100px;
+    left: 20px;
+}
+
+.form-user .active{
+    position: relative;
+    top: 20px;
+}
+
+.form-user .active ::ng-deep.mat-checkbox{
+    position: relative;
+    left: 5px;
+}
+
+.credentials .password, .credentials .confirm-password {
+    margin-left: 20px;
+} 

@@ -37,7 +37,7 @@ export class UserService {
     return this.http.put<User>(`${this.API}updateUser`, user);
   }
 
-  public editPavilion(user: User): void{
+  public editUser(user: User): void{
     
     /*
       Atualizar os dados na tela sem o delay

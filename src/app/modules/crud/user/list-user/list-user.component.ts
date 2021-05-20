@@ -56,22 +56,22 @@ export class ListUserComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if(result){
-       /*  this.deletePavilion(element.id_pavilion); */
+        this.deleteUser(element.id_user); 
         this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
       }
     });
 
   }
 
-  private deleteUser(id_pavilion: number): void{
-    /* this.pavilionService.deletePavlion(id_pavilion).subscribe( res => {
+  private deleteUser(id_user: number): void{
+    this.userService.deleteUser(id_user).subscribe(res => {
       this.listAllUsers();
-    }); */
+    }); 
   }
 
-  public editPavilion(element): void{
-    /* this.pavilionService.editPavilion(element);
-    this.router.navigate(['homePavilion/edit']); */
+  public editUser(element): void{
+    this.userService.editUser(element);
+      this.router.navigate(['homeUser/edit']); 
   }
 
   ngOnDestroy(){

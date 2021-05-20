@@ -1,1 +1,42 @@
-<p>form-update-create-user works!</p>
+<div class="container-crud">
+    <span class="title-container-crud">Usuário</span>
+    <div class="btn-nav">
+        <button mat-raised-button color="primary" class="newItem" routerLink="/homeUser/list"> <img src="assets/crud/list.svg"> Lista </button>
+    </div>
+
+    <fieldset>
+        <legend> {{ edit ? "Atualizar Usuário" : "Novo Usuário" }} </legend>
+        <form class="form-user" #userForm="ngForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="name_user">
+                <mat-label>Nome</mat-label>
+                <input matInput placeholder="Nome Usuário" id="name_user" name="name_user" [(ngModel)]="user.name_user" minlength="3" maxlength="45" required>
+            </mat-form-field>
+            
+            <div class="credentials">
+                <mat-form-field class="name_user">
+                    <mat-label>Login</mat-label>
+                    <input matInput placeholder="Login" id="login" name="login" [(ngModel)]="user.login" minlength="4" maxlength="45" required>
+                </mat-form-field>
+                <mat-form-field class="password">
+                    <mat-label>Senha</mat-label>
+                    <input matInput placeholder="Senha" type="password" id="password" name="password" [(ngModel)]="password" minlength="4" maxlength="8" required>
+                </mat-form-field>
+                <mat-form-field class="confirm-password">
+                    <mat-label>Confirmar senha</mat-label>
+                    <input matInput placeholder="Confirmar senha" type="password" id="confirm-password" name="confirm-password" [(ngModel)]="confirmPassword" minlength="4" maxlength="8" required>
+                </mat-form-field>
+            </div>
+            
+            <div class="active">
+                <mat-label>Ativo</mat-label>
+                <mat-checkbox id="active_user" name="active_user" [(ngModel)]="user.active_user"></mat-checkbox>   
+            </div> 
+            
+            <div class="btnActionForm">
+                <button mat-raised-button color="warn" type="button" class="cancel" routerLink="/homeUser/list"> <img src="assets/crud/cancel.svg"> Cancelar </button>
+                <button mat-raised-button color="primary" type="submit" class="save" [disabled]="!userForm.form.valid"> <img src="assets/crud/save.svg"> Salvar </button>
+            </div>
+        </form>
+    </fieldset>
+</div>
+
