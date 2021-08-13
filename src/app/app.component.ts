@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-arduino-plc';
+  
+
+  teste() {
+    console.log("dcdc");
+    console.log("asdfsd");
+  }
 }

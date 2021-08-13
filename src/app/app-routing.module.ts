@@ -15,7 +15,7 @@ import { ListUserComponent } from './modules/crud/user/list-user/list-user.compo
 import { FormUpdateCreateUserComponent } from './modules/crud/user/form-update-create-user/form-update-create-user.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full'},  
+  { path: '', redirectTo: '/home', pathMatch: 'full' },  
   
   { path: 'home', component: HomeComponent },
 
