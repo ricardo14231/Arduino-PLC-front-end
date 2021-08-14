@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
-import { Schedule } from 'src/app/shared/models/schedule/schedule.model';
+import { Subscription } from 'rxjs';
+import { MessageService } from '../services/message/message.service';
 import { RoomService } from '../services/room/room.service';
 import { ScheduleService } from '../services/schedule/schedule.service';
 
@@ -11,23 +11,35 @@ import { ScheduleService } from '../services/schedule/schedule.service';
 })
 export class FooterComponent implements OnInit {
 
-  constructor(
-    private roomService: RoomService,
-    private scheduleService: ScheduleService
-  ) { }
-
   nameRoomSelected: string = "...";
   nameRoomScheduleSelected: string = "...";
 
+  private subscription: Subscription[] = [];
+  
+  constructor(
+    private roomService: RoomService,
+    private scheduleService: ScheduleService,
+    private messageService: MessageService
+  ) { }
+
   ngOnInit(): void {
 
-    this.roomService.cardRoomEmitter.subscribe((res: CardRoom) =>{
-      this.nameRoomSelected = res.name_room;
-    });
+    this.subscription.push(
+      this.roomService.cardRoomEmitter.subscribe({
+        next: room => this.nameRoomSelected = room.name_room,
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+      })
+    );
 
-    this.scheduleService.scheduleEmitter.subscribe((res: Schedule) => {
-      this.nameRoomScheduleSelected = res[0].name_room;
-    });
+    this.subscription.push(
+      this.scheduleService.scheduleEmitter.subscribe({
+        next: shedule => this.nameRoomScheduleSelected = shedule[0].name_room,
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+      })
+    );
   }
 
+  ngOnDestroy(): void {
+    this.subscription.map(sub => sub.unsubscribe())
+  }
 }

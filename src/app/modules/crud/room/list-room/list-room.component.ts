@@ -21,6 +21,16 @@ import { CrudRoom } from 'src/app/shared/models/room/crudRoom.model';
 })
 export class ListRoomComponent implements OnInit {
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  displayedColumns: string[] = ['id', 'name_room', 'air', 'active', 'actions'];
+
+  dataSource: MatTableDataSource<CrudRoom>;
+  pavilions: Pavilion[];
+  private subscription: Subscription[] = [];
+
+  rooms: CrudRoom[] = [];
+
   constructor(
     private roomService: RoomService,
     private pavilionService: PavilionService,
@@ -29,40 +39,31 @@ export class ListRoomComponent implements OnInit {
     private messageService: MessageService,
   ) { }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  displayedColumns: string[] = ['id', 'name_room', 'air', 'active', 'actions'];
-  
-  dataSource: MatTableDataSource<CrudRoom>;
-  pavilions: Pavilion[];  
-  private subscription: Subscription[] = [];
-
-  rooms: CrudRoom[] = [];
-  
   ngOnInit(): void {
   }
 
   ngAfterViewInit() {
-    this.subscription.push( 
-      this.pavilionService.listActivePavilion().subscribe((res: Pavilion[]) =>{
-      this.pavilions = res;
+    this.subscription.push(
+      this.pavilionService.listActivePavilion().subscribe({
+        next: responsePavilion => this.pavilions = responsePavilion,
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
       })
     );
   }
 
-  public editRoom(element): void{
+  public editRoom(element): void {
     this.roomService.editRoom(element);
     this.router.navigate(['homeRoom/edit']);
   }
 
-  public openDialogDelete(element): void{
+  public openDialogDelete(element): void {
     let dialogRef = this.dialog.open(DialogDeleteItemComponent, {
       height: '20%',
       width: '30%',
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if(result){
+      if (result) {
         this.deleteRoom(element.id_room);
         this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
       }
@@ -70,43 +71,46 @@ export class ListRoomComponent implements OnInit {
 
   }
 
-  private deleteRoom(id_room: number): void{
-
-    this.roomService.deleteRoom(id_room).subscribe( res => {   
-      this.rooms = this.removeElementArrayRooms(id_room);
-      this.dataSource = new MatTableDataSource<CrudRoom>(this.rooms);
-    
-    }); 
+  private deleteRoom(id_room: number): void {
+    this.subscription.push(
+      this.roomService.deleteRoom(id_room).subscribe({
+        next: responseRoom => {
+          this.rooms = this.removeElementArrayRooms(id_room);
+          this.dataSource = new MatTableDataSource<CrudRoom>(this.rooms)
+        },
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+      })
+    )
   }
 
-  public selectedPavilion(event): void{
-    this.subscription.push( 
-      this.roomService.readCrudRoomByIdPavilion(event.value).subscribe((res) => {
-      this.dataSource = new MatTableDataSource<CrudRoom>(res);
-      this.dataSource.paginator = this.paginator;
-      
-      this.rooms = res;
+  public selectedPavilion(event): void {
+    this.subscription.push(
+      this.roomService.readCrudRoomByIdPavilion(event.value).subscribe({
+        next: responsePavilion => {
+          this.dataSource = new MatTableDataSource<CrudRoom>(responsePavilion);
+          this.dataSource.paginator = this.paginator;
 
+          this.rooms = responsePavilion;
+        },
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
       })
     );
   }
 
-  private removeElementArrayRooms(id_room: number): any{
+  private removeElementArrayRooms(id_room: number): any {
     let newArrayRooms: CrudRoom[] = [];
-    
+
     this.rooms.map((r) => {
-      if(r.id_room != id_room){
+      if (r.id_room != id_room) {
         newArrayRooms.push(r);
       }
     });
 
     return newArrayRooms;
-  } 
+  }
 
-  ngOnDestroy(){
-    this.subscription.map(sub => {
-      sub.unsubscribe();
-    });
+  ngOnDestroy() {
+    this.subscription.map(sub => sub.unsubscribe())
   }
 
 }

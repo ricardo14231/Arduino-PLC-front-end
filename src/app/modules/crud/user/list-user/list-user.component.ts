@@ -22,15 +22,13 @@ export class ListUserComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'login', 'profile', 'active', 'actions'];
   dataSource: MatTableDataSource<any>;
   private subscription: Subscription[] = [];
- 
+
   constructor(
     private userService: UserService,
     public dialog: MatDialog,
     private router: Router,
     private messageService: MessageService,
   ) { }
-
-
 
   ngOnInit(): void {
   }
@@ -39,45 +37,48 @@ export class ListUserComponent implements OnInit {
     this.listAllUsers();
   }
 
-  private listAllUsers(){
+  private listAllUsers() {
     this.subscription.push(
-      this.userService.listAllUser().subscribe((res: User[]) => {
-        this.dataSource = new MatTableDataSource<User>(res);
-        this.dataSource.paginator = this.paginator;
+      this.userService.listAllUser().subscribe({
+        next: responseUser => {
+          this.dataSource = new MatTableDataSource<User>(responseUser);
+          this.dataSource.paginator = this.paginator;
+        },
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
       })
     );
   }
 
-  public openDialogDelete(element): void{
+  public openDialogDelete(element): void {
     let dialogRef = this.dialog.open(DialogDeleteItemComponent, {
       height: '20%',
       width: '30%',
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if(result){
-        this.deleteUser(element.id_user); 
+      if (result) {
+        this.deleteUser(element.id_user);
         this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
       }
     });
 
   }
 
-  private deleteUser(id_user: number): void{
-    this.userService.deleteUser(id_user).subscribe(res => {
-      this.listAllUsers();
-    }); 
+  private deleteUser(id_user: number): void {
+    this.subscription.push(
+      this.userService.deleteUser(id_user).subscribe({
+        next: response => this.listAllUsers(),
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+      })
+    )
   }
 
-  public editUser(element): void{
+  public editUser(element): void {
     this.userService.editUser(element);
-      this.router.navigate(['homeUser/edit']); 
+    this.router.navigate(['homeUser/edit']);
   }
 
-  ngOnDestroy(){
-    this.subscription.map(sub => {
-      sub.unsubscribe();
-    });
+  ngOnDestroy() {
+    this.subscription.map(sub => sub.unsubscribe())
   }
-
 }

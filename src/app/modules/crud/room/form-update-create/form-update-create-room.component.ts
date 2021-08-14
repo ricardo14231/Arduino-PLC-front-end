@@ -16,6 +16,17 @@ import { CrudRoom } from 'src/app/shared/models/room/crudRoom.model';
 })
 export class FormUpdateCreateRoomComponent implements OnInit {
 
+  @Input()
+  public room: CrudRoom;
+
+  @Input()
+  public pavilions: Pavilion[];
+  @Input()
+  public airs;
+
+  public edit: boolean = false;
+  private subscription: Subscription[] = [];
+
   constructor(
     private pavilionSevice: PavilionService,
     private airService: AirService,
@@ -24,63 +35,60 @@ export class FormUpdateCreateRoomComponent implements OnInit {
     private messageService: MessageService,
   ) { }
 
-  @Input()
-  public room: CrudRoom;
-  
-  @Input()
-  public pavilions: Pavilion[];
-  @Input()
-  public airs;
-    
-  public edit: boolean = false; 
-  private subscription: Subscription[] = [];
-
   ngOnInit(): void {
     this.initObjRoom();
     this.newRoomLoadPavilionAndAir();
     this.editRoom();
     this.initCheckedActiveRoom();
-    
+
   }
-  
-  public onSubmit(form): void{
+
+  public onSubmit(form): void {
 
     this.validateUpdateRoom(form);
 
-    if(!this.edit && this.room.id_room == null){
-      this.roomService.createRoom(this.room).subscribe((res => {
-        this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
-        this.router.navigate(['/homeRoom/list']);
-
-      }), error => { this.messageService.openSnackBar(error.error, 'dangerMessage'), console.log(error) });  
-     
-
-    }else{ 
-      this.roomService.updateRoom(this.room).subscribe((res => {
-        this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
-        this.router.navigate(['/homeRoom/list']);
-      
-      }), error => this.messageService.openSnackBar(error.error, 'dangerMessage'));
+    if (!this.edit && this.room.id_room == null) {
+      this.subscription.push(
+        this.roomService.createRoom(this.room).subscribe({
+          next: response => {
+            this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
+            this.router.navigate(['/homeRoom/list']);
+          },
+          error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+        })
+      )
+    } else {
+      this.subscription.push(
+        this.roomService.updateRoom(this.room).subscribe({
+          next: response => {
+            this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
+            this.router.navigate(['/homeRoom/list']);
+          },
+          error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+        })
+      )
     }
   }
 
   //Carrega os Selects do formulário
-  public newRoomLoadPavilionAndAir(): void{
-    this.subscription.push( 
-      this.pavilionSevice.listActivePavilion().subscribe((res) => {
-        this.pavilions = res;
+  public newRoomLoadPavilionAndAir(): void {
+    this.subscription.push(
+      this.pavilionSevice.listActivePavilion().subscribe({
+        next: responsePavilion => this.pavilions = responsePavilion,
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
       })
     );
-    
+
     this.subscription.push(
-      this.airService.listUnallocatedActiveAir().subscribe((res: Air[]) => {  
-        this.airs = res;
+      this.airService.listUnallocatedActiveAir().subscribe({
+        next: responseAir => this.airs = responseAir,
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
       })
     );
   }
 
-  public editRoom(): void{
-    this.subscription.push( 
+  public editRoom(): void {
+    this.subscription.push(
       this.roomService.roomEmitter.subscribe((res: CrudRoom) => {
         this.room.id_room = res.id_room;
         this.room.name_room = res.name_room;
@@ -94,7 +102,7 @@ export class FormUpdateCreateRoomComponent implements OnInit {
     );
   }
 
-  private initObjRoom(): void{
+  private initObjRoom(): void {
     this.room = {
       id_room: null,
       fk_id_pavilion: null,
@@ -107,34 +115,31 @@ export class FormUpdateCreateRoomComponent implements OnInit {
     };
   }
 
-  private initCheckedActiveRoom(): void{
-    if(!this.edit || this.room.active_room){
+  private initCheckedActiveRoom(): void {
+    if (!this.edit || this.room.active_room) {
       this.room.active_room = true;
-    }else{
+    } else {
       this.room.active_room = false;
     }
   }
 
-  private validateUpdateRoom(form): void{
-    
+  private validateUpdateRoom(form): void {
+
     //Converte os dados de string para int e pega o valor do checkbox 
     this.room.active_room = form.form.value.active_room;
     this.room.fk_id_pavilion = parseInt(form.form.value.fk_id_pavilion);
     this.room.fk_id_new_air = parseInt(form.form.value.fk_id_new_air);
-    
+
     //Verifica se o ar-condicionado foi alterado. Se foi ele atribui o novo ar.
-    if(this.room.fk_id_new_air != -1 && !isNaN(this.room.fk_id_new_air)){
+    if (this.room.fk_id_new_air != -1 && !isNaN(this.room.fk_id_new_air)) {
       this.room.fk_id_new_air = parseInt(form.form.value.fk_id_new_air);
-    }else{
+    } else {
       this.room.fk_id_new_air = this.room.fk_id_air;
     }
   }
-   
 
-  ngOnDestroy(): void{
-    this.subscription.map( sub => {
-      sub.unsubscribe();
-    });
+
+  ngOnDestroy(): void {
+    this.subscription.map(sub => sub.unsubscribe())
   }
-
 }

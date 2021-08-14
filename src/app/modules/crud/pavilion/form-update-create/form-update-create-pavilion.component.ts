@@ -20,9 +20,9 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
 
   @Input()
   public pavilion: Pavilion;
-  
-  public edit: boolean = false; 
-  
+
+  public edit: boolean = false;
+
   private subscription: Subscription[] = [];
 
   ngOnInit(): void {
@@ -30,27 +30,30 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
     this.editPavilion();
   }
 
-  public onSubmit(): void{
-    
-    if(!this.edit && this.pavilion.id_pavilion == null){
-      this.subscription.push( this.pavilionService.createPavilion(this.pavilion).subscribe((res => {
-          this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
-          this.router.navigate(['/homePavilion/list']);
-  
-        }), error => this.messageService.openSnackBar(error.error, 'dangerMessage')));
-  
-    }else{
-      this.subscription.push( this.pavilionService.updatePavlion(this.pavilion).subscribe((res => {
+  public onSubmit(): void {
+
+    if (!this.edit && this.pavilion.id_pavilion == null) {
+      this.subscription.push(
+        this.pavilionService.createPavilion(this.pavilion).subscribe({
+          next: response => {
+            this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
+            this.router.navigate(['/homePavilion/list']);
+          },
+          error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+        })
+      )
+    } else {
+      this.subscription.push(this.pavilionService.updatePavlion(this.pavilion).subscribe((res => {
         this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
         this.router.navigate(['/homePavilion/list']);
-      
+
       }), error => this.messageService.openSnackBar(error.error, 'dangerMessage')));
     }
   }
 
-  public editPavilion(): void{
+  public editPavilion(): void {
 
-    this.subscription.push( this.pavilionService.editPavilionEmitter.subscribe((res: Pavilion) => {
+    this.subscription.push(this.pavilionService.editPavilionEmitter.subscribe((res: Pavilion) => {
       this.pavilion = res;
       this.edit = true;
       this.router.navigate(['/homePavilion/edit']);
@@ -58,7 +61,7 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
 
   }
 
-  private initObjPavilion(): void{
+  private initObjPavilion(): void {
     this.pavilion = {
       id_pavilion: null,
       name_pavilion: "",
@@ -66,12 +69,9 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
       active_pavilion: false
     };
   }
-  
 
-  ngOnDestroy(): void{
-    this.subscription.map( sub => {
-      sub.unsubscribe();
-    });
+
+  ngOnDestroy(): void {
+    this.subscription.map(sub => sub.unsubscribe())
   }
-
 }

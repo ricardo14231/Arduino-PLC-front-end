@@ -13,6 +13,7 @@ import { Pavilion } from 'src/app/shared/models/pavilion.model';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
 import { Schedule } from 'src/app/shared/models/schedule/schedule.model';
 import { ScheduleCrud } from 'src/app/shared/models/schedule/scheduleCrud.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-list-schedule',
@@ -20,6 +21,20 @@ import { ScheduleCrud } from 'src/app/shared/models/schedule/scheduleCrud.model'
   styleUrls: ['./list-schedule.component.css']
 })
 export class ListScheduleComponent implements OnInit {
+
+  @ViewChild(MatTable) table: MatTable<any>;
+  public dataSource: any//ScheduleRoomDataSource;
+
+  public rooms: CardRoom[];
+  public id_room_selected: number = -1;
+  public shift_selected: string = "notSelected";
+  public pavilions: Pavilion[];
+  public id_pavilion_selected: number = -1;
+  private scheduleEdit: ScheduleCrud;
+
+  private subscription: Subscription[] = [];
+
+  displayedColumns = ['hour', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 
   constructor(
     private scheduleService: ScheduleService,
@@ -30,19 +45,6 @@ export class ListScheduleComponent implements OnInit {
     public dialog: MatDialog
   ) { }
 
-  @ViewChild(MatTable) table: MatTable<any>;
-  public dataSource: any//ScheduleRoomDataSource;
-
-  public rooms: CardRoom[];
-  public id_room_selected: number = -1;
-  public shift_selected: string = "notSelected";  
-  public pavilions: Pavilion [];
-  public id_pavilion_selected: number = -1;
-  private scheduleEdit: ScheduleCrud 
-
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['hour', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-
   ngOnInit(): void {
     this.cleanSchedule();
     this.viewSchedule();
@@ -51,15 +53,20 @@ export class ListScheduleComponent implements OnInit {
   }
 
   public initRoomsPavilionSelected() {
-    this.roomService.readRoomByIdPavilion(this.id_pavilion_selected).subscribe(res => {
-      this.rooms = res;
-    }), error => this.messageService.openSnackBar(error.error, 'messageDanger'); 
+    this.subscription.push(
+      this.roomService.readRoomByIdPavilion(this.id_pavilion_selected).subscribe({
+        next: responseRoom => this.rooms = responseRoom,
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+      })
+    )
   }
 
   private initSelectPavilion(): void {
-    this.pavilionService.listActivePavilion().subscribe(( res: Pavilion[]) => {
-      this.pavilions = res;
-    })
+    this.subscription.push(
+      this.pavilionService.listActivePavilion().subscribe((res: Pavilion[]) => {
+        this.pavilions = res;
+      })
+    )
   }
 
   private initObjScheduleEdit(): void {
@@ -81,86 +88,89 @@ export class ListScheduleComponent implements OnInit {
     }
   }
 
-  public changedRoom(): void{
-    this.scheduleService.cleanSchedule(); 
+  public changedRoom(): void {
+    this.scheduleService.cleanSchedule();
   }
 
-  public changedPavilion(): void{
-    this.scheduleService.cleanSchedule(); 
+  public changedPavilion(): void {
+    this.scheduleService.cleanSchedule();
   }
 
-  public changedShiftSchedule(): void{
-    this.scheduleService.cleanSchedule(); 
+  public changedShiftSchedule(): void {
+    this.scheduleService.cleanSchedule();
   }
 
-  public showDataFilter(): void{
+  public showDataFilter(): void {
 
-    if(this.verifyDataFilter()){
+    if (this.verifyDataFilter()) {
       this.scheduleService.selectedShift(this.shift_selected);
-      this.scheduleService.showSchedule(this.id_room_selected); 
+      this.scheduleService.showSchedule(this.id_room_selected);
     }
   }
 
-  private viewSchedule(): void{
-    this.scheduleService.scheduleEmitter.subscribe(res => {
-      
-      if(res[0].schedule_room != null){
-        this.dataSource = JSON.parse(res[0].schedule_room);
-        
-        this.scheduleEdit = {
-          id_schedule: res[0].id_schedule,
-          id_room: res[0].id_room,
-          name_room: res[0].name_room,
-          shift: res[0].shift,
-          shift_time: JSON.parse(res[0].schedule_room),
-          active_schedule: null
+  private viewSchedule(): void {
+    this.subscription.push(
+      this.scheduleService.scheduleEmitter.subscribe(res => {
+
+        if (res[0].schedule_room != null) {
+          this.dataSource = JSON.parse(res[0].schedule_room);
+
+          this.scheduleEdit = {
+            id_schedule: res[0].id_schedule,
+            id_room: res[0].id_room,
+            name_room: res[0].name_room,
+            shift: res[0].shift,
+            shift_time: JSON.parse(res[0].schedule_room),
+            active_schedule: null
+          }
+
+          this.messageService.openSnackBar("Sucesso ao exibir horário!", "successMessage");
+        } else {
+          this.scheduleService.cleanSchedule();
+          this.messageService.openSnackBar("Não existe horário cadastrado para o filtro selecionado!", "alertMessage");
         }
-      
-        this.messageService.openSnackBar("Sucesso ao exibir horário!", "successMessage");
-      }else{
-        this.scheduleService.cleanSchedule();
-        this.messageService.openSnackBar("Não existe horário cadastrado para o filtro selecionado!", "alertMessage");
-      }
-    }, error => console.log(error));
-
+      }, error => this.messageService.openSnackBar(error.error, 'dangerMessage'))
+    )
   }
 
-  private cleanSchedule(): void{
-    this.scheduleService.cleanScheduleEmitter.subscribe(res => {
-      this.dataSource = res;
-      this.scheduleEdit.id_schedule = null;
-    });
+  private cleanSchedule(): void {
+    this.subscription.push(
+      this.scheduleService.cleanScheduleEmitter.subscribe(res => {
+        this.dataSource = res;
+        this.scheduleEdit.id_schedule = null;
+      })
+    )
   }
 
-  private verifyDataFilter(): boolean{
-    if(this.id_room_selected == undefined || this.shift_selected == "notSelected"){
+  private verifyDataFilter(): boolean {
+    if (this.id_room_selected == undefined || this.shift_selected == "notSelected") {
       this.messageService.openSnackBar("Dados do filtro não informado!", "alertMessage");
       return false;
     }
     return true;
   }
 
-  public editSchedule(): void{
+  public editSchedule(): void {
     // Mudar o modo de varificar. Não atribuir null ao obj. 
     if (this.scheduleEdit.id_schedule != null) {
       this.scheduleEdit.id_room = this.id_room_selected;
       this.scheduleEdit.shift = this.shift_selected;
       this.scheduleService.editSchedule(this.scheduleEdit);
-      this.router.navigate(['homeSchedule/edit']); 
-    }else{
+      this.router.navigate(['homeSchedule/edit']);
+    } else {
       this.messageService.openSnackBar("Horário não selecionado!", "dangerMessage");
     }
-    
+
   }
 
-  public openDialogDelete(): void{
+  public openDialogDelete(): void {
     let dialogRef = this.dialog.open(DialogDeleteItemComponent, {
       height: '20%',
       width: '30%',
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if(result){
+      if (result) {
         //this.deleteRoom(element.id_room);
         this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
       }
@@ -168,18 +178,18 @@ export class ListScheduleComponent implements OnInit {
 
   }
 
-  private deleteRoom(id_room: number): void{
-/* 
-    this.roomService.deleteRoom(id_room).subscribe( res => {   
-      this.rooms = this.removeElementArrayRooms(id_room);
-      this.dataSource = new MatTableDataSource<CrudRoom>(this.rooms);
-    
-    });  */
+  private deleteRoom(id_room: number): void {
+    /* 
+        this.roomService.deleteRoom(id_room).subscribe( res => {   
+          this.rooms = this.removeElementArrayRooms(id_room);
+          this.dataSource = new MatTableDataSource<CrudRoom>(this.rooms);
+        
+        });  */
   }
 
-  ngOnDestroy(): void{
-   /*  this.scheduleService.selectedShift('notSelected');
-    this.scheduleService.cleanSchedule(); */
+  ngOnDestroy(): void {
+    /*  this.scheduleService.selectedShift('notSelected');
+     this.scheduleService.cleanSchedule(); */
+    this.subscription.map(sub => sub.unsubscribe())
   }
- 
 }

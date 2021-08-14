@@ -50,10 +50,10 @@ const routes: Routes = [
   },
   { path: 'homeUser', component: MainComponent, 
     children: [
-    { path: 'list', component: ListUserComponent },
-    { path: 'new', component: FormUpdateCreateUserComponent },
-    { path: 'edit', component: FormUpdateCreateUserComponent },
-  ]
+      { path: 'list', component: ListUserComponent },
+      { path: 'new', component: FormUpdateCreateUserComponent },
+      { path: 'edit', component: FormUpdateCreateUserComponent },
+    ]
 },
 ];
 

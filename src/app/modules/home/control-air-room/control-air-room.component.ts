@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AirService } from 'src/app/core/services/air/air.service';
 
 import { ArduinoService } from 'src/app/core/services/arduino/arduino.service';
@@ -15,6 +16,15 @@ import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
 })
 export class ControlAirRoomComponent implements OnInit {
 
+  dataRoom: CardRoom;
+  current_temperature: number = 0;
+  current_state_cool: boolean = false;
+  current_state_fan: boolean = false;
+  temperature_min: number;
+  temperature_max: number;
+
+  private subscription: Subscription[] = [];
+
   constructor(
     private controlerService: ControlerService,
     private airService: AirService,
@@ -24,93 +34,94 @@ export class ControlAirRoomComponent implements OnInit {
     private modalLoading: ModalLoadingService
   ) { }
 
-  dataRoom: CardRoom;
-  current_temperature: number = 0;
-  current_state_cool: boolean = false;
-  current_state_fan: boolean = false;
-  temperature_min: number;
-  temperature_max: number;
 
-  
   ngOnInit(): void {
     this.airService.roomSelectedAir()
     this.selectedRoom();
   }
 
   public selectedRoom(): void {
-    this.roomService.cardRoomEmitter.subscribe((res) => {
-      this.dataRoom = res;
-      this.current_temperature = this.dataRoom.current_temperature_air;
-      this.temperature_min = this.dataRoom.temperature_min_air;
-      this.temperature_max = this.dataRoom.temperature_max_air;
-      this.current_state_cool = Boolean(this.dataRoom.state_cool_air);
-      this.current_state_fan = Boolean(this.dataRoom.state_fan_air);
-      
-    });
+    this.subscription.push(
+      this.roomService.cardRoomEmitter.subscribe(res => {
+        this.dataRoom = res;
+        this.current_temperature = this.dataRoom.current_temperature_air;
+        this.temperature_min = this.dataRoom.temperature_min_air;
+        this.temperature_max = this.dataRoom.temperature_max_air;
+        this.current_state_cool = Boolean(this.dataRoom.state_cool_air);
+        this.current_state_fan = Boolean(this.dataRoom.state_fan_air);
+      })
+    )
   }
 
   public turnUpAir(): void {
-    if(this.current_temperature < this.temperature_max){
+    if (this.current_temperature < this.temperature_max) {
       this.current_temperature++;
-    }else{
+    } else {
       this.messageService.openSnackBar("Temperatura máxima atingida!", "dangerMessage");
     }
   }
 
   public turnDownAir(): void {
-    if(this.current_temperature > this.temperature_min){
+    if (this.current_temperature > this.temperature_min) {
       this.current_temperature--;
-    }else{
+    } else {
       this.messageService.openSnackBar("Temperatura minima atingida!", "dangerMessage");
     }
   }
 
   public sendCommand(): void {
-    
+
     //Abre modal loading
-   // this.modalLoading.openDialogLoading();
+    // this.modalLoading.openDialogLoading();
 
     this.arduinoService.sendTemprature(
-      this.dataRoom.url_device_air, 
-      this.current_temperature, 
-      this.current_state_cool, 
+      this.dataRoom.url_device_air,
+      this.current_temperature,
+      this.current_state_cool,
       this.current_state_fan).subscribe((res) => {
         this.modalLoading.dialog.closeAll()
-    }, error => this.modalLoading.dialog.closeAll());
+      }, error => this.modalLoading.dialog.closeAll());
 
   }
 
-  public turnOn(): void{
+  public turnOn(): void {
     //Abre modal loading
-   // this.modalLoading.openDialogLoading();
+    // this.modalLoading.openDialogLoading();
 
-    this.airService.currentAirData(this.dataRoom.fk_id_air).subscribe( res => {
-     /*  this.current_temperature = res.current_temperature_air
-      this.current_state_cool = res.state_cool_air
-      this.current_state_fan = true//res.state_fan_air
-      console.log(res)
- */
-    })
+    this.subscription.push(
+      this.airService.currentAirData(this.dataRoom.fk_id_air).subscribe(res => {
+        /*  this.current_temperature = res.current_temperature_air
+          this.current_state_cool = res.state_cool_air
+          this.current_state_fan = true//res.state_fan_air
+          console.log(res)
+        */
+      })
+    )
+    this.subscription.push(
+      this.arduinoService.sendTurnOnShutdown(this.dataRoom.url_device_air, 'liga').subscribe(res => {
 
-
-    this.arduinoService.sendTurnOnShutdown(this.dataRoom.url_device_air,'liga').subscribe((res) => {
-      
-     // this.modalLoading.dialog.closeAll()
-    }, error => {
-    //  this.modalLoading.dialog.closeAll()
-    });
+        // this.modalLoading.dialog.closeAll()
+      }, error => {
+        //  this.modalLoading.dialog.closeAll()
+      })
+    )
   }
- 
 
-  public shutdown(): void{
+
+  public shutdown(): void {
     //Abre modal loading
-  //  this.modalLoading.openDialogLoading();
+    //  this.modalLoading.openDialogLoading();
 
-    this.arduinoService.sendTurnOnShutdown(this.dataRoom.url_device_air,'desliga').subscribe((res) => {
-     
-   //   this.modalLoading.dialog.closeAll()
-    }, error => {
-    //  this.modalLoading.dialog.closeAll()
-    });
+    this.subscription.push(
+      this.arduinoService.sendTurnOnShutdown(this.dataRoom.url_device_air, 'desliga').subscribe(res => {
+        //   this.modalLoading.dialog.closeAll()
+      }, error => {
+        //  this.modalLoading.dialog.closeAll()
+      })
+    )
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.map(sub => sub.unsubscribe())
   }
 }

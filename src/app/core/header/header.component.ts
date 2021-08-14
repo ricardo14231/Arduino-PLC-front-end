@@ -21,7 +21,6 @@ export class HeaderComponent implements OnInit {
   public btnMenu(): void{
     this.openedMenu = !this.openedMenu;
     this.openedMenuEmmiter.emit(this.openedMenu);
-    
   }
 
 }

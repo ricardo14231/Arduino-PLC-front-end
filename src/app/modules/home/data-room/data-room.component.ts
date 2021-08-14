@@ -1,5 +1,8 @@
+import { error } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ArduinoService } from 'src/app/core/services/arduino/arduino.service';
+import { MessageService } from 'src/app/core/services/message/message.service';
 import { RoomService } from 'src/app/core/services/room/room.service';
 import { Sensors } from 'src/app/shared/models/arduino/sensors.model';
 
@@ -10,13 +13,16 @@ import { Sensors } from 'src/app/shared/models/arduino/sensors.model';
 })
 export class DataRoomComponent implements OnInit {
 
-  constructor(
-    private arduinoService: ArduinoService,
-    private roomService: RoomService
-  ) { }
-
   sensors: Sensors;
   turn_on_air: boolean;
+
+  private subscription: Subscription[] = [];
+
+  constructor(
+    private arduinoService: ArduinoService,
+    private roomService: RoomService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.initObjSensors();
@@ -24,19 +30,25 @@ export class DataRoomComponent implements OnInit {
     this.roomInfo();
   }
 
-  public dataRoom(): void{
-    this.arduinoService.dataRoomEmitter.subscribe((res) => {
-      this.sensors = res.sensores;
-    });
+  public dataRoom(): void {
+    this.subscription.push(
+      this.arduinoService.dataRoomEmitter.subscribe(res => {
+        this.sensors = res.sensores;
+      },
+        error => this.messageService.openSnackBar(error.error, 'dangerMessage'))
+    )
   }
 
-  private roomInfo(): void{
-    this.roomService.cardRoomEmitter.subscribe((res) => {
-      this.turn_on_air = Boolean(res.turn_on_air);
-    });
+  private roomInfo(): void {
+    this.subscription.push(
+      this.roomService.cardRoomEmitter.subscribe(res => {
+        this.turn_on_air = Boolean(res.turn_on_air);
+      },
+        error => this.messageService.openSnackBar(error.error, 'dangerMessage'))
+    )
   }
 
-  private initObjSensors(): void{
+  private initObjSensors(): void {
     this.sensors = {
       'sHumidade': 0.0,
       'sPresenca': 0,
@@ -44,4 +56,7 @@ export class DataRoomComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.subscription.map(sub => sub.unsubscribe())
+  }
 }

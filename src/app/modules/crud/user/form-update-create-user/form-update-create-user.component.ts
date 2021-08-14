@@ -13,12 +13,12 @@ import { User } from 'src/app/shared/models/User/user.model';
 })
 export class FormUpdateCreateUserComponent implements OnInit {
 
-  public edit: boolean = false; 
-  public user: User;
-  public password: string;
-  public confirmPassword: string;
-  private subscription: Subscription[] = [];
+  edit: boolean = false;
+  user: User;
+  password: string;
+  confirmPassword: string;
 
+  private subscription: Subscription[] = [];
 
   constructor(
     private userService: UserService,
@@ -31,14 +31,14 @@ export class FormUpdateCreateUserComponent implements OnInit {
     this.editUser();
   }
 
-  public onSubmit(): void{
+  public onSubmit(): void {
 
-    if(this.checkPassword()) {
+    if (this.checkPassword()) {
       this.user.password = this.password;
-      
-      if(!this.edit && this.user.id_user == null){
+
+      if (!this.edit && this.user.id_user == null) {
         this.createUser();
-      }else{
+      } else {
         this.updateUser();
       }
     } else {
@@ -48,19 +48,27 @@ export class FormUpdateCreateUserComponent implements OnInit {
   }
 
   private updateUser(): void {
-    this.subscription.push( this.userService.updateUser(this.user).subscribe((res: User) => {
-      this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
-      this.router.navigate(['/homeUser/list']);
-    
-    }, error => this.messageService.openSnackBar(error.error, 'dangerMessage')));
+    this.subscription.push(
+      this.userService.updateUser(this.user).subscribe({
+        next: response => {
+          this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
+          this.router.navigate(['/homeUser/list']);
+        },
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+      })
+    )
   }
 
   private createUser(): void {
-    this.subscription.push( this.userService.createUser(this.user).subscribe((res => {
-      this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
-      this.router.navigate(['/homeUser/list']);
-
-    }), error => this.messageService.openSnackBar(error.error, 'dangerMessage')));
+    this.subscription.push(
+      this.userService.createUser(this.user).subscribe({
+        next: response => {
+          this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
+          this.router.navigate(['/homeUser/list']);
+        },
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+      })
+    )
   }
 
   private checkPassword(): boolean {
@@ -68,16 +76,16 @@ export class FormUpdateCreateUserComponent implements OnInit {
     return result;
   }
 
-  public editUser(): void{
-    this.subscription.push( this.userService.editUserEmitter.subscribe((res: User) => {
-      this.user = res;
-      this.edit = true;
-      this.router.navigate(['/homeUser/edit']);
-    }));
-
+  public editUser(): void {
+    this.subscription.push(
+      this.userService.editUserEmitter.subscribe((res: User) => {
+        this.user = res;
+        this.edit = true;
+        this.router.navigate(['/homeUser/edit']);
+      }));
   }
 
-  private initObjUser(): void{
+  private initObjUser(): void {
     this.user = {
       id_user: null,
       name_user: null,
@@ -87,11 +95,8 @@ export class FormUpdateCreateUserComponent implements OnInit {
       active_user: false
     };
   }
-  
-  ngOnDestroy(): void{
-    this.subscription.map(sub => {
-      sub.unsubscribe();
-    });
-  }
 
+  ngOnDestroy(): void {
+    this.subscription.map(sub => sub.unsubscribe())
+  }
 }

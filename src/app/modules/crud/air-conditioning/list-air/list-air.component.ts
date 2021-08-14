@@ -41,86 +41,98 @@ export class ListAirComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.subscription.push( 
-      this.pavilionService.listActivePavilion().subscribe((res: Pavilion[]) =>{
-      this.pavilions = res;
-      })
+    this.subscription.push(
+      this.pavilionService.listActivePavilion().subscribe({
+        next: responsePavilion => this.pavilions = responsePavilion,
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+      }),
     );
   }
 
-  public selectedPavilion(event): void{
-    
-    if(event.value != undefined){
-      if(event.value == "unallocatedAir"){
-        this.subscription.push( 
-          this.airService.listUnallocatedActiveAir().subscribe((res: Air[]) => {
-            this.setDataTable(res);
-          }, error => console.log(error))
-        );
-      }else
-      if(event.value == "listNotActiveAir"){
-        this.subscription.push( 
-          this.airService.listNotActiveAir().subscribe((res: Air[]) => {
-            this.setDataTable(res);
-          }, error => console.log(error))
-        );
+  public selectedPavilion(event): void {
+
+    if (event.value != undefined) {
+
+      if (event.value == "unallocatedAir") {
+        this.subscription.push(
+          this.airService.listUnallocatedActiveAir().subscribe({
+            next: responseAir => this.setDataTable(responseAir),
+            error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+          })
+        )
+      } else {
+        if (event.value == "listNotActiveAir") {
+          this.subscription.push(
+            this.airService.listNotActiveAir().subscribe({
+              next: responseAir => this.setDataTable(responseAir),
+              error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+            })
+          )
+        } else {
+          this.subscription.push(
+            this.airService.listAllocatedAirByIdPavilion(event.value).subscribe({
+              next: responseAir => this.setDataTable(responseAir),
+              error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+            })
+          )
+        }
       }
-      else{
-        this.subscription.push( 
-          this.airService.listAllocatedAirByIdPavilion(event.value).subscribe((res: Air[]) => {
-            this.setDataTable(res);
-          }, error => console.log(error))
-        );
-      }
-    }else{
+    } else {
       this.setDataTable([]);
     }
-
   }
 
   private setDataTable(data: Air[]): void {
     this.dataSource = new MatTableDataSource<Air>(data);
-    this.dataSource.paginator = this.paginator;    
+    this.dataSource.paginator = this.paginator;
     this.airs = data;
   }
 
-  public openDialogDelete(element): void{
+  public openDialogDelete(element): void {
     let dialogRef = this.dialog.open(DialogDeleteItemComponent, {
       height: '20%',
       width: '30%',
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if(result){
+      if (result) {
         this.deleteAir(element.id_air);
-        this.messageService.openSnackBar('Sucesso na operação!', 'successMessage'); 
+        this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
       }
     });
 
   }
 
-  private deleteAir(id_air: number): void{
-    this.airService.deleteAir(id_air).subscribe( res => {
-      this.airs = this.removeElementArrayAir(id_air);
-      this.dataSource = new MatTableDataSource<Air>(this.airs);
-    }); 
+  private deleteAir(id_air: number): void {
+    this.subscription.push(
+      this.airService.deleteAir(id_air).subscribe({
+        next: response => {
+          this.airs = this.removeElementArrayAir(id_air);
+          this.dataSource = new MatTableDataSource<Air>(this.airs);
+        },
+        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+      })
+    );
   }
 
-  private removeElementArrayAir(id_air: number): any{
+  private removeElementArrayAir(id_air: number): any {
     let newArrayAir: Air[] = [];
-    
+
     this.airs.map((r) => {
-      if(r.id_air != id_air){
+      if (r.id_air != id_air) {
         newArrayAir.push(r);
       }
     });
 
     return newArrayAir;
-  } 
+  }
 
-  public editAir(element): void{
+  public editAir(element): void {
     this.airService.editAir(element);
     this.router.navigate(['homeAir/edit']);
   }
 
+  ngOnDestroy(): void {
+    this.subscription.map(sub => sub.unsubscribe())
+  }
 }
