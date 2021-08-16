@@ -1,54 +1,57 @@
 <div class="container-crud">
-    <span class="title-container-crud">Pavilhão</span>
-    <div class="btn-nav">
-        <button mat-raised-button color="primary" class="newItem" routerLink="/homePavilion/new"> <img src="assets/crud/add_circle.svg"> Novo</button>
+  <span class="title-container-crud">Pavilhão</span>
+  <div class="btn-nav">
+    <button mat-raised-button color="primary" class="newItem" routerLink="/homePavilion/new"> <img
+        src="assets/crud/add_circle.svg"> Novo</button>
+  </div>
+  <fieldset>
+    <legend>Lista</legend>
+    <div class="mat-elevation-z2">
+      <table mat-table [dataSource]="dataSource">
+
+        <!-- id Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> Id. </th>
+          <td mat-cell *matCellDef="let element"> {{element.idPavilion}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Nome </th>
+          <td mat-cell *matCellDef="let element"> {{element.namePavilion}} </td>
+        </ng-container>
+
+        <!-- amount_room Column -->
+        <ng-container matColumnDef="amountRoom">
+          <th mat-header-cell *matHeaderCellDef> Qtd. Salas </th>
+          <td mat-cell *matCellDef="let element"> {{element.amountRoomPavilion}} </td>
+        </ng-container>
+
+        <!-- active Column -->
+        <ng-container matColumnDef="active">
+          <th mat-header-cell *matHeaderCellDef> Ativo </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox [checked]="element.activePavilion" disabled="true"></mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Ações </th>
+          <td mat-cell *matCellDef="let element">
+            <img src="assets/crud/edit.svg" class="imgEdit" alt="Editar" title="Editar" (click)="editPavilion(element)">
+            <img src="assets/crud/delete.svg" class="imgDelete" alt="Deletar" title="Deletar"
+              (click)="openDialogDelete(element)">
+            <img src="assets/crud/description.svg" class="imgDescription" alt="Detalhe" title="Detalhe">
+
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
     </div>
-      <fieldset>
-          <legend>Lista</legend>
-          <div class="mat-elevation-z2">
-              <table mat-table [dataSource]="dataSource">
-            
-                <!-- id Column -->
-                <ng-container matColumnDef="id">
-                  <th mat-header-cell *matHeaderCellDef> Id. </th>
-                  <td mat-cell *matCellDef="let element"> {{element.id_pavilion}} </td>
-                </ng-container>
-            
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef> Nome </th>
-                  <td mat-cell *matCellDef="let element"> {{element.name_pavilion}} </td>
-                </ng-container>
-            
-                <!-- amount_room Column -->
-                <ng-container matColumnDef="amount_room">
-                  <th mat-header-cell *matHeaderCellDef> Qtd. Salas </th>
-                  <td mat-cell *matCellDef="let element"> {{element.amount_room_pavilion}} </td>
-                </ng-container>
-            
-                <!-- active Column -->
-                <ng-container matColumnDef="active">
-                  <th mat-header-cell *matHeaderCellDef> Ativo </th>
-                  <td mat-cell *matCellDef="let element"> <mat-checkbox [checked]="element.active_pavilion" disabled="true"></mat-checkbox> </td>
-                </ng-container>
-
-                <!-- actions Column -->
-                <ng-container matColumnDef="actions">
-                  <th mat-header-cell *matHeaderCellDef> Ações </th>
-                  <td mat-cell *matCellDef="let element"> 
-                      <img src="assets/crud/edit.svg" class="imgEdit" alt="Editar" title="Editar" (click)="editPavilion(element)">
-                      <img src="assets/crud/delete.svg" class="imgDelete" alt="Deletar" title="Deletar" (click)="openDialogDelete(element)">
-                      <img src="assets/crud/description.svg" class="imgDescription" alt="Detalhe" title="Detalhe">
-
-                  </td>
-                </ng-container>
-            
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-            
-              <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
-          </div>
-      </fieldset>
-  
+  </fieldset>
 </div>

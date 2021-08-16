@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogDeleteItemComponent } from './dialog-delete-item.component';
+import { FieldSelectComponent } from './field-select.component';
 
-describe('DialogDeleteItemComponent', () => {
-  let component: DialogDeleteItemComponent;
-  let fixture: ComponentFixture<DialogDeleteItemComponent>;
+describe('FieldSelectComponent', () => {
+  let component: FieldSelectComponent;
+  let fixture: ComponentFixture<FieldSelectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogDeleteItemComponent ]
+      declarations: [ FieldSelectComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DialogDeleteItemComponent);
+    fixture = TestBed.createComponent(FieldSelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

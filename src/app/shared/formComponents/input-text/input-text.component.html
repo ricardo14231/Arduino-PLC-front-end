@@ -1,0 +1,12 @@
+
+<div [formGroup]="formGroup">
+    <mat-form-field class="name">
+        <mat-label>{{ fieldName }}</mat-label>
+        <input matInput [placeholder]="fieldName" [id]="fieldIdentify" [name]="fieldIdentify" [formControlName]="fieldIdentify">
+
+        <mat-error *ngIf="formControl.errors?.required">{{ validationTextField.requiredTextField() }}</mat-error>
+        <mat-error *ngIf="formControl.errors?.minlength">{{ validationTextField.textMinLength( formControl.errors.minlength.requiredLength ) }}</mat-error>
+        <mat-error *ngIf="formControl.errors?.maxlength">{{ validationTextField.textMaxLength( formControl.errors.maxlength.requiredLength ) }}</mat-error>
+    </mat-form-field>
+
+</div>

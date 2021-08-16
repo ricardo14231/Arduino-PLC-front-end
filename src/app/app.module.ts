@@ -16,7 +16,7 @@ import { DialogLoadingComponent } from './core/dialog-loading/dialog-loading.com
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

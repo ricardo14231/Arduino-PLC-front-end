@@ -17,6 +17,7 @@ import { ListScheduleComponent } from './schedule/list-schedule/list-schedule.co
 import { TableScheduleComponent } from './schedule/table-schedule/table-schedule.component';
 import { ListUserComponent } from './user/list-user/list-user.component';
 import { FormUpdateCreateUserComponent } from './user/form-update-create-user/form-update-create-user.component';
+import { FormComponentsModule } from 'src/app/shared/formComponents/form-components.module';
 
 const crudComponent = [ 
     MainComponent,
@@ -26,19 +27,25 @@ const crudComponent = [
     FormUpdateCreateRoomComponent,
     DialogDeleteItemComponent,
     FormUpdateCreateAirComponent, 
-    ListAirComponent 
+    ListAirComponent,
+    FormUpdateCreateScheduleComponent,
+    ListScheduleComponent,
+    TableScheduleComponent,
+    ListUserComponent,
+    FormUpdateCreateUserComponent
 ]
 
 @NgModule({
   declarations: [ 
-    crudComponent, FormUpdateCreateScheduleComponent, ListScheduleComponent, TableScheduleComponent, ListUserComponent, FormUpdateCreateUserComponent, 
+    crudComponent
   ],
   imports: [
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    CommonModule
+    CommonModule,
+    FormComponentsModule
   ],
   providers: [],
   exports: [

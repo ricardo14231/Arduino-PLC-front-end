@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
@@ -16,40 +16,37 @@ export class PavilionService {
   ) { }
 
   private readonly API = environment.API_APP;
-  
-  @Output()
-  public editPavilionEmitter = new EventEmitter<Pavilion>();
 
+  editPavilionEmitter = new EventEmitter<Pavilion>();
 
-  public listAllPavilion(): Observable<Pavilion[]>{
+  listAllPavilion(): Observable<Pavilion[]> {
     return this.http.get<Pavilion[]>(`${this.API}listAllPavilion`);
   }
 
-  public listActivePavilion(): Observable<Pavilion[]>{
+  listActivePavilion(): Observable<Pavilion[]> {
     return this.http.get<Pavilion[]>(`${this.API}listActivePavilion`);
   }
 
-  public createPavilion(pavilion): Observable<Pavilion>{
+  createPavilion(pavilion: Pavilion): Observable<Pavilion> {
     return this.http.post<Pavilion>(`${this.API}createPavilion`, pavilion);
   }
 
-  public deletePavlion(id_pavilion): Observable<Pavilion>{
-    return this.http.delete<Pavilion>(`${this.API}deletePavilion/${id_pavilion}`);
+  deletePavlion(idPavilion: number): Observable<any> {
+    return this.http.delete<any>(`${this.API}deletePavilion/${idPavilion}`);
   }
 
-  public updatePavlion(pavilion): Observable<Pavilion>{
-    return this.http.put<Pavilion>(`${this.API}updatePavilion`, pavilion);
+  updatePavlion(pavilion: Pavilion): Observable<any> {
+    return this.http.put<any>(`${this.API}updatePavilion`, pavilion);
   }
 
-  public editPavilion(pavilion: Pavilion): void{
-    
+  editPavilion(pavilion: Pavilion): void {
+
     /*
       Atualizar os dados na tela sem o delay
     */
-    setTimeout(()=>{    
-      this.editPavilionEmitter.emit(pavilion); 
+    setTimeout(() => {
+      this.editPavilionEmitter.emit(pavilion);
 
     }, 200)
   }
-
 }

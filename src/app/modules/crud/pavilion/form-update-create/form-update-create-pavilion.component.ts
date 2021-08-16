@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MessageService } from 'src/app/core/services/message/message.service';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
+import { ValidationTextFieldsService } from 'src/app/core/services/validationTextFields/validation-text-fields.service';
 import { Pavilion } from 'src/app/shared/models/pavilion.model';
 
 @Component({
@@ -16,26 +18,41 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
     private pavilionService: PavilionService,
     private router: Router,
     private messageService: MessageService,
+    private formBuider: FormBuilder,
+    public validationTextField: ValidationTextFieldsService
   ) { }
 
-  @Input()
-  public pavilion: Pavilion;
+  edit: boolean = false;
+  pavilionForm: FormGroup;
 
-  public edit: boolean = false;
-
+  private pavilion: Pavilion;
+  private _idPavilionEdit: number = null;
   private subscription: Subscription[] = [];
 
   ngOnInit(): void {
     this.initObjPavilion();
     this.editPavilion();
+    this.createFormControl(this.pavilion);
   }
 
-  public onSubmit(): void {
+  get controlsForm() {
+    return this.pavilionForm.controls;
+  }
 
-    if (!this.edit && this.pavilion.id_pavilion == null) {
+  createFormControl(pavilion: Pavilion) {
+    this.pavilionForm = this.formBuider.group({
+      namePavilion: [pavilion.namePavilion, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      amountRoomPavilion: [pavilion.amountRoomPavilion, [Validators.required, Validators.min(0), Validators.max(10000)]],
+      activePavilion: [pavilion.activePavilion]
+    });
+  }
+
+  onSave(): void {
+
+    if (!this.edit && this._idPavilionEdit == null) {
       this.subscription.push(
-        this.pavilionService.createPavilion(this.pavilion).subscribe({
-          next: response => {
+        this.pavilionService.createPavilion(this.pavilionForm.value).subscribe({
+          next: () => {
             this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
             this.router.navigate(['/homePavilion/list']);
           },
@@ -43,7 +60,10 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
         })
       )
     } else {
-      this.subscription.push(this.pavilionService.updatePavlion(this.pavilion).subscribe((res => {
+      this.pavilion = this.pavilionForm.getRawValue() as Pavilion;
+      this.pavilion.idPavilion = this._idPavilionEdit;
+
+      this.subscription.push(this.pavilionService.updatePavlion(this.pavilion).subscribe((() => {
         this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
         this.router.navigate(['/homePavilion/list']);
 
@@ -51,25 +71,28 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
     }
   }
 
-  public editPavilion(): void {
+  resetForm(): void {
+    this.pavilionForm.reset();
+  }
 
-    this.subscription.push(this.pavilionService.editPavilionEmitter.subscribe((res: Pavilion) => {
-      this.pavilion = res;
+  editPavilion(): void {
+
+    this.subscription.push(this.pavilionService.editPavilionEmitter.subscribe((responsePavilion: Pavilion) => {
+      this._idPavilionEdit = responsePavilion.idPavilion;
+
+      this.createFormControl(responsePavilion);
       this.edit = true;
-      this.router.navigate(['/homePavilion/edit']);
     }));
-
   }
 
   private initObjPavilion(): void {
     this.pavilion = {
-      id_pavilion: null,
-      name_pavilion: "",
-      amount_room_pavilion: null,
-      active_pavilion: false
+      idPavilion: null,
+      namePavilion: "",
+      amountRoomPavilion: 0,
+      activePavilion: true
     };
   }
-
 
   ngOnDestroy(): void {
     this.subscription.map(sub => sub.unsubscribe())

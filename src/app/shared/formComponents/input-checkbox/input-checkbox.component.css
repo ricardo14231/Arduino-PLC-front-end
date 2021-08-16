@@ -1,0 +1,9 @@
+.active{
+    position: relative;
+    top: 20px;
+}
+
+.active ::ng-deep.mat-checkbox{
+    position: relative;
+    left: 5px;
+}

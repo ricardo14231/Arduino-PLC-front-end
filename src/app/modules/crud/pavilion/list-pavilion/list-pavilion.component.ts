@@ -21,7 +21,7 @@ export class ListPavilionComponent implements OnInit {
   private subscription: Subscription[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['id', 'name', 'amount_room', 'active', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'amountRoom', 'active', 'actions'];
   dataSource: MatTableDataSource<Pavilion>;
 
 
@@ -60,17 +60,19 @@ export class ListPavilionComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.deletePavilion(element.id_pavilion);
-        this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
+        this.deletePavilion(element.idPavilion);
       }
     });
 
   }
 
-  private deletePavilion(id_pavilion: number): void {
+  private deletePavilion(idPavilion: number): void {
     this.subscription.push(
-      this.pavilionService.deletePavlion(id_pavilion).subscribe({
-        next: response => this.listAllPavilion(),
+      this.pavilionService.deletePavlion(idPavilion).subscribe({
+        next: () => {
+          this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
+          this.listAllPavilion();
+        },
         error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
       })
     )
@@ -84,5 +86,4 @@ export class ListPavilionComponent implements OnInit {
   ngOnDestroy(): void {
     this.subscription.map(sub => sub.unsubscribe())
   }
-
 }
