@@ -1,23 +1,24 @@
 <div class="container-crud">
     <span class="title-container-crud">Pavilhão</span>
     <div class="btn-nav">
-        <button mat-raised-button color="primary" class="newItem" routerLink="/homePavilion/list"> <img
+        <button mat-raised-button color="primary" class="newItem" (click)="cancelForm()"> <img
                 src="assets/crud/list.svg"> Lista </button>
     </div>
 
     <fieldset>
-        <legend> {{ edit ? "Atualizar Pavilhão" : "Novo Pavilhão" }} </legend>
+        <legend> {{ pavilionService.edit ? "Atualizar" : "Novo" }} </legend>
         <form autocomplete="off" novalidate class="pavilionForm" [formGroup]="pavilionForm" (ngSubmit)="onSave()"
             (ngReset)="resetForm()">
 
             <app-input-text fieldName="Nome" fieldIdentify="namePavilion" [formGroup]="pavilionForm"></app-input-text>
 
-            <app-input-number fieldName="Qtd. Salas" fieldIdentify="amountRoomPavilion" [formGroup]="pavilionForm"></app-input-number>
+            <app-input-number fieldName="Qtd. Salas" fieldIdentify="amountRoomPavilion" [formGroup]="pavilionForm">
+            </app-input-number>
 
             <app-input-checkbox fieldIdentify="activePavilion" [formGroup]="pavilionForm"></app-input-checkbox>
 
             <div class="btnActionForm">
-                <button mat-raised-button color="warn" type="reset" class="cancel" routerLink="/homePavilion/list">
+                <button mat-raised-button color="warn" type="reset" class="cancel" (click)="cancelForm()">
                     <img src="assets/crud/cancel.svg"> Cancelar </button>
                 <button mat-raised-button color="primary" type="submit" class="save" [disabled]="!pavilionForm.valid">
                     <img src="assets/crud/save.svg"> Salvar </button>

@@ -8,7 +8,6 @@ import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service
 import { Pavilion } from 'src/app/shared/models/pavilion.model';
 import { DialogDeleteItemComponent } from '../../dialog-delete-item/dialog-delete-item.component';
 import { MessageService } from 'src/app/core/services/message/message.service';
-import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -17,8 +16,6 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./list-pavilion.component.css']
 })
 export class ListPavilionComponent implements OnInit {
-
-  private subscription: Subscription[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns: string[] = ['id', 'name', 'amountRoom', 'active', 'actions'];
@@ -33,23 +30,18 @@ export class ListPavilionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  }
-
-
-  ngAfterViewInit() {
     this.listAllPavilion();
   }
 
   private listAllPavilion() {
-    this.subscription.push(
-      this.pavilionService.listAllPavilion().subscribe({
-        next: responsePavilion => {
-          this.dataSource = new MatTableDataSource<Pavilion>(responsePavilion);
-          this.dataSource.paginator = this.paginator;
-        },
-        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
-      })
-    )
+
+    this.pavilionService.listAllPavilion().subscribe({
+      next: responsePavilion => {
+        this.dataSource = new MatTableDataSource<Pavilion>(responsePavilion);
+        this.dataSource.paginator = this.paginator;
+      },
+      error: () => this.messageService.openSnackBar("Erro ao listar pavilhões!", 'dangerMessage')
+    })
   }
 
   public openDialogDelete(element): void {
@@ -63,27 +55,22 @@ export class ListPavilionComponent implements OnInit {
         this.deletePavilion(element.idPavilion);
       }
     });
-
   }
 
   private deletePavilion(idPavilion: number): void {
-    this.subscription.push(
-      this.pavilionService.deletePavlion(idPavilion).subscribe({
-        next: () => {
-          this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
-          this.listAllPavilion();
-        },
-        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
-      })
-    )
+
+    this.pavilionService.deletePavlion(idPavilion).subscribe({
+      next: () => {
+        this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
+        this.listAllPavilion();
+      },
+      error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+    })
   }
 
   public editPavilion(element): void {
-    this.pavilionService.editPavilion(element);
+    this.pavilionService.pavilion = element;
     this.router.navigate(['homePavilion/edit']);
   }
 
-  ngOnDestroy(): void {
-    this.subscription.map(sub => sub.unsubscribe())
-  }
 }

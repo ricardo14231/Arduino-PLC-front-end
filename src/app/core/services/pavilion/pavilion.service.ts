@@ -1,10 +1,11 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { Pavilion } from 'src/app/shared/models/pavilion.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,9 @@ export class PavilionService {
   ) { }
 
   private readonly API = environment.API_APP;
-
-  editPavilionEmitter = new EventEmitter<Pavilion>();
+  private _pavilion: Pavilion;
+  private _isEdit: boolean;
+  @Output() responseOnSave = new Subject<any>();
 
   listAllPavilion(): Observable<Pavilion[]> {
     return this.http.get<Pavilion[]>(`${this.API}listAllPavilion`);
@@ -27,7 +29,7 @@ export class PavilionService {
     return this.http.get<Pavilion[]>(`${this.API}listActivePavilion`);
   }
 
-  createPavilion(pavilion: Pavilion): Observable<Pavilion> {
+  private createPavilion(pavilion: Pavilion): Observable<Pavilion> {
     return this.http.post<Pavilion>(`${this.API}createPavilion`, pavilion);
   }
 
@@ -35,18 +37,44 @@ export class PavilionService {
     return this.http.delete<any>(`${this.API}deletePavilion/${idPavilion}`);
   }
 
-  updatePavlion(pavilion: Pavilion): Observable<any> {
+  private updatePavlion(pavilion: Pavilion): Observable<any> {
     return this.http.put<any>(`${this.API}updatePavilion`, pavilion);
   }
 
-  editPavilion(pavilion: Pavilion): void {
-
-    /*
-      Atualizar os dados na tela sem o delay
-    */
-    setTimeout(() => {
-      this.editPavilionEmitter.emit(pavilion);
-
-    }, 200)
+  get pavilion() {
+    return this._pavilion
   }
+  
+  set pavilion(value: Pavilion) {
+    this._isEdit = true
+    this._pavilion = value;
+  }
+
+  get edit(): boolean {
+    return this._isEdit;
+  }
+
+  set edit(value: boolean) {
+    this._isEdit = value;
+  }
+
+  onSave(pavilion: Pavilion): void {
+    if(this._isEdit) {
+      this.updatePavlion(pavilion).subscribe({
+        next: responsePavilion => {
+          this.responseOnSave.next(responsePavilion);
+          this._isEdit = false;
+        },
+        error: err => this.responseOnSave.error(err)
+      })
+    } else {
+      this.createPavilion(pavilion).subscribe({
+        next: responsePavilion => {
+          this.responseOnSave.next(responsePavilion);          
+        },
+        error: err => this.responseOnSave.error(err)
+      })
+    }
+  } 
+
 }
