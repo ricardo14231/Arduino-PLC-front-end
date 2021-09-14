@@ -1,10 +1,9 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
-import { CrudRoom } from 'src/app/shared/models/room/crudRoom.model';
-
+import { RoomModel } from 'src/app/shared/models/room/RoomModel.model';
 
 
 @Injectable({
@@ -18,16 +17,20 @@ export class RoomService {
   
   private readonly API = environment.API_APP;
 
+  private _room: RoomModel;
+  private _edit: boolean = false;
+  @Output() responseOnSave = new Subject<any>();
+
   roomsEmitter: EventEmitter<CardRoom[]> = new EventEmitter();
-  roomEmitter: EventEmitter<CrudRoom> = new EventEmitter();
+  roomEmitter: EventEmitter<RoomModel> = new EventEmitter();
   cardRoomEmitter: EventEmitter<CardRoom> = new EventEmitter();
 
-  public readRoomByIdPavilion(id_pavilion: number): Observable<CardRoom[]>{
-    return this.http.get<CardRoom[]>(`${this.API}readRoomByIdPavilion/${id_pavilion}`)
+  public readRoomByIdPavilion(idPavilion: number): Observable<CardRoom[]>{
+    return this.http.get<CardRoom[]>(`${this.API}readRoomByIdPavilion/${idPavilion}`)
   }
 
-  public readCrudRoomByIdPavilion(id_pavilion: number): Observable<CrudRoom[]>{
-    return this.http.get<CrudRoom[]>(`${this.API}readCrudRoomByIdPavilion/${id_pavilion}`)
+  public readCrudRoomByIdPavilion(idPavilion: number): Observable<RoomModel[]>{
+    return this.http.get<RoomModel[]>(`${this.API}readCrudRoomByIdPavilion/${idPavilion}`)
   }
 
   public listAllRoom(): Observable<CardRoom[]>{
@@ -38,22 +41,22 @@ export class RoomService {
     return this.http.get<CardRoom[]>(`${this.API}listActiveRoom`);
   }
 
-  public createRoom(room: CrudRoom): Observable<any> {
+  public createRoom(room: RoomModel): Observable<any> {
     return this.http.post<any>(`${this.API}createRoom`, room);
   }
 
-  public updateRoom(room: CrudRoom): Observable<any> {
+  public updateRoom(room: RoomModel): Observable<any> {
     return this.http.put<any>(`${this.API}updateRoom`, room);
   }
 
-  public deleteRoom(id_room: number): Observable<any> {
-    return this.http.delete<any>(`${this.API}deleteRoom/${id_room}`);
+  public deleteRoom(idRoom: number): Observable<any> {
+    return this.http.delete<any>(`${this.API}deleteRoom/${idRoom}`);
   }
 
-  public selectedPavilion(id_pavilion: number){
+  public selectedPavilion(idPavilion: number){
 
-    if(id_pavilion != -1){
-      this.readRoomByIdPavilion(id_pavilion).subscribe(res => {   
+    if(idPavilion != -1){
+      this.readRoomByIdPavilion(idPavilion).subscribe(res => {   
         this.roomsEmitter.emit(res);
         
       }), error => { error.error };
@@ -61,6 +64,22 @@ export class RoomService {
       this.cleanRooms();
     }
     
+  }
+
+  onSave(room: RoomModel) {
+    if(this._edit) {
+      this.updateRoom(room).subscribe({ 
+        next: responseRoom => {
+          this.responseOnSave.next(responseRoom);
+          this._edit = false;
+        }, error: err => this.responseOnSave.error(err)
+      })
+    } else {
+      this.createRoom(room).subscribe({
+        next: responseRoom => this.responseOnSave.next(responseRoom),
+        error: err => this.responseOnSave.error(err)
+      })
+    }
   }
 
   public selectedRoom(room): void{
@@ -71,7 +90,7 @@ export class RoomService {
     this.roomsEmitter.emit();
   }
 
-  public editRoom(room: CrudRoom): void{
+  public editRoom(room: RoomModel): void{
     
     //Verificar pq não está atualizando os dados da tela sem o delay
     setTimeout(()=>{ 
@@ -79,4 +98,21 @@ export class RoomService {
     }, 200)
   }
 
+
+  get room(): RoomModel {
+    return this._room;
+  }
+
+  set room(value: RoomModel) {
+    this._edit = true;
+    this._room = value;
+  }
+
+  get edit(): boolean {
+    return this._edit;
+  }
+
+  set edit(value: boolean) {
+    this._edit = value;
+  }
 }

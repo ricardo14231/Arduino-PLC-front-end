@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { ValidationTextFieldsService } from 'src/app/core/services/validationTextFields/validation-text-fields.service';
+
 
 @Component({
   selector: 'app-input-checkbox',
@@ -13,9 +13,7 @@ export class InputCheckboxComponent {
 
   @Input() fieldIdentify: string
 
-  constructor(
-    public validationTextField: ValidationTextFieldsService
-  ) { }
+  constructor() { }
 
   get formControl(): AbstractControl {
     return this.formGroup.controls[this.fieldIdentify];

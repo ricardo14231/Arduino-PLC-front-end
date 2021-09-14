@@ -42,11 +42,11 @@ export class PavilionService {
   }
 
   get pavilion() {
-    return this._pavilion
+    return this._pavilion;
   }
   
   set pavilion(value: Pavilion) {
-    this._isEdit = true
+    this._isEdit = true;
     this._pavilion = value;
   }
 

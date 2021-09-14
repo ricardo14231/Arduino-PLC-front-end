@@ -1,7 +1,8 @@
 div {
     display: inline-block;
 }
-
+ 
 .name{
     width: 400px;
+    top: 10px;
 }

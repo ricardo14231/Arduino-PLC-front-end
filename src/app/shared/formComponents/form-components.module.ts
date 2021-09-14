@@ -13,12 +13,12 @@ const moduleComponents = [
   InputNumberComponent,
   InputPasswordComponent,
   InputCheckboxComponent,
+  FieldSelectComponent
 ] 
 
 @NgModule({
   declarations: [
     moduleComponents,
-    FieldSelectComponent
   ],
   imports: [
     CommonModule,

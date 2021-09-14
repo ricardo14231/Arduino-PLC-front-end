@@ -1,13 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+
 import { AirService } from 'src/app/core/services/air/air.service';
 import { MessageService } from 'src/app/core/services/message/message.service';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
 import { RoomService } from 'src/app/core/services/room/room.service';
 import { Air } from 'src/app/shared/models/air/listAir.model';
+import { FieldsSelect } from 'src/app/shared/models/fieldSelect/fieldsSelect.model';
 import { Pavilion } from 'src/app/shared/models/pavilion.model';
-import { CrudRoom } from 'src/app/shared/models/room/crudRoom.model';
+import { RoomModel } from 'src/app/shared/models/room/RoomModel.model';
 
 @Component({
   selector: 'app-form-update-create',
@@ -16,41 +19,88 @@ import { CrudRoom } from 'src/app/shared/models/room/crudRoom.model';
 })
 export class FormUpdateCreateRoomComponent implements OnInit {
 
-  @Input()
-  public room: CrudRoom;
+  roomForm: FormGroup;
 
-  @Input()
-  public pavilions: Pavilion[];
-  @Input()
-  public airs;
+  @Input() public room: RoomModel;
 
-  public edit: boolean = false;
+  fieldsSelectPavilion: FieldsSelect[] = [];
+  fieldsSelectAirUnallocated: FieldsSelect[] = [];
+  @Input() public airs;
+
+  private _idRoomEdit: number;
   private subscription: Subscription[] = [];
 
   constructor(
     private pavilionSevice: PavilionService,
     private airService: AirService,
-    private roomService: RoomService,
+    public roomService: RoomService,
     private router: Router,
+    private formBuilder: FormBuilder,
     private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
     this.initObjRoom();
+    this.createFormRoom(this.room);
     this.newRoomLoadPavilionAndAir();
-    this.editRoom();
-    this.initCheckedActiveRoom();
+    
+    //this.editRoom();
 
+    if(this.roomService.edit) {
+      
+      this.room = this.roomService.room;
+      this._idRoomEdit = this.room.idRoom;
+      this.roomForm.patchValue({
+        fkIdPavilion: this.room.fkIdPavilion,
+        fkIdAir: this.room.fkIdAir,
+        fkIdNewAir: this.room.fkIdNewAir,
+        nameRoom: this.room.nameRoom,
+        namePavilion: this.room.namePavilion,
+        nameAir: this.room.nameAir,
+        activeRoom: this.room.activeRoom
+      });
+    }
+   
   }
 
-  public onSubmit(form): void {
+  createFormRoom(room: RoomModel) {
+    this.roomForm = this.formBuilder.group({
+      fkIdPavilion: [room.fkIdPavilion, [Validators.required]],
+      fkIdAir: [room.fkIdAir],
+      fkIdNewAir: [room.fkIdNewAir/* , [Validators.required, Validators.min(0)] */],
+      nameRoom: [room.nameRoom,[Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      namePavilion: [room.namePavilion],
+      nameAir: [room.nameAir],
+      activeRoom: [room.activeRoom]
+    });
+  }
+
+  onSave() {
+    
+    this.room = this.roomForm.getRawValue() as RoomModel;
+     console.log(this.room)
+     
+    /* if (this._idRoomEdit !== null)
+      this.room.idRoom = this._idRoomEdit;
+
+    this.roomService.onSave(this.room);
+
+    this.subscription.push(this.roomService.responseOnSave.subscribe(() => {
+      this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
+      this.router.navigate(['/homeRoom/list']);
+
+    }, () => this.messageService.openSnackBar('Erro ao salvar a sala!', 'dangerMessage')
+    ))  */
+  }
+
+  /* public onSubmit(form): void {
 
     this.validateUpdateRoom(form);
 
-    if (!this.edit && this.room.id_room == null) {
+    if (!this.edit && this.room.idRoom == null) {
       this.subscription.push(
         this.roomService.createRoom(this.room).subscribe({
-          next: response => {
+          next: () => {
             this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
             this.router.navigate(['/homeRoom/list']);
           },
@@ -60,7 +110,7 @@ export class FormUpdateCreateRoomComponent implements OnInit {
     } else {
       this.subscription.push(
         this.roomService.updateRoom(this.room).subscribe({
-          next: response => {
+          next: () => {
             this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
             this.router.navigate(['/homeRoom/list']);
           },
@@ -68,78 +118,87 @@ export class FormUpdateCreateRoomComponent implements OnInit {
         })
       )
     }
-  }
+  } */
+
+
 
   //Carrega os Selects do formulário
   public newRoomLoadPavilionAndAir(): void {
-    this.subscription.push(
-      this.pavilionSevice.listActivePavilion().subscribe({
-        next: responsePavilion => this.pavilions = responsePavilion,
-        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
-      })
-    );
-
-    this.subscription.push(
-      this.airService.listUnallocatedActiveAir().subscribe({
-        next: responseAir => this.airs = responseAir,
-        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
-      })
-    );
+   
+    this.pavilionSevice.listActivePavilion().subscribe({
+      next: responsePavilion => this.valueFieldSelectPavilion(responsePavilion),
+      error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+    });
+  
+    this.airService.listUnallocatedActiveAir().subscribe({
+      next: responseAir => this.valueFieldSelectUnallocatedActiveAir(responseAir),
+      error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+    });
   }
-
+/* 
   public editRoom(): void {
     this.subscription.push(
-      this.roomService.roomEmitter.subscribe((res: CrudRoom) => {
-        this.room.id_room = res.id_room;
-        this.room.name_room = res.name_room;
-        this.room.name_air = res.name_air;
-        this.room.fk_id_pavilion = res.fk_id_pavilion;
-        this.room.fk_id_air = res.fk_id_air;
-        this.room.active_room = res.active_room;
-
+      this.roomService.roomEmitter.subscribe((response: RoomModel) => {
+       
         this.edit = true;
       })
     );
-  }
+  } */
 
   private initObjRoom(): void {
     this.room = {
-      id_room: null,
-      fk_id_pavilion: null,
-      fk_id_air: null,
-      fk_id_new_air: null,
-      name_room: null,
-      name_pavilion: null,
-      name_air: null,
-      active_room: false
+      idRoom: null,
+      fkIdPavilion: null,
+      fkIdAir: null,
+      fkIdNewAir: null,
+      nameRoom: null,
+      namePavilion: null,
+      nameAir: null,
+      activeRoom: false
     };
-  }
-
-  private initCheckedActiveRoom(): void {
-    if (!this.edit || this.room.active_room) {
-      this.room.active_room = true;
-    } else {
-      this.room.active_room = false;
-    }
   }
 
   private validateUpdateRoom(form): void {
 
     //Converte os dados de string para int e pega o valor do checkbox 
-    this.room.active_room = form.form.value.active_room;
-    this.room.fk_id_pavilion = parseInt(form.form.value.fk_id_pavilion);
-    this.room.fk_id_new_air = parseInt(form.form.value.fk_id_new_air);
+    this.room.activeRoom = form.form.value.active_room;
+    this.room.fkIdPavilion = parseInt(form.form.value.fk_id_pavilion);
+    this.room.fkIdNewAir = parseInt(form.form.value.fk_id_new_air);
 
     //Verifica se o ar-condicionado foi alterado. Se foi ele atribui o novo ar.
-    if (this.room.fk_id_new_air != -1 && !isNaN(this.room.fk_id_new_air)) {
-      this.room.fk_id_new_air = parseInt(form.form.value.fk_id_new_air);
+    if (this.room.fkIdNewAir != -1 && !isNaN(this.room.fkIdNewAir)) {
+      this.room.fkIdNewAir = parseInt(form.form.value.fk_id_new_air);
     } else {
-      this.room.fk_id_new_air = this.room.fk_id_air;
+      this.room.fkIdNewAir = this.room.fkIdAir;
     }
   }
 
+  cancelEditRoom() {
+    this.roomService.edit = false;
+    this.router.navigate(['/homeRoom/list']);
+  }
+
+  resetForm() {
+    this.roomForm.reset();
+  }
+
+  private valueFieldSelectPavilion(pavilion: Pavilion[]): void {
+    let field: FieldsSelect;
+    pavilion.map(data => {
+      field = {id: data.idPavilion, value: data.namePavilion}
+      this.fieldsSelectPavilion.push(field)
+    })
+  }
+
+  private valueFieldSelectUnallocatedActiveAir(air: Air[]): void {
+    let field: FieldsSelect;
+    air.map(data => {
+      field = {id: data.idAir, value: data.nameAir}
+      this.fieldsSelectAirUnallocated.push(field)
+    })
+  }
 
   ngOnDestroy(): void {
-    this.subscription.map(sub => sub.unsubscribe())
+    this.subscription.forEach(sub => sub.unsubscribe())
   }
 }

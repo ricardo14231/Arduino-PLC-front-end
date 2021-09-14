@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator'; //Ver isso - se precisa importar mesmo
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { DialogDeleteItemComponent } from '../../dialog-delete-item/dialog-delete-item.component';
@@ -11,7 +11,7 @@ import { MessageService } from 'src/app/core/services/message/message.service';
 import { RoomService } from 'src/app/core/services/room/room.service';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
 import { Pavilion } from 'src/app/shared/models/pavilion.model';
-import { CrudRoom } from 'src/app/shared/models/room/crudRoom.model';
+import { RoomModel } from 'src/app/shared/models/room/RoomModel.model';
 
 
 @Component({
@@ -23,13 +23,13 @@ export class ListRoomComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  displayedColumns: string[] = ['id', 'name_room', 'air', 'active', 'actions'];
+  displayedColumns: string[] = ['id', 'nameRoom', 'air', 'active', 'actions'];
 
-  dataSource: MatTableDataSource<CrudRoom>;
+  dataSource: MatTableDataSource<RoomModel>;
   pavilions: Pavilion[];
   private subscription: Subscription[] = [];
 
-  rooms: CrudRoom[] = [];
+  rooms: RoomModel[] = [];
 
   constructor(
     private roomService: RoomService,
@@ -37,12 +37,9 @@ export class ListRoomComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private messageService: MessageService,
-  ) { }
+  ) { } 
 
   ngOnInit(): void {
-  }
-
-  ngAfterViewInit() {
     this.subscription.push(
       this.pavilionService.listActivePavilion().subscribe({
         next: responsePavilion => this.pavilions = responsePavilion,
@@ -51,8 +48,8 @@ export class ListRoomComponent implements OnInit {
     );
   }
 
-  public editRoom(element): void {
-    this.roomService.editRoom(element);
+  public editRoom(element: RoomModel): void {
+    this.roomService.room = element;
     this.router.navigate(['homeRoom/edit']);
   }
 
@@ -64,19 +61,19 @@ export class ListRoomComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.deleteRoom(element.id_room);
+        this.deleteRoom(element.idRoom);
         this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
       }
     });
 
   }
 
-  private deleteRoom(id_room: number): void {
+  private deleteRoom(idRoom: number): void {
     this.subscription.push(
-      this.roomService.deleteRoom(id_room).subscribe({
-        next: responseRoom => {
-          this.rooms = this.removeElementArrayRooms(id_room);
-          this.dataSource = new MatTableDataSource<CrudRoom>(this.rooms)
+      this.roomService.deleteRoom(idRoom).subscribe({
+        next: () => {
+          this.rooms = this.removeElementArrayRooms(idRoom);
+          this.dataSource = new MatTableDataSource<RoomModel>(this.rooms)
         },
         error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
       })
@@ -84,10 +81,12 @@ export class ListRoomComponent implements OnInit {
   }
 
   public selectedPavilion(event): void {
+    console.log(event.value)
+
     this.subscription.push(
       this.roomService.readCrudRoomByIdPavilion(event.value).subscribe({
         next: responsePavilion => {
-          this.dataSource = new MatTableDataSource<CrudRoom>(responsePavilion);
+          this.dataSource = new MatTableDataSource<RoomModel>(responsePavilion);
           this.dataSource.paginator = this.paginator;
 
           this.rooms = responsePavilion;
@@ -97,11 +96,11 @@ export class ListRoomComponent implements OnInit {
     );
   }
 
-  private removeElementArrayRooms(id_room: number): any {
-    let newArrayRooms: CrudRoom[] = [];
+  private removeElementArrayRooms(idRoom: number): any {
+    let newArrayRooms: RoomModel[] = [];
 
     this.rooms.map((r) => {
-      if (r.id_room != id_room) {
+      if (r.idRoom != idRoom) {
         newArrayRooms.push(r);
       }
     });
@@ -110,8 +109,7 @@ export class ListRoomComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.subscription.map(sub => sub.unsubscribe())
+    this.subscription.forEach(sub => sub.unsubscribe())
   }
 
 }
-

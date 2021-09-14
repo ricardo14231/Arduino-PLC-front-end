@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 
 import { MessageService } from 'src/app/core/services/message/message.service';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
-import { ValidationTextFieldsService } from 'src/app/core/services/validationTextFields/validation-text-fields.service';
+import { ValidationFieldsService } from 'src/app/core/services/validationFields/validation-fields.service';
 import { Pavilion } from 'src/app/shared/models/pavilion.model';
 
 @Component({
@@ -20,7 +20,7 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private formBuider: FormBuilder,
-    public validationTextField: ValidationTextFieldsService
+    public validationTextField: ValidationFieldsService
   ) { }
 
   pavilionForm: FormGroup;

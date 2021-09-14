@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { ValidationTextFieldsService } from 'src/app/core/services/validationTextFields/validation-text-fields.service';
+import { ValidationFieldsService } from 'src/app/core/services/validationFields/validation-fields.service';
 
 @Component({
   selector: 'app-input-text',
@@ -17,7 +17,7 @@ export class InputTextComponent {
   
 
   constructor(
-    public validationTextField: ValidationTextFieldsService
+    public validationTextField: ValidationFieldsService
   ) { }
 
   get formControl(): AbstractControl {

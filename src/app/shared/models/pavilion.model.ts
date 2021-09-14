@@ -1,7 +1,7 @@
 
 export interface Pavilion {
     idPavilion?: number,
-    namePavilion: String,
+    namePavilion: string,
     amountRoomPavilion: number,
     activePavilion: boolean
 }

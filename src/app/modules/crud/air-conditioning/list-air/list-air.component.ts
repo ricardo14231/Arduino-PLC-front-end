@@ -103,11 +103,11 @@ export class ListAirComponent implements OnInit {
 
   }
 
-  private deleteAir(id_air: number): void {
+  private deleteAir(idAir: number): void {
     this.subscription.push(
-      this.airService.deleteAir(id_air).subscribe({
+      this.airService.deleteAir(idAir).subscribe({
         next: response => {
-          this.airs = this.removeElementArrayAir(id_air);
+          this.airs = this.removeElementArrayAir(idAir);
           this.dataSource = new MatTableDataSource<Air>(this.airs);
         },
         error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
@@ -115,11 +115,11 @@ export class ListAirComponent implements OnInit {
     );
   }
 
-  private removeElementArrayAir(id_air: number): any {
+  private removeElementArrayAir(idAir: number): any {
     let newArrayAir: Air[] = [];
 
     this.airs.map((r) => {
-      if (r.id_air != id_air) {
+      if (r.idAir != idAir) {
         newArrayAir.push(r);
       }
     });
@@ -133,6 +133,6 @@ export class ListAirComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.subscription.map(sub => sub.unsubscribe())
+    this.subscription.forEach(sub => sub.unsubscribe())
   }
 }

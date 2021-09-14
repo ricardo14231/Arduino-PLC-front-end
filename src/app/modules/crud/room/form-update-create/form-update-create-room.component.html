@@ -1,23 +1,46 @@
 <div class="container-crud">
     <span class="title-container-crud">Sala</span>
     <div class="btn-nav">
-        <button mat-raised-button color="primary" class="newItem" routerLink="/homeRoom/list"> <img src="assets/crud/list.svg"> Lista </button>
+        <button mat-raised-button color="primary" class="newItem" (click)="cancelEditRoom()"> <img src="assets/crud/list.svg"> Lista </button>
     </div>
  
     <fieldset>
-        <legend> {{ edit ? "Atualizar Sala" : "Nova Sala" }}</legend>
-        <form class="form-room" #roomForm="ngForm" (ngSubmit)="onSubmit(roomForm)">
-            <div class="filter-pavilion">
-                <mat-form-field appearance="fill" class="select-pavilion">
-                    <mat-label>Pavilhão</mat-label>
-                    <mat-select matNativeControl name="fk_id_pavilion" [(ngModel)]="room.fk_id_pavilion" required>
-                        <mat-option value="-1" > Selecione </mat-option>
-                        <mat-option *ngFor="let pavilion of pavilions" [value]="pavilion.id_pavilion"> {{ pavilion.name_pavilion }} </mat-option>
-                    </mat-select>
-                </mat-form-field>
+        <legend> {{ roomService.edit ? "Atualizar" : "Nova" }}</legend>
+        <form class="form-room" autocomplete="off" novalidate  [formGroup]="roomForm" (ngReset)="resetForm()" (ngSubmit)="onSave()">
+
+
+            <app-field-select 
+                fieldName="Pavilhão" 
+                fieldIdentify="fkIdPavilion" 
+                [elementsValue]="fieldsSelectPavilion" 
+                [formGroup]="roomForm">
+            </app-field-select>
+
+            <div class="filterAir">
+
+                <app-field-select 
+                    *ngIf="roomService.edit"
+                    fieldName="Ar-condicionado atual" 
+                    fieldIdentify="fkIdAir"
+                    [elementsValue]="[{id: room.fkIdAir, value: room.nameAir}]"
+                    [formGroup]="roomForm"
+                    >
+                </app-field-select>
+
+                <app-field-select class="newAir"
+                    fieldName="Novo ar-condicionado" 
+                    fieldIdentify="fkIdNewAir" 
+                    [elementsValue]="fieldsSelectAirUnallocated" 
+                    [formGroup]="roomForm">
+                </app-field-select>
+
             </div>
+            
+            <app-input-text class="nomeRoom" fieldName="Sala" fieldIdentify="nameRoom" [formGroup]="roomForm"></app-input-text>
+            <!--  -->
+            <!--
             <div class="filter-air">
-                <mat-form-field appearance="fill" class="select-current-air" *ngIf="edit">
+                <mat-form-field appearance="fill" class="select-current-air" *ngIf="roomService.edit">
                     <mat-label>Ar-condicionado atual</mat-label>
                     <mat-select matNativeControl name="name_air" [(ngModel)]="room.name_air" required>
                         <mat-option [value]="room.name_air"> {{ room.name_air }} </mat-option>
@@ -26,10 +49,10 @@
     
                 <mat-form-field appearance="fill" class="select-new-air">
 
-                    <mat-label *ngIf="edit; else notEdit">Novo ar-condicionado</mat-label>
+                    <mat-label *ngIf="roomService.edit; else notEdit">Novo ar-condicionado</mat-label>
                     <ng-template #notEdit><mat-label>Ar-condicionado</mat-label></ng-template>
 
-                    <mat-select matNativeControl name="fk_id_new_air" [(ngModel)]="room.fk_id_new_air" [required]="!edit">
+                    <mat-select matNativeControl name="fkIdNewAir" [(ngModel)]="room.fkIdNewAir">
                         <mat-option value="-1">Selecione</mat-option>
                         <mat-option *ngFor="let air of airs" [value]="air.id_air" > {{ air.name_air }} </mat-option>
                     </mat-select>
@@ -38,22 +61,17 @@
             </div>
 
             <div class="name_room">
-                <mat-form-field>
-                    <mat-label>Nome</mat-label>
-                    <input matInput placeholder="Nome Sala" id="name_room" name="name_room" [(ngModel)]="room.name_room" minlength="3" maxlength="45" required>
-    
-                </mat-form-field>
+                <app-input-text fieldName="Nome" fieldIdentify="nameRoom" [formGroup]="roomForm"></app-input-text>
             </div>
-            
-            <div class="active">
-                <mat-label>Ativo</mat-label>
-                <mat-checkbox id="active_room" name="active_room" [(ngModel)]="room.active_room"></mat-checkbox>   
-            </div> 
+        -->
+            <app-input-checkbox fieldIdentify="activeRoom" [formGroup]="roomForm"></app-input-checkbox>
             
             <div class="btnActionForm">
-                <button mat-raised-button color="warn" type="button" class="cancel" routerLink="/homeRoom/list"> <img src="assets/crud/cancel.svg"> Cancelar </button>
-                <button mat-raised-button color="primary" type="submit" class="save" [disabled]="!roomForm.form.valid"> <img src="assets/crud/save.svg"> Salvar </button>
+                <button mat-raised-button color="warn" type="button" class="cancel" (click)="cancelEditRoom()"> <img src="assets/crud/cancel.svg"> Cancelar </button>
+                <button mat-raised-button color="primary" type="submit" class="save"[disabled]="!roomForm.valid"> <img src="assets/crud/save.svg"> Salvar </button>
             </div>
         </form>       
     </fieldset>
 </div>
+
+<!--  -->

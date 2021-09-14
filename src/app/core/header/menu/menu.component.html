@@ -1,44 +1,51 @@
-
- 
-<mat-drawer-container class="container" hasBackdrop="true" >
+<mat-drawer-container class="container" hasBackdrop="true">
     <mat-drawer #drawer mode="over" class="menu" [(opened)]="openedMenu">
 
-    <img src="assets/menu/close.svg" class="imgClose" mat-raised-button (click)="drawer.toggle()">
-    
-    <div class="titleMenu">
-        MENU
-    </div>
+        <img src="assets/menu/close.svg" class="imgClose" mat-raised-button (click)="drawer.toggle()">
 
-    <div class="optionsMenu">
-        <ul>
-            <a routerLink="/homePavilion/list" (click)="drawer.toggle()"><li> <img src="assets/menu/pavilion.svg">Configurações de Pavilhão</li></a>
-        </ul>
-        <ul>
-            <a routerLink="/homeRoom/list" (click)="drawer.toggle()"><li><img src="assets/menu/class.svg">Configurações de Sala</li></a>
-        </ul>
-        <ul>
-            <a routerLink="/homeAir/list" (click)="drawer.toggle()"> <li><img src="assets/menu/air-conditioning.svg">Configurações de Ar-condicionado</li></a>
-        </ul>
-        <ul>
-            <a routerLink="/homeSchedule/list" (click)="drawer.toggle()"> <li><img src="assets/menu/schedule.svg">Configurações de Horário</li></a>
-        </ul>
-        <ul>
-            <a routerLink="/homeUser/list" (click)="drawer.toggle()"> <li><img src="assets/menu/user.svg">Configurações de Usuário</li></a>
-        </ul>
-    </div>
-        
+        <div class="titleMenu">
+            MENU
+        </div>
+
+        <div class="optionsMenu">
+            <ul>
+                <a routerLink="/homePavilion/list" (click)="drawer.toggle()">
+                    <li> <img src="assets/menu/pavilion.svg">Configurações de Pavilhão</li>
+                </a>
+            </ul>
+            <ul>
+                <a routerLink="/homeRoom/list" (click)="drawer.toggle()">
+                    <li><img src="assets/menu/class.svg">Configurações de Sala</li>
+                </a>
+            </ul>
+            <ul>
+                <a routerLink="/homeAir/list" (click)="drawer.toggle()">
+                    <li><img src="assets/menu/air-conditioning.svg">Configurações de Ar-condicionado</li>
+                </a>
+            </ul>
+            <ul>
+                <a routerLink="/homeSchedule/list" (click)="drawer.toggle()">
+                    <li><img src="assets/menu/schedule.svg">Configurações de Horário</li>
+                </a>
+            </ul>
+            <ul>
+                <a routerLink="/homeUser/list" (click)="drawer.toggle()">
+                    <li><img src="assets/menu/user.svg">Configurações de Usuário</li>
+                </a>
+            </ul>
+        </div>
+
     </mat-drawer>
- 
-    <mat-drawer-content>
-        
-        <app-header (openedMenuEmmiter)="openMenu($event)" [openedMenu]="openedMenu"></app-header>
 
+    <mat-drawer-content>
+
+        <app-header (openedMenuEmmiter)="openMenu($event)" [openedMenu]="openedMenu"></app-header>
 
         <div class="mainScreen">
             <router-outlet></router-outlet>
         </div>
+
         <app-footer></app-footer>
 
     </mat-drawer-content>
 </mat-drawer-container>
-

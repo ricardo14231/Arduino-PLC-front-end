@@ -11,7 +11,7 @@
             <div class="name_air">
                 <mat-form-field>
                     <mat-label>Nome</mat-label>
-                    <input matInput placeholder="Nome ar-condicionado" id="name_air" name="name_air" [(ngModel)]="air.name_air" minlength="3" maxlength="45" required>
+                    <input matInput placeholder="Nome ar-condicionado" id="name_air" name="name_air" [(ngModel)]="air.nameAir" minlength="3" maxlength="45" required>
                 </mat-form-field>
             </div>
             
@@ -19,14 +19,14 @@
                 <div class="temperature_min_air">
                     <mat-form-field>
                         <mat-label>Temp. Min</mat-label>
-                        <input matInput type="number" placeholder="temp." id="temperature_min_air" name="temperature_min_air" [(ngModel)]="air.temperature_min_air" required>
+                        <input matInput type="number" placeholder="temp." id="temperature_min_air" name="temperature_min_air" [(ngModel)]="air.temperatureMinAir" required>
                     </mat-form-field>
                 </div>
                 
                 <div class="temperature_max_air">
                     <mat-form-field>
                         <mat-label>Temp. Max</mat-label>
-                        <input matInput type="number" placeholder="temp." id="temperature_max_air" name="temperature_max_air" [(ngModel)]="air.temperature_max_air" required>
+                        <input matInput type="number" placeholder="temp." id="temperature_max_air" name="temperature_max_air" [(ngModel)]="air.temperatureMaxAir" required>
                     </mat-form-field>
                 </div>
             </div>
@@ -34,14 +34,14 @@
             <div class="url_device_air">
                 <mat-form-field>
                     <mat-label>URL do dispositivo</mat-label>
-                    <input matInput placeholder="URL" id="url_device_air" name="url_device_air" [(ngModel)]="air.url_device_air" pattern="http?://.+" title="Inclua http://" minlength="14" maxlength="45" required>
+                    <input matInput placeholder="URL" id="url_device_air" name="url_device_air" [(ngModel)]="air.urlDeviceAir" pattern="http?://.+" title="Inclua http://" minlength="14" maxlength="45" required>
                 </mat-form-field>
             </div>
             
             
             <div class="active">
                 <mat-label>Ativo</mat-label>
-                <mat-checkbox id="active_air" name="active_air" [(ngModel)]="air.active_air"></mat-checkbox> 
+                <mat-checkbox id="active_air" name="active_air" [(ngModel)]="air.activeAir"></mat-checkbox> 
             </div> 
             
             <div class="btnActionForm">

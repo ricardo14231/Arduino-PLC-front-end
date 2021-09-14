@@ -28,7 +28,7 @@ export class FormUpdateCreateAirComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.initObjRoom();
-    this.editAir();
+    //this.editAir();
   }
 
   ngOnChanges(): void {
@@ -37,7 +37,7 @@ export class FormUpdateCreateAirComponent implements OnInit, OnChanges {
 
   public onSubmit(): void {
 
-    if (!this.edit && this.air.id_air == null) {
+    if (!this.edit && this.air.idAir == null) {
       this.subscription.push(
         this.airService.createAir(this.air).subscribe({
           next: air => {
@@ -61,13 +61,13 @@ export class FormUpdateCreateAirComponent implements OnInit, OnChanges {
     }
   }
 
-  public editAir(): void {
+  /* public editAir(): void {
     this.subscription.push(
       this.airService.airEmitter.subscribe({
         next: responseAir => {
-          this.air.id_air = responseAir.id_air;
-          this.air.name_air = responseAir.name_air;
-          this.air.temperature_min_air = responseAir.temperature_min_air;
+          this.air.idAir = responseAir.id_air;
+          this.air.nameAir = responseAir.name_air;
+          this.air.temperatureMinAir = responseAir.temperature_min_air;
           this.air.temperature_max_air = responseAir.temperature_max_air;
           this.air.url_device_air = responseAir.url_device_air;
           this.air.active_air = responseAir.active_air;
@@ -77,21 +77,21 @@ export class FormUpdateCreateAirComponent implements OnInit, OnChanges {
         error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
       })
     );
-  }
+  } */
 
   private initObjRoom(): void {
     this.air = {
-      id_air: null,
-      name_air: null,
-      current_temperature_air: null,
-      state_cool_air: false,
-      state_fan_air: false,
-      turn_on_air: false,
-      allocated_air: false,
-      temperature_min_air: null,
-      temperature_max_air: null,
-      url_device_air: null,
-      active_air: false
+      idAir: null,
+      nameAir: null,
+      currentTemperatureAir: null,
+      stateCoolAir: false,
+      stateFanAir: false,
+      turnOnAir: false,
+      allocatedAir: false,
+      temperatureMinAir: null,
+      temperatureMaxAir: null,
+      urlDeviceAir: null,
+      activeAir: false
     };
   }
 

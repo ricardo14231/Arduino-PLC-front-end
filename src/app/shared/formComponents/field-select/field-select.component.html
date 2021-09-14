@@ -1,1 +1,8 @@
-<p>field-select works!</p>
+<mat-form-field appearance="fill" class="select" [formGroup]="formGroup">
+    <mat-label>{{ fieldName }}</mat-label>
+    <mat-select matNativeControl [formControlName]="fieldIdentify">
+        <mat-option> Selecione </mat-option>
+        <mat-option *ngFor="let element of elementsValue" [value]="element.id"> {{ element.value }} </mat-option>
+    </mat-select>
+    <mat-error *ngIf="formControl.errors?.required">{{ validationSelectField.requiredTextField() }}</mat-error>
+</mat-form-field>
