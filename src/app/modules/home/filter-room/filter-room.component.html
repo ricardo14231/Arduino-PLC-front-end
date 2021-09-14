@@ -4,7 +4,7 @@
       <mat-label>Pavilhão</mat-label>
       <mat-select matNativeControl (selectionChange)="selectedPavilion($event)" required>
         <mat-option value="-1">Selecione</mat-option>
-        <mat-option *ngFor="let pavilion of pavilions" [value]="pavilion.id_pavilion" > {{ pavilion.name_pavilion }} </mat-option>
+        <mat-option *ngFor="let pavilion of pavilions" [value]="pavilion.idPavilion" > {{ pavilion.namePavilion }} </mat-option>
       </mat-select>
     </mat-form-field>
 

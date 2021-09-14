@@ -90,15 +90,6 @@ export class RoomService {
     this.roomsEmitter.emit();
   }
 
-  public editRoom(room: RoomModel): void{
-    
-    //Verificar pq não está atualizando os dados da tela sem o delay
-    setTimeout(()=>{ 
-      this.roomEmitter.emit(room);
-    }, 200)
-  }
-
-
   get room(): RoomModel {
     return this._room;
   }
