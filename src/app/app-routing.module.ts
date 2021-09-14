@@ -6,8 +6,8 @@ import { HomeComponent } from './modules/home/home.component';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },  
   
-  { path: 'home', component: HomeComponent },
 
+  { path: 'home', loadChildren:() => import('./modules/home/home.module').then(m => m.HomeModule) },
   { path: 'homePavilion', loadChildren: () => import('./modules/crud/pavilion/pavilion-module.module').then(m => m.PavilionModule) },
   { path: 'homeRoom', loadChildren: () => import('./modules/crud/room/room-module.module').then(m => m.RoomModule) },
   { path: 'homeAir', loadChildren: () => import('./modules/crud/air-conditioning/air-module.module').then(m => m.AirModule) },

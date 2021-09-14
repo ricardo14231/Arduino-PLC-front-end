@@ -7,14 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { CoreModule } from './core/core.module';
-import { HomeModule } from './modules/home/home.module';
 import { DialogDeleteItemComponent } from './modules/crud/dialog-delete-item/dialog-delete-item.component';
 import { DialogLoadingComponent } from './core/dialog-loading/dialog-loading.component';
-import { PavilionModule } from './modules/crud/pavilion/pavilion-module.module';
-import { RoomModule } from './modules/crud/room/room-module.module';
-import { AirModule } from './modules/crud/air-conditioning/air-module.module';
-import { ScheduleModule } from './modules/crud/schedule/schedule-module.module';
-import { UserModule } from './modules/crud/user/user-module.module';
 
 @NgModule({
   declarations: [
@@ -27,13 +21,7 @@ import { UserModule } from './modules/crud/user/user-module.module';
     HttpClientModule,
     RouterModule,
 
-    CoreModule,
-    HomeModule,
-    PavilionModule,
-    RoomModule,
-    AirModule,
-    ScheduleModule,
-    UserModule
+    CoreModule
   ],
   entryComponents: [
     DialogDeleteItemComponent,
