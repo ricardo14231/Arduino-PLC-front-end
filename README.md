@@ -1,27 +1,36 @@
-# AngularArduinoPlc
+# Angular Arduino PLC
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.1.
+**`Projeto em andamento!`**
 
-## Development server
+Este projeto foi proposto para representar uma central de automação de ar-condicionado de uma sala de aula. A aplicação acessa duas APIs, onde é possível salvar as informações necessária para identificar o ar-condicionado e o ambiente de sua alocação, bem como interação com o servidor Arduino.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+ A primeira, [Arduino PLC backend](https://github.com/ricardo14231/Arduino-PLC-back-end) é responsável por persistir as informações que identificam a localização do ar-condicionado (pavilhão, sala) e dados de seu status atual (ligado, desligado, temperatura, etc.).   
+ A segunda recebe os dados do sensor de temperatura e presença do servidor Arduino e envia dados para acionar o led emissor de infravermelho para acionar o ar-condicionado com a função selecionada na aplicação.
 
-## Code scaffolding
+OBS: o servidor Arduino está representado pelo json-server, para fins de desenvolvimento.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![mainScreen](https://github.com/ricardo14231/blob/master/mainScreen)   
+![menuScreen](https://github.com/ricardo14231/blob/master/menuScreen)  
 
-## Build
+## Pré-requisitos para executar o projeto:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+* Node: 14.10.
+* NPM: 6.14.
+* Angular: 10.
 
-## Running unit tests
+## Para executar a aplicação:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+* Rodar o servidor [Arduino PLC backend](https://github.com/ricardo14231/Arduino-PLC-back-end)   
 
-## Running end-to-end tests
+* Execute: `npm start`.   
+* Acesse `http://localhost:4200/`.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Autor:
 
-## Further help
+Ricardo Farias.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+https://www.linkedin.com/in/ricardo-farias-04069359/
+
+## Licença:
+
+`MIT`
