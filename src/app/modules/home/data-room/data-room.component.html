@@ -1,22 +1,18 @@
 <fieldset class="dataRoom">
     <legend>Dados da sala</legend>
-    <div class="temperatureAndHumidity">
+    <div class="temperature">
         <span>Temperatura: <span> {{ sensors?.sTemperatura }} º </span></span>
-        <span>Humidade: <span> {{ sensors?.sHumidade }} % </span> </span>
-
     </div>
     <div class="stateAir">
-        <span>Estado do ar-condicionado: 
-            <span *ngIf="turn_on_air; else turn"> Ligado </span>
+        <span>Estado do ar-condicionado:
+            <span *ngIf="turnOnAir else turn"> Ligado </span>
             <ng-template #turn><span> Desligado </span></ng-template>
         </span>
     </div>
     <div class="statePresence">
-        <span>Movimentação:  
-            <span *ngIf="sensors.sPresenca == 1; else sPresencaTrue">Com movimentação</span> 
-            <ng-template #sPresencaTrue><span>Sem movimentação</span></ng-template> 
-
+        <span>Movimentação:
+            <span *ngIf="sensors.sPresenca == 1; else sPresencaTrue">Com movimentação</span>
+            <ng-template #sPresencaTrue><span>Sem movimentação</span></ng-template>
         </span>
     </div>
-
 </fieldset>

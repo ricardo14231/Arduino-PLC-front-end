@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
-import { Pavilion } from 'src/app/shared/models/pavilion.model';
+import { Pavilion } from 'src/app/shared/models/pavilion/pavilion.model';
 import { DialogDeleteItemComponent } from '../../dialog-delete-item/dialog-delete-item.component';
 import { MessageService } from 'src/app/core/services/message/message.service';
 

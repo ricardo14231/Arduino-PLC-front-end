@@ -17,11 +17,11 @@ import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
 export class ControlAirRoomComponent implements OnInit {
 
   dataRoom: CardRoom;
-  current_temperature: number = 0;
-  current_state_cool: boolean = false;
-  current_state_fan: boolean = false;
-  temperature_min: number;
-  temperature_max: number;
+  currentTemperature: number = 0;
+  currentStateCool: boolean = false;
+  currentStateFan: boolean = false;
+  temperatureMin: number;
+  temperatureMax: number;
 
   private subscription: Subscription[] = [];
 
@@ -44,26 +44,26 @@ export class ControlAirRoomComponent implements OnInit {
     this.subscription.push(
       this.roomService.cardRoomEmitter.subscribe(res => {
         this.dataRoom = res;
-        this.current_temperature = this.dataRoom.current_temperature_air;
-        this.temperature_min = this.dataRoom.temperature_min_air;
-        this.temperature_max = this.dataRoom.temperature_max_air;
-        this.current_state_cool = Boolean(this.dataRoom.state_cool_air);
-        this.current_state_fan = Boolean(this.dataRoom.state_fan_air);
+        this.currentTemperature = this.dataRoom.currentTemperatureAir;
+        this.temperatureMin = this.dataRoom.temperatureMinAir;
+        this.temperatureMax = this.dataRoom.temperatureMaxAir;
+        this.currentStateCool = Boolean(this.dataRoom.stateCoolAir);
+        this.currentStateFan = Boolean(this.dataRoom.stateFanAir);
       })
     )
   }
 
   public turnUpAir(): void {
-    if (this.current_temperature < this.temperature_max) {
-      this.current_temperature++;
+    if (this.currentTemperature < this.temperatureMax) {
+      this.currentTemperature++;
     } else {
       this.messageService.openSnackBar("Temperatura máxima atingida!", "dangerMessage");
     }
   }
 
   public turnDownAir(): void {
-    if (this.current_temperature > this.temperature_min) {
-      this.current_temperature--;
+    if (this.currentTemperature > this.temperatureMin) {
+      this.currentTemperature--;
     } else {
       this.messageService.openSnackBar("Temperatura minima atingida!", "dangerMessage");
     }
@@ -75,10 +75,10 @@ export class ControlAirRoomComponent implements OnInit {
     // this.modalLoading.openDialogLoading();
 
     this.arduinoService.sendTemprature(
-      this.dataRoom.url_device_air,
-      this.current_temperature,
-      this.current_state_cool,
-      this.current_state_fan).subscribe((res) => {
+      this.dataRoom.urlDeviceAir,
+      this.currentTemperature,
+      this.currentStateCool,
+      this.currentStateFan).subscribe((res) => {
         this.modalLoading.dialog.closeAll()
       }, error => this.modalLoading.dialog.closeAll());
 
@@ -89,16 +89,16 @@ export class ControlAirRoomComponent implements OnInit {
     // this.modalLoading.openDialogLoading();
 
     this.subscription.push(
-      this.airService.currentAirData(this.dataRoom.fk_id_air).subscribe(res => {
-        /*  this.current_temperature = res.current_temperature_air
-          this.current_state_cool = res.state_cool_air
-          this.current_state_fan = true//res.state_fan_air
+      this.airService.currentAirData(this.dataRoom.fkIdAir).subscribe(res => {
+        /*  this.currentTemperature = res.currentTemperature_air
+          this.currentStateCool = res.state_cool_air
+          this.currentStateFan = true//res.state_fan_air
           console.log(res)
         */
       })
     )
     this.subscription.push(
-      this.arduinoService.sendTurnOnShutdown(this.dataRoom.url_device_air, 'liga').subscribe(res => {
+      this.arduinoService.sendTurnOnShutdown(this.dataRoom.urlDeviceAir, 'liga').subscribe(res => {
 
         // this.modalLoading.dialog.closeAll()
       }, error => {
@@ -113,7 +113,7 @@ export class ControlAirRoomComponent implements OnInit {
     //  this.modalLoading.openDialogLoading();
 
     this.subscription.push(
-      this.arduinoService.sendTurnOnShutdown(this.dataRoom.url_device_air, 'desliga').subscribe(res => {
+      this.arduinoService.sendTurnOnShutdown(this.dataRoom.urlDeviceAir, 'desliga').subscribe(res => {
         //   this.modalLoading.dialog.closeAll()
       }, error => {
         //  this.modalLoading.dialog.closeAll()

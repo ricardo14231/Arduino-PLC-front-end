@@ -9,7 +9,7 @@
         <form class="form-user" #userForm="ngForm" (ngSubmit)="onSubmit()">
             <mat-form-field class="name_user">
                 <mat-label>Nome</mat-label>
-                <input matInput placeholder="Nome Usuário" id="name_user" name="name_user" [(ngModel)]="user.name_user" minlength="3" maxlength="45" required>
+                <input matInput placeholder="Nome Usuário" id="name_user" name="name_user" [(ngModel)]="user.nameUser" minlength="3" maxlength="45" required>
             </mat-form-field>
             
             <div class="credentials">
@@ -29,7 +29,7 @@
             
             <div class="active">
                 <mat-label>Ativo</mat-label>
-                <mat-checkbox id="active_user" name="active_user" [(ngModel)]="user.active_user"></mat-checkbox>   
+                <mat-checkbox id="active_user" name="active_user" [(ngModel)]="user.activeUser"></mat-checkbox>   
             </div> 
             
             <div class="btnActionForm">

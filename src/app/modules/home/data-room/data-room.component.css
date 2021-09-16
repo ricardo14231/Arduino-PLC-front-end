@@ -8,22 +8,14 @@
     margin-top: 5px;
     border-radius: 4px;
     font-size: 18px;
-    font-weight: 400;
 }
 
-.dataRoom .temperatureAndHumidity{
-    background-color: #00ffff;
-    padding: 10px 0px;
-}
-
-.temperatureAndHumidity > span{
-    display: block;
-    border-radius: 10px;
-    padding: 10px;
-}
-
-.dataRoom .stateAir, .dataRoom .statePresence{
+.dataRoom .stateAir, .dataRoom .statePresence, .dataRoom .temperature{
     padding: 40px 10px;
+}
+
+.dataRoom .temperature {
+    background-color: #00ffff;
 }
 
 .dataRoom .stateAir{

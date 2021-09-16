@@ -7,7 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DialogDeleteItemComponent } from '../../dialog-delete-item/dialog-delete-item.component';
 import { MessageService } from 'src/app/core/services/message/message.service';
 import { UserService } from 'src/app/core/services/user/user.service';
-import { User } from 'src/app/shared/models/User/user.model';
+import { User } from 'src/app/shared/models/user/user.model';
 import { Subscription } from 'rxjs';
 
 
@@ -57,7 +57,7 @@ export class ListUserComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        this.deleteUser(element.id_user);
+        this.deleteUser(element.idUser);
         this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
       }
     });

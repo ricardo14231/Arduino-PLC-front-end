@@ -16,12 +16,9 @@ export class TableScheduleComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<any>;
   public dataSource: any[]
 
-  @Input()
-  public shift_hour: string[];
-  @Input()
-  public shift: ClassTime[];
-  @Input()
-  public enabled_hour: boolean = false;
+  @Input() shiftHour: string[];
+  @Input() shift: ClassTime[];
+  @Input() enabledHour: boolean = false;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['hour', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];

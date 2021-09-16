@@ -9,7 +9,7 @@
     <ng-container matColumnDef="mon">
         <th mat-header-cell *matHeaderCellDef>SEG</th>
         <td mat-cell *matCellDef="let row">
-            <mat-select [(ngModel)]="row.mon" matNativeControl [disabled]="enabled_hour" required>
+            <mat-select [(ngModel)]="row.mon" matNativeControl [disabled]="enabledHour" required>
                 <mat-option value="AULA"> AULA </mat-option>
                 <mat-option value="VAGO"> VAGO </mat-option>
             </mat-select>
@@ -19,7 +19,7 @@
     <ng-container matColumnDef="tue">
         <th mat-header-cell *matHeaderCellDef>TER</th>
         <td mat-cell *matCellDef="let row">
-            <mat-select [(ngModel)]="row.tue" matNativeControl [disabled]="enabled_hour" required>
+            <mat-select [(ngModel)]="row.tue" matNativeControl [disabled]="enabledHour" required>
                 <mat-option value="AULA"> AULA </mat-option>
                 <mat-option value="VAGO"> VAGO </mat-option>
             </mat-select>
@@ -29,7 +29,7 @@
     <ng-container matColumnDef="wed">
         <th mat-header-cell *matHeaderCellDef>QUA</th>
         <td mat-cell *matCellDef="let row">
-            <mat-select [(ngModel)]="row.wed" matNativeControl [disabled]="enabled_hour" required>
+            <mat-select [(ngModel)]="row.wed" matNativeControl [disabled]="enabledHour" required>
                 <mat-option value="AULA"> AULA </mat-option>
                 <mat-option value="VAGO"> VAGO </mat-option>
             </mat-select>
@@ -39,7 +39,7 @@
     <ng-container matColumnDef="thu">
         <th mat-header-cell *matHeaderCellDef>QUI</th>
         <td mat-cell *matCellDef="let row">
-            <mat-select [(ngModel)]="row.thu" matNativeControl [disabled]="enabled_hour" required>
+            <mat-select [(ngModel)]="row.thu" matNativeControl [disabled]="enabledHour" required>
                 <mat-option value="AULA"> AULA </mat-option>
                 <mat-option value="VAGO"> VAGO </mat-option>
             </mat-select>
@@ -49,7 +49,7 @@
     <ng-container matColumnDef="fri">
         <th mat-header-cell *matHeaderCellDef>SEX</th>
         <td mat-cell *matCellDef="let row">
-            <mat-select [(ngModel)]="row.fri" matNativeControl [disabled]="enabled_hour" required>
+            <mat-select [(ngModel)]="row.fri" matNativeControl [disabled]="enabledHour" required>
                 <mat-option value="AULA"> AULA </mat-option>
                 <mat-option value="VAGO"> VAGO </mat-option>
             </mat-select>
@@ -59,7 +59,7 @@
     <ng-container matColumnDef="sat">
         <th mat-header-cell *matHeaderCellDef>SAB</th>
         <td mat-cell *matCellDef="let row">
-            <mat-select [(ngModel)]="row.sat" matNativeControl [disabled]="enabled_hour" required>
+            <mat-select [(ngModel)]="row.sat" matNativeControl [disabled]="enabledHour" required>
                 <mat-option value="AULA"> AULA </mat-option>
                 <mat-option value="VAGO"> VAGO </mat-option>
             </mat-select>

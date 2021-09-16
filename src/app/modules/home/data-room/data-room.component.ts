@@ -14,7 +14,7 @@ import { Sensors } from 'src/app/shared/models/arduino/sensors.model';
 export class DataRoomComponent implements OnInit {
 
   sensors: Sensors;
-  turn_on_air: boolean;
+  turnOnAir: boolean;
 
   private subscription: Subscription[] = [];
 
@@ -42,7 +42,7 @@ export class DataRoomComponent implements OnInit {
   private roomInfo(): void {
     this.subscription.push(
       this.roomService.cardRoomEmitter.subscribe(res => {
-        this.turn_on_air = Boolean(res.turn_on_air);
+        this.turnOnAir = Boolean(res.turnOnAir);
       },
         error => this.messageService.openSnackBar(error.error, 'dangerMessage'))
     )
@@ -50,9 +50,8 @@ export class DataRoomComponent implements OnInit {
 
   private initObjSensors(): void {
     this.sensors = {
-      'sHumidade': 0.0,
-      'sPresenca': 0,
-      'sTemperatura': 0.0
+      'sTemperatura': 0.0,
+      'sPresenca': 0
     }
   }
 

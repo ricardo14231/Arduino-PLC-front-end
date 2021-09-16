@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { DialogDeleteItemComponent } from '../../dialog-delete-item/dialog-delete-item.component';
 import { MessageService } from 'src/app/core/services/message/message.service';
-import { Pavilion } from 'src/app/shared/models/pavilion.model';
+import { Pavilion } from 'src/app/shared/models/pavilion/pavilion.model';
 import { Subscription } from 'rxjs';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
 import { Air } from 'src/app/shared/models/air/listAir.model';

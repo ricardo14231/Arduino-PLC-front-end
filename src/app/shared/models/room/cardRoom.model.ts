@@ -1,12 +1,12 @@
 export interface CardRoom{
-  id_room?: number,
-  fk_id_air?: number,
-  name_room: string,
-  turn_on_air: number,
-  current_temperature_air: number,
-  state_cool_air: number,
-  state_fan_air: number,
-  temperature_min_air: number,
-  temperature_max_air: number,
-  url_device_air: string
+  idRoom?: number,
+  fkIdAir?: number,
+  nameRoom: string,
+  turnOnAir: number,
+  currentTemperatureAir: number,
+  stateCoolAir: number,
+  stateFanAir: number,
+  temperatureMinAir: number,
+  temperatureMaxAir: number,
+  urlDeviceAir: string
 }

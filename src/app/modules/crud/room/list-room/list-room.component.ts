@@ -10,7 +10,7 @@ import { DialogDeleteItemComponent } from '../../dialog-delete-item/dialog-delet
 import { MessageService } from 'src/app/core/services/message/message.service';
 import { RoomService } from 'src/app/core/services/room/room.service';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
-import { Pavilion } from 'src/app/shared/models/pavilion.model';
+import { Pavilion } from 'src/app/shared/models/pavilion/pavilion.model';
 import { RoomModel } from 'src/app/shared/models/room/RoomModel.model';
 
 
