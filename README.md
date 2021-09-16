@@ -29,7 +29,7 @@ OBS: o servidor Arduino está representado pelo json-server, para fins de desenv
 
 Ricardo Farias.
 
-https://www.linkedin.com/in/ricardo-farias-04069359/
+https://www.linkedin.com/in/ricardo14231/
 
 ## Licença:
 
