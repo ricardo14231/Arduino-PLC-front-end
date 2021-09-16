@@ -9,8 +9,8 @@ Este projeto foi proposto para representar uma central de automação de ar-cond
 
 OBS: o servidor Arduino está representado pelo json-server, para fins de desenvolvimento.
 
-![mainScreen](https://github.com/ricardo14231/blob/master/mainScreen.jpg)   
-![menuScreen](https://github.com/ricardo14231/blob/master/menuScreen.jpg)  
+![mainScreen](https://github.com/ricardo14231/Arduino-PLC-front-end/blob/master/mainScreen.jpg)   
+![menuScreen](https://github.com/ricardo14231/Arduino-PLC-front-end/blob/master/menuScreen.jpg)  
 
 ## Pré-requisitos para executar o projeto:
 
