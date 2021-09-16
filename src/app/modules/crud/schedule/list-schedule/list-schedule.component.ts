@@ -9,7 +9,7 @@ import { ScheduleService } from 'src/app/core/services/schedule/schedule.service
 import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
 import { DialogDeleteItemComponent } from '../../dialog-delete-item/dialog-delete-item.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Pavilion } from 'src/app/shared/models/pavilion.model';
+import { Pavilion } from 'src/app/shared/models/pavilion/pavilion.model';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
 import { Schedule } from 'src/app/shared/models/schedule/schedule.model';
 import { ScheduleCrud } from 'src/app/shared/models/schedule/scheduleCrud.model';
@@ -26,10 +26,10 @@ export class ListScheduleComponent implements OnInit {
   public dataSource: any//ScheduleRoomDataSource;
 
   public rooms: CardRoom[];
-  public id_room_selected: number = -1;
-  public shift_selected: string = "notSelected";
+  public idRoomSelected: number = -1;
+  public shiftSelected: string = "notSelected";
   public pavilions: Pavilion[];
-  public id_pavilion_selected: number = -1;
+  public idPavilionSelected: number = -1;
   private scheduleEdit: ScheduleCrud;
 
   private subscription: Subscription[] = [];
@@ -54,7 +54,7 @@ export class ListScheduleComponent implements OnInit {
 
   public initRoomsPavilionSelected() {
     this.subscription.push(
-      this.roomService.readRoomByIdPavilion(this.id_pavilion_selected).subscribe({
+      this.roomService.readRoomByIdPavilion(this.idPavilionSelected).subscribe({
         next: responseRoom => this.rooms = responseRoom,
         error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
       })
@@ -71,11 +71,11 @@ export class ListScheduleComponent implements OnInit {
 
   private initObjScheduleEdit(): void {
     this.scheduleEdit = {
-      id_schedule: null,
-      id_room: null,
-      name_room: null,
+      idSchedule: null,
+      idRoom: null,
+      nameRoom: null,
       shift: null,
-      shift_time: [{
+      shiftTime: [{
         "hour": null,
         "mon": null,
         "tue": null,
@@ -84,7 +84,7 @@ export class ListScheduleComponent implements OnInit {
         "fri": null,
         "sat": null
       }],
-      active_schedule: null
+      activeSchedule: null
     }
   }
 
@@ -103,8 +103,8 @@ export class ListScheduleComponent implements OnInit {
   public showDataFilter(): void {
 
     if (this.verifyDataFilter()) {
-      this.scheduleService.selectedShift(this.shift_selected);
-      this.scheduleService.showSchedule(this.id_room_selected);
+      this.scheduleService.selectedShift(this.shiftSelected);
+      this.scheduleService.showSchedule(this.idRoomSelected);
     }
   }
 
@@ -113,15 +113,15 @@ export class ListScheduleComponent implements OnInit {
       this.scheduleService.scheduleEmitter.subscribe(res => {
 
         if (res[0].schedule_room != null) {
-          this.dataSource = JSON.parse(res[0].schedule_room);
+          this.dataSource = JSON.parse(res[0].scheduleRoom);
 
           this.scheduleEdit = {
-            id_schedule: res[0].id_schedule,
-            id_room: res[0].id_room,
-            name_room: res[0].name_room,
+            idSchedule: res[0].idSchedule,
+            idRoom: res[0].idRoom,
+            nameRoom: res[0].nameRoom,
             shift: res[0].shift,
-            shift_time: JSON.parse(res[0].schedule_room),
-            active_schedule: null
+            shiftTime: JSON.parse(res[0].scheduleRoom),
+            activeSchedule: null
           }
 
           this.messageService.openSnackBar("Sucesso ao exibir horário!", "successMessage");
@@ -137,13 +137,13 @@ export class ListScheduleComponent implements OnInit {
     this.subscription.push(
       this.scheduleService.cleanScheduleEmitter.subscribe(res => {
         this.dataSource = res;
-        this.scheduleEdit.id_schedule = null;
+        this.scheduleEdit.idSchedule = null;
       })
     )
   }
 
   private verifyDataFilter(): boolean {
-    if (this.id_room_selected == undefined || this.shift_selected == "notSelected") {
+    if (this.idRoomSelected == undefined || this.shiftSelected == "notSelected") {
       this.messageService.openSnackBar("Dados do filtro não informado!", "alertMessage");
       return false;
     }
@@ -152,9 +152,9 @@ export class ListScheduleComponent implements OnInit {
 
   public editSchedule(): void {
     // Mudar o modo de varificar. Não atribuir null ao obj. 
-    if (this.scheduleEdit.id_schedule != null) {
-      this.scheduleEdit.id_room = this.id_room_selected;
-      this.scheduleEdit.shift = this.shift_selected;
+    if (this.scheduleEdit.idSchedule != null) {
+      this.scheduleEdit.idRoom = this.idRoomSelected;
+      this.scheduleEdit.shift = this.shiftSelected;
       this.scheduleService.editSchedule(this.scheduleEdit);
       this.router.navigate(['homeSchedule/edit']);
     } else {
@@ -171,17 +171,17 @@ export class ListScheduleComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        //this.deleteRoom(element.id_room);
+        //this.deleteRoom(element.idRoom);
         this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
       }
     });
 
   }
 
-  private deleteRoom(id_room: number): void {
+  private deleteRoom(idRoom: number): void {
     /* 
-        this.roomService.deleteRoom(id_room).subscribe( res => {   
-          this.rooms = this.removeElementArrayRooms(id_room);
+        this.roomService.deleteRoom(idRoom).subscribe( res => {   
+          this.rooms = this.removeElementArrayRooms(idRoom);
           this.dataSource = new MatTableDataSource<CrudRoom>(this.rooms);
         
         });  */
@@ -190,6 +190,6 @@ export class ListScheduleComponent implements OnInit {
   ngOnDestroy(): void {
     /*  this.scheduleService.selectedShift('notSelected');
      this.scheduleService.cleanSchedule(); */
-    this.subscription.map(sub => sub.unsubscribe())
+    this.subscription.forEach(sub => sub.unsubscribe())
   }
 }

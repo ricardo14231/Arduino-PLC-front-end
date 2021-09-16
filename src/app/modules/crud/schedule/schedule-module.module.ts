@@ -9,10 +9,12 @@ import { FormComponentsModule } from 'src/app/shared/formComponents/form-compone
 import { DialogDeleteItemModule } from '../dialog-delete-item/dialog-delete-item.module';
 import { ScheduleRoutingModule } from './schedule-routing.module';
 import { MainCrudModule } from '../main-crud/main.module';
+import { TableScheduleComponent } from './table-schedule/table-schedule.component';
 
 const scheduleComponents = [
   ListScheduleComponent,
-  FormUpdateCreateScheduleComponent
+  FormUpdateCreateScheduleComponent,
+  TableScheduleComponent
 ]
 
 @NgModule({

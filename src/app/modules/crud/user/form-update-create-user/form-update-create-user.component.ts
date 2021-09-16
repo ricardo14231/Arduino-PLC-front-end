@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MessageService } from 'src/app/core/services/message/message.service';
 import { UserService } from 'src/app/core/services/user/user.service';
-import { User } from 'src/app/shared/models/User/user.model';
+import { User } from 'src/app/shared/models/user/user.model';
 
 
 @Component({
@@ -36,7 +36,7 @@ export class FormUpdateCreateUserComponent implements OnInit {
     if (this.checkPassword()) {
       this.user.password = this.password;
 
-      if (!this.edit && this.user.id_user == null) {
+      if (!this.edit && this.user.idUser == null) {
         this.createUser();
       } else {
         this.updateUser();
@@ -87,12 +87,12 @@ export class FormUpdateCreateUserComponent implements OnInit {
 
   private initObjUser(): void {
     this.user = {
-      id_user: null,
-      name_user: null,
+      idUser: null,
+      nameUser: null,
       login: null,
       password: null,
       profile: null,
-      active_user: false
+      activeUser: false
     };
   }
 

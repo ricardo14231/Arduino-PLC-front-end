@@ -37,10 +37,10 @@ export class ContainerRoomsComponent implements OnInit {
 
   public selectedRoom(room): void {
     this.roomService.selectedRoom(room);
-    this.arduinoService.selectedRoom(room.url_device_air);
+    this.arduinoService.selectedRoom(room.urlDeviceAir);
   }
 
   ngOnDestroy(): void {
-    this.subscription.map(sub => sub.unsubscribe())
+    this.subscription.forEach(sub => sub.unsubscribe())
   }
 }

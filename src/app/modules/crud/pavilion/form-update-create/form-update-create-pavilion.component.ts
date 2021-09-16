@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { MessageService } from 'src/app/core/services/message/message.service';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
 import { ValidationFieldsService } from 'src/app/core/services/validationFields/validation-fields.service';
-import { Pavilion } from 'src/app/shared/models/pavilion.model';
+import { Pavilion } from 'src/app/shared/models/pavilion/pavilion.model';
 
 @Component({
   selector: 'app-form-update-create-pavilion',

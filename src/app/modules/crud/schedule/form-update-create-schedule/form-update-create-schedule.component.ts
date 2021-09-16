@@ -9,7 +9,7 @@ import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service
 import { RoomService } from 'src/app/core/services/room/room.service';
 import { ScheduleService } from 'src/app/core/services/schedule/schedule.service';
 import { ClassTime } from 'src/app/shared/models/classTime/ClassTime.model';
-import { Pavilion } from 'src/app/shared/models/pavilion.model';
+import { Pavilion } from 'src/app/shared/models/pavilion/pavilion.model';
 import { CardRoom } from 'src/app/shared/models/room/cardRoom.model';
 import { Schedule } from 'src/app/shared/models/schedule/schedule.model';
 import { ScheduleCrud } from 'src/app/shared/models/schedule/scheduleCrud.model';
@@ -31,14 +31,14 @@ export class FormUpdateCreateScheduleComponent implements OnInit {
   private subscription: Subscription[] = []
 
   schedule: Schedule;
-  private shift_hour_morning: string[];
-  private shift_hour_afternoon: string[];
-  private shift_hour_night: string[];
+  private shiftHourMorning: string[];
+  private shiftHourAfternoon: string[];
+  private shiftHourNight: string[];
 
-  unenabled_hour_morning: boolean = false
-  unenabled_hour_afternoon: boolean = false
-  unenabled_hour_night: boolean = false
-  unenabled_hour_edit: boolean = false
+  unenabledHourMorning: boolean = false
+  unenabledHourAfternoon: boolean = false
+  unenabledHourNight: boolean = false
+  unenabledHourEdit: boolean = false
   edit: boolean = false;
   editAllSchedule: boolean = false;
   scheduleEdit: ScheduleCrud;
@@ -62,17 +62,17 @@ export class FormUpdateCreateScheduleComponent implements OnInit {
   }
 
   private initObjSchedule(): void {
-    this.shift_hour_morning = ["07:30", "08:10", "09:00", "10:00", "10:50", "11:40"];
-    this.shift_hour_afternoon = ["13:10", "14:00", "14:50", "15:50", "16:40"];
-    this.shift_hour_night = ["18:20", "19:10", "20:00", "20:50", "21:40"];
+    this.shiftHourMorning = ["07:30", "08:10", "09:00", "10:00", "10:50", "11:40"];
+    this.shiftHourAfternoon = ["13:10", "14:00", "14:50", "15:50", "16:40"];
+    this.shiftHourNight = ["18:20", "19:10", "20:00", "20:50", "21:40"];
 
     this.schedule = {
-      fk_id_room: null,
-      id_schedule: null,
-      shift_morning: this.insertHourTable(this.shift_hour_morning),
-      shift_afternoon: this.insertHourTable(this.shift_hour_afternoon),
-      shift_night: this.insertHourTable(this.shift_hour_night),
-      active_schedule: false,
+      fkIdRoom: null,
+      idSchedule: null,
+      shiftMorning: this.insertHourTable(this.shiftHourMorning),
+      shiftAfternoon: this.insertHourTable(this.shiftHourAfternoon),
+      shiftNight: this.insertHourTable(this.shiftHourNight),
+      activeSchedule: false,
     }
   }
 
@@ -116,7 +116,7 @@ export class FormUpdateCreateScheduleComponent implements OnInit {
         this.edit = true;
         this.scheduleEdit = res;
         this.getShiftSchedule();
-        this.unenabled_hour_morning = true
+        this.unenabledHourMorning = true
       })
     )
   }
@@ -124,15 +124,15 @@ export class FormUpdateCreateScheduleComponent implements OnInit {
   public getShiftSchedule(): string {
     let label: string;
     switch (this.scheduleEdit.shift) {
-      case 'shift_morning': {
+      case 'shiftMorning': {
         label = 'Matutino';
         break
       }
-      case 'shift_afternoon': {
+      case 'shiftAfternoon': {
         label = 'Vespertino';
         break
       }
-      case 'shift_night': {
+      case 'shiftNight': {
         label = 'Noturno';
         break
       }
@@ -142,32 +142,32 @@ export class FormUpdateCreateScheduleComponent implements OnInit {
   }
 
   private setFlagShiftStatusNull(): void {
-    if (this.schedule.shift_morning === null)
-      this.unenabled_hour_morning = true
+    if (this.schedule.shiftMorning === null)
+      this.unenabledHourMorning = true
 
-    if (this.schedule.shift_afternoon === null)
-      this.unenabled_hour_afternoon = true
+    if (this.schedule.shiftAfternoon === null)
+      this.unenabledHourAfternoon = true
 
-    if (this.schedule.shift_night === null)
-      this.unenabled_hour_night = true
+    if (this.schedule.shiftNight === null)
+      this.unenabledHourNight = true
   }
 
   private setShiftStatus(): void {
-    if (this.unenabled_hour_morning) {
-      this.schedule.shift_morning = null
+    if (this.unenabledHourMorning) {
+      this.schedule.shiftMorning = null
     }
-    if (this.unenabled_hour_afternoon) {
-      this.schedule.shift_afternoon = null
+    if (this.unenabledHourAfternoon) {
+      this.schedule.shiftAfternoon = null
     }
-    if (this.unenabled_hour_night) {
-      this.schedule.shift_night = null
+    if (this.unenabledHourNight) {
+      this.schedule.shiftNight = null
     }
   }
 
   public onSubmit(form): void {
 
     if (this.edit) {
-      this.scheduleEdit.active_schedule = form.value.active_schedule;
+      this.scheduleEdit.activeSchedule = form.value.activeSchedule;
 
       this.subscription.push(
         this.scheduleService.updateSchedule(this.scheduleEdit).subscribe({
@@ -182,8 +182,8 @@ export class FormUpdateCreateScheduleComponent implements OnInit {
     else {
       this.setShiftStatus()
 
-      this.schedule.fk_id_room = form.value.fk_id_room
-      this.schedule.active_schedule = form.value.active_schedule
+      this.schedule.fkIdRoom = form.value.fkIdRoom
+      this.schedule.activeSchedule = form.value.activeSchedule
 
       if (this.editAllSchedule) {
         this.subscription.push(
@@ -206,29 +206,29 @@ export class FormUpdateCreateScheduleComponent implements OnInit {
 
   private getShiftTabGroup(): string {
     if (this.indexTabGroup == 0)
-      return 'shift_morning'
+      return 'shiftMorning'
 
     if (this.indexTabGroup == 1)
-      return 'shift_afternoon'
+      return 'shiftAfternoon'
 
     if (this.indexTabGroup == 2)
-      return 'shift_night'
+      return 'shiftNight'
   }
 
   public getIdScheduleRoom(idRoom): void {
-    //TODO: FAZER CONSULTA; CASO RETORNO O id_schedule, FAZER UM UPDATE; CASO RETORNE null, CRIAR O HORÁRIO
+    //TODO: FAZER CONSULTA; CASO RETORNO O idSchedule, FAZER UM UPDATE; CASO RETORNE null, CRIAR O HORÁRIO
 
-    if (this.schedule.fk_id_room === null) {
+    if (this.schedule.fkIdRoom === null) {
       this.messageService.openSnackBar('Selecione o pavilhão e sala!', 'alertMessage');
     } else {
-      this.scheduleService.getIdScheduleRoom(this.schedule.fk_id_room, this.getShiftTabGroup()).subscribe({
+      this.scheduleService.getIdScheduleRoom(this.schedule.fkIdRoom, this.getShiftTabGroup()).subscribe({
         next: responseSchedule => {
 
           if (responseSchedule[0].shift_schedule != null) {
             this.messageService.openSnackBar('A sala já possui um horário! O horário informado será atualizado', 'alertMessage');
             this.editAllSchedule = true
-            this.schedule.id_schedule = responseSchedule[0].id_schedule
-            this.schedule.active_schedule = true
+            this.schedule.idSchedule = responseSchedule[0].idSchedule
+            this.schedule.activeSchedule = true
 
             this.setShiftObjSchedule(responseSchedule[0].shift_schedule);
 
@@ -237,11 +237,11 @@ export class FormUpdateCreateScheduleComponent implements OnInit {
             this.editAllSchedule = false
 
             /* this.edit = true; */
-            this.scheduleEdit.name_room = 'teste'
-            this.scheduleEdit.shift_time = this.schedule.shift_night
+            this.scheduleEdit.nameRoom = 'teste'
+            this.scheduleEdit.shiftTime = this.schedule.shiftNight
 
-            this.scheduleEdit.id_schedule = 1
-            this.scheduleEdit.shift = 'shift_night'
+            this.scheduleEdit.idSchedule = 1
+            this.scheduleEdit.shift = 'shiftNight'
 
             this.setFlagShiftStatusNull();
           }
@@ -254,20 +254,20 @@ export class FormUpdateCreateScheduleComponent implements OnInit {
   private setShiftObjSchedule(shift_schedule): void {
     let shift = this.getShiftTabGroup();
 
-    if (shift === 'shift_morning') {
-      this.schedule.shift_morning = JSON.parse(shift_schedule)
+    if (shift === 'shiftMorning') {
+      this.schedule.shiftMorning = JSON.parse(shift_schedule)
     }
     else
-      if (shift === 'shift_afternoon') {
-        this.schedule.shift_afternoon = JSON.parse(shift_schedule)
+      if (shift === 'shiftAfternoon') {
+        this.schedule.shiftAfternoon = JSON.parse(shift_schedule)
       }
       else {
-        this.schedule.shift_night = JSON.parse(shift_schedule)
+        this.schedule.shiftNight = JSON.parse(shift_schedule)
       }
   }
 
   ngOnDestroy(): void {
-    this.subscription.map(sub => sub.unsubscribe())
+    this.subscription.forEach(sub => sub.unsubscribe())
   }
 
 }

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, Subject } from 'rxjs';
 
-import { Pavilion } from 'src/app/shared/models/pavilion.model';
+import { Pavilion } from 'src/app/shared/models/pavilion/pavilion.model';
 
 
 @Injectable({

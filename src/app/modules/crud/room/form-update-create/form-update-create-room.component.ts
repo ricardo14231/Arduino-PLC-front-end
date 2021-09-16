@@ -9,7 +9,7 @@ import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service
 import { RoomService } from 'src/app/core/services/room/room.service';
 import { Air } from 'src/app/shared/models/air/listAir.model';
 import { FieldsSelect } from 'src/app/shared/models/fieldSelect/fieldsSelect.model';
-import { Pavilion } from 'src/app/shared/models/pavilion.model';
+import { Pavilion } from 'src/app/shared/models/pavilion/pavilion.model';
 import { RoomModel } from 'src/app/shared/models/room/RoomModel.model';
 
 @Component({

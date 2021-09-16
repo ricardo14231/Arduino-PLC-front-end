@@ -41,11 +41,11 @@ export class RoomService {
     return this.http.get<CardRoom[]>(`${this.API}listActiveRoom`);
   }
 
-  public createRoom(room: RoomModel): Observable<any> {
+  private createRoom(room: RoomModel): Observable<any> {
     return this.http.post<any>(`${this.API}createRoom`, room);
   }
 
-  public updateRoom(room: RoomModel): Observable<any> {
+  private updateRoom(room: RoomModel): Observable<any> {
     return this.http.put<any>(`${this.API}updateRoom`, room);
   }
 
@@ -53,17 +53,16 @@ export class RoomService {
     return this.http.delete<any>(`${this.API}deleteRoom/${idRoom}`);
   }
 
-  public selectedPavilion(idPavilion: number){
+  selectedPavilion(idPavilion: number){
 
     if(idPavilion != -1){
-      this.readRoomByIdPavilion(idPavilion).subscribe(res => {   
-        this.roomsEmitter.emit(res);
-        
-      }), error => { error.error };
+      this.readRoomByIdPavilion(idPavilion).subscribe({
+        next: res => this.roomsEmitter.emit(res),
+        error: err => console.log(err)
+        })
     }else{
       this.cleanRooms();
     }
-    
   }
 
   onSave(room: RoomModel) {

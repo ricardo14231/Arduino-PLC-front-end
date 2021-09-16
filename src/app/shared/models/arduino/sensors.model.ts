@@ -1,5 +1,4 @@
 export interface Sensors {
-    'sHumidade': number,
-    'sPresenca': number,
-    'sTemperatura': number
+  'sTemperatura': number,
+  'sPresenca': number
 }

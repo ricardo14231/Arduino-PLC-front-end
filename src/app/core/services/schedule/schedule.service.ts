@@ -26,8 +26,8 @@ export class ScheduleService {
 
   private readonly API = environment.API_APP;
 
-  private listSchedule(id_room: number, shift_schedule: string): Observable<Schedule> {
-    return this.http.get<Schedule>(`${this.API}listSchedule/${id_room}/${shift_schedule}`);
+  private listSchedule(idRoom: number, shiftSchedule: string): Observable<Schedule> {
+    return this.http.get<Schedule>(`${this.API}listSchedule/${idRoom}/${shiftSchedule}`);
   }
 
   public createSchedule(schedule: Schedule): Observable<any> {
@@ -42,18 +42,18 @@ export class ScheduleService {
     return this.http.put<any>(`${this.API}updateSchedule`, schedule);
   }
 
-  public getIdScheduleRoom(id_room: number, shift_schedule: string): Observable<any> {
-    return this.http.get<any>(`${this.API}getIdScheduleRoom/${id_room}/${shift_schedule}`);
+  public getIdScheduleRoom(idRoom: number, shiftSchedule: string): Observable<any> {
+    return this.http.get<any>(`${this.API}getIdScheduleRoom/${idRoom}/${shiftSchedule}`);
   }
 
   public selectedShift(shift): void{
     this.shiftSchedule = shift;
   }
 
-  public showSchedule(id_room: number): void{
+  public showSchedule(idRoom: number): void{
     
     if(this.shiftSchedule != "notSelected"){
-      this.listSchedule(id_room, this.shiftSchedule).subscribe((res: Schedule) => {
+      this.listSchedule(idRoom, this.shiftSchedule).subscribe((res: Schedule) => {
         this.scheduleEmitter.emit(res);
       });
     }else{

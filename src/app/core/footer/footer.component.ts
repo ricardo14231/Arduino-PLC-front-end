@@ -26,20 +26,20 @@ export class FooterComponent implements OnInit {
 
     this.subscription.push(
       this.roomService.cardRoomEmitter.subscribe({
-        next: room => this.nameRoomSelected = room.name_room,
+        next: room => this.nameRoomSelected = room.nameRoom,
         error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
       })
     );
 
     this.subscription.push(
       this.scheduleService.scheduleEmitter.subscribe({
-        next: shedule => this.nameRoomScheduleSelected = shedule[0].name_room,
+        next: shedule => this.nameRoomScheduleSelected = shedule[0].nameRoom,
         error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
       })
     );
   }
 
   ngOnDestroy(): void {
-    this.subscription.map(sub => sub.unsubscribe())
+    this.subscription.forEach(sub => sub.unsubscribe())
   }
 }

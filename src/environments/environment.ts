@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   API_APP: 'http://localhost:3000/',
-  API_ARDUINO: 'http://192.168.0.130/'
+  API_ARDUINO: 'http://localhost:3333/arduino-api/'
 };
 
 /*
