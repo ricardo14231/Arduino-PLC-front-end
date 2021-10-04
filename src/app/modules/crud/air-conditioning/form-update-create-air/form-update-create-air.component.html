@@ -5,48 +5,34 @@
     </div>
  
     <fieldset>
-        <legend>{{ edit ? "Atualizar ar-condicionado" : "Novo ar-condicionado" }}</legend>
-        <form class="form-air" #airForm="ngForm" (ngSubmit)="onSubmit()">
-            
+        <legend>{{ airService.isEdit ? "Atualizar ar-condicionado" : "Novo ar-condicionado" }}</legend>
+        <form class="form-air" autocomplete="off" novalidate [formGroup]="airForm" (ngSubmit)="onSave()">
+               
             <div class="name_air">
-                <mat-form-field>
-                    <mat-label>Nome</mat-label>
-                    <input matInput placeholder="Nome ar-condicionado" id="name_air" name="name_air" [(ngModel)]="air.nameAir" minlength="3" maxlength="45" required>
-                </mat-form-field>
+                <app-input-text fieldName="Nome" fieldIdentify="nameAir" [formGroup]="airForm"></app-input-text>
             </div>
             
             <div class="temperature-container">
                 <div class="temperature_min_air">
-                    <mat-form-field>
-                        <mat-label>Temp. Min</mat-label>
-                        <input matInput type="number" placeholder="temp." id="temperature_min_air" name="temperature_min_air" [(ngModel)]="air.temperatureMinAir" required>
-                    </mat-form-field>
+                    <app-input-number fieldName="Temp. Min" fieldIdentify="temperatureMinAir" [formGroup]="airForm"></app-input-number>
                 </div>
                 
                 <div class="temperature_max_air">
-                    <mat-form-field>
-                        <mat-label>Temp. Max</mat-label>
-                        <input matInput type="number" placeholder="temp." id="temperature_max_air" name="temperature_max_air" [(ngModel)]="air.temperatureMaxAir" required>
-                    </mat-form-field>
+                    <app-input-number fieldName="Temp. Max" fieldIdentify="temperatureMaxAir" [formGroup]="airForm"></app-input-number>
                 </div>
             </div>
 
             <div class="url_device_air">
-                <mat-form-field>
-                    <mat-label>URL do dispositivo</mat-label>
-                    <input matInput placeholder="URL" id="url_device_air" name="url_device_air" [(ngModel)]="air.urlDeviceAir" pattern="http?://.+" title="Inclua http://" minlength="14" maxlength="45" required>
-                </mat-form-field>
-            </div>
-            
-            
+                <app-input-text fieldName="URL do Dipositivo" fieldIdentify="urlDeviceAir" [formGroup]="airForm" pattern="http?://.+"></app-input-text>
+            </div>          
+                         
             <div class="active">
-                <mat-label>Ativo</mat-label>
-                <mat-checkbox id="active_air" name="active_air" [(ngModel)]="air.activeAir"></mat-checkbox> 
-            </div> 
+                <app-input-checkbox fieldIdentify="activeAir" [formGroup]="airForm"></app-input-checkbox>           
+            </div>
             
             <div class="btnActionForm">
                 <button mat-raised-button color="warn" type="button" class="cancel" routerLink="/homeAir/list"> <img src="assets/crud/cancel.svg"> Cancelar </button>
-                <button mat-raised-button color="primary" type="submit" class="save" [disabled]="!airForm.form.valid"> <img src="assets/crud/save.svg"> Salvar </button>
+                <button mat-raised-button color="primary" type="submit" class="save" [disabled]="!airForm.valid"> <img src="assets/crud/save.svg"> Salvar </button>
             </div>
         </form>       
     </fieldset>

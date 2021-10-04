@@ -81,8 +81,7 @@ export class ListRoomComponent implements OnInit {
   }
 
   public selectedPavilion(event): void {
-    console.log(event.value)
-
+ 
     this.subscription.push(
       this.roomService.readCrudRoomByIdPavilion(event.value).subscribe({
         next: responsePavilion => {

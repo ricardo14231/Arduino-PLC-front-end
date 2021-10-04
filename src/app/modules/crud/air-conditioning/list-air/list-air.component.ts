@@ -11,7 +11,7 @@ import { MessageService } from 'src/app/core/services/message/message.service';
 import { Pavilion } from 'src/app/shared/models/pavilion/pavilion.model';
 import { Subscription } from 'rxjs';
 import { PavilionService } from 'src/app/core/services/pavilion/pavilion.service';
-import { Air } from 'src/app/shared/models/air/listAir.model';
+import { Air } from 'src/app/shared/models/air/air.model';
 import { AirService } from 'src/app/core/services/air/air.service';
 
 @Component({
@@ -30,56 +30,58 @@ export class ListAirComponent implements OnInit {
   ) { }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['id', 'name_air', 'allocated', 'temperature_min', 'temperature_max', 'url_device', 'active', 'actions'];
+  displayedColumns: string[] = ['id', 'nameAir', 'allocated', 'temperatureMin', 'temperatureMax', 'urlDevice', 'active', 'actions'];
   dataSource: MatTableDataSource<any>;
   pavilions: Pavilion[];
   airs: Air[];
 
-  private subscription: Subscription[] = [];
-
   ngOnInit(): void {
+    this.pavilionService.listActivePavilion().subscribe({
+      next: responsePavilion => this.pavilions = responsePavilion,
+      error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+    });
   }
 
-  ngAfterViewInit() {
-    this.subscription.push(
-      this.pavilionService.listActivePavilion().subscribe({
-        next: responsePavilion => this.pavilions = responsePavilion,
-        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
-      }),
-    );
-  }
-
-  public selectedPavilion(event): void {
+  selectedPavilion(event): void {
 
     if (event.value != undefined) {
 
       if (event.value == "unallocatedAir") {
-        this.subscription.push(
-          this.airService.listUnallocatedActiveAir().subscribe({
+        this.airService.listUnallocatedActiveAir().subscribe({
+          next: responseAir => this.setDataTable(responseAir),
+          error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+        })
+      } else {
+        if (event.value == "listNotActiveAir") {
+          this.airService.listNotActiveAir().subscribe({
             next: responseAir => this.setDataTable(responseAir),
             error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
           })
-        )
-      } else {
-        if (event.value == "listNotActiveAir") {
-          this.subscription.push(
-            this.airService.listNotActiveAir().subscribe({
-              next: responseAir => this.setDataTable(responseAir),
-              error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
-            })
-          )
         } else {
-          this.subscription.push(
-            this.airService.listAllocatedAirByIdPavilion(event.value).subscribe({
-              next: responseAir => this.setDataTable(responseAir),
-              error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
-            })
-          )
+          this.airService.listAllocatedAirByIdPavilion(event.value).subscribe({
+            next: responseAir => this.setDataTable(responseAir),
+            error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
+          })
         }
       }
     } else {
       this.setDataTable([]);
     }
+  }
+
+  openDialogDelete(element): void {
+    let dialogRef = this.dialog.open(DialogDeleteItemComponent, {
+      height: '20%',
+      width: '30%',
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.deleteAir(element.idAir);
+        this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
+      }
+    });
+
   }
 
   private setDataTable(data: Air[]): void {
@@ -88,31 +90,19 @@ export class ListAirComponent implements OnInit {
     this.airs = data;
   }
 
-  public openDialogDelete(element): void {
-    let dialogRef = this.dialog.open(DialogDeleteItemComponent, {
-      height: '20%',
-      width: '30%',
+  private deleteAir(idAir: number): void {
+    this.airService.deleteAir(idAir).subscribe({
+      next: () => {
+        this.airs = this.removeElementArrayAir(idAir);
+        this.dataSource = new MatTableDataSource<Air>(this.airs);
+      },
+      error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
     });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.deleteAir(element.id_air);
-        this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
-      }
-    });
-
   }
 
-  private deleteAir(idAir: number): void {
-    this.subscription.push(
-      this.airService.deleteAir(idAir).subscribe({
-        next: response => {
-          this.airs = this.removeElementArrayAir(idAir);
-          this.dataSource = new MatTableDataSource<Air>(this.airs);
-        },
-        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
-      })
-    );
+  editAir(air: Air): void {
+    this.airService.air = air;
+    this.router.navigate(['homeAir/edit']);
   }
 
   private removeElementArrayAir(idAir: number): any {
@@ -125,14 +115,5 @@ export class ListAirComponent implements OnInit {
     });
 
     return newArrayAir;
-  }
-
-  public editAir(element): void {
-    this.airService.editAir(element);
-    this.router.navigate(['homeAir/edit']);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.forEach(sub => sub.unsubscribe())
   }
 }

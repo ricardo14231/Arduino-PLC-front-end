@@ -1,10 +1,12 @@
 <div [formGroup]="formGroup">
     <mat-form-field class="amountRoom">
         <mat-label>{{fieldName}}</mat-label>
-        <input type="number" matInput [id]="fieldIdentify" [name]="fieldIdentify" [formControlName]="fieldIdentify"
-            min="0">
-        <mat-error *ngIf="formControl.errors?.required">{{ validationTextField.requiredTextField() }}</mat-error>
-        <mat-error *ngIf="formControl.errors?.min">{{ validationTextField.numberMinLength(formControl.errors.min.min) }}</mat-error>
-        <mat-error *ngIf="formControl.errors?.max">{{ validationTextField.numberMaxLength(formControl.errors.max.max) }}</mat-error>
+
+        <input type="number" matInput [id]="fieldIdentify" [name]="fieldIdentify" [formControlName]="fieldIdentify" min="0" 
+        onkeydown="javascript: return event.keyCode === 8 ||event.keyCode === 46 ? true : !isNaN(Number(event.key))">
+        
+        <mat-error *ngIf="formControl.errors?.required">{{ validationFields.requiredTextField() }}</mat-error>
+        <mat-error *ngIf="formControl.errors?.min">{{ validationFields.numberMinLength(formControl.errors.min.min) }}</mat-error>
+        <mat-error *ngIf="formControl.errors?.max">{{ validationFields.numberMaxLength(formControl.errors.max.max) }}</mat-error>
     </mat-form-field>
 </div>

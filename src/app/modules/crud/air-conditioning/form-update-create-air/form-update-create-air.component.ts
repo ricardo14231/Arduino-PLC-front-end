@@ -1,42 +1,78 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AirService } from 'src/app/core/services/air/air.service';
 import { MessageService } from 'src/app/core/services/message/message.service';
-import { RoomService } from 'src/app/core/services/room/room.service';
-import { Air } from 'src/app/shared/models/air/listAir.model';
+import { Air } from 'src/app/shared/models/air/air.model';
 
 @Component({
   selector: 'app-form-update-create-air',
   templateUrl: './form-update-create-air.component.html',
   styleUrls: ['./form-update-create-air.component.css']
 })
-export class FormUpdateCreateAirComponent implements OnInit, OnChanges {
+export class FormUpdateCreateAirComponent implements OnInit {
+
+  airForm: FormGroup;
+  edit: boolean = false;
+  private _subscription: Subscription;
+  private _idAirEdit: number;
+  air: Air;
 
   constructor(
-    private airService: AirService,
-    private roomService: RoomService,
+    public airService: AirService,
+    private formBuider: FormBuilder,
     private router: Router,
     private messageService: MessageService,
   ) { }
 
-  public edit: boolean = false;
-  private subscription: Subscription[] = [];
-
-  public air: Air;
-
   ngOnInit(): void {
-    this.initObjRoom();
-    //this.editAir();
+    this.initObjAir();
+    this.createFormControl(this.air);
+
+    if (this.airService.isEdit) {
+      this.air = this.airService.air;
+      this._idAirEdit = this.air.idAir;
+
+      this.airForm.patchValue({
+        nameAir: this.air.nameAir,
+        allocatedAir: this.air.allocatedAir,
+        temperatureMinAir: this.air.temperatureMinAir,
+        temperatureMaxAir: this.air.temperatureMaxAir,
+        urlDeviceAir: this.air.urlDeviceAir,
+        activeAir: this.air.activeAir
+      })
+    }
   }
 
-  ngOnChanges(): void {
-
+  createFormControl(air: Air) {
+    this.airForm = this.formBuider.group({
+      nameAir: [air.nameAir, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      temperatureMinAir: [air.temperatureMinAir, [Validators.required, Validators.min(14), Validators.max(30)]],
+      temperatureMaxAir: [air.temperatureMaxAir, [Validators.required, Validators.min(14), Validators.max(30)]],
+      urlDeviceAir: [air.urlDeviceAir, [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
+      activeAir: [air.activeAir]
+    });
   }
 
-  public onSubmit(): void {
+  onSave(): void {
 
+    this.air = this.airForm.getRawValue() as Air;
+    
+    if (this._idAirEdit !== null)
+      this.air.idAir = this._idAirEdit;
+
+    this.airService.onSave(this.air);
+
+    this._subscription = this.airService.responseOnSave.subscribe(() => {
+      this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
+      this.router.navigate(['/homeAir/list']);
+
+    }, () => this.messageService.openSnackBar('Erro ao salvar o Ar-condicionado!', 'dangerMessage')
+    )
+
+    /*
     if (!this.edit && this.air.idAir == null) {
       this.subscription.push(
         this.airService.createAir(this.air).subscribe({
@@ -59,43 +95,25 @@ export class FormUpdateCreateAirComponent implements OnInit, OnChanges {
         })
       );
     }
+    */
   }
 
-  /* public editAir(): void {
-    this.subscription.push(
-      this.airService.airEmitter.subscribe({
-        next: responseAir => {
-          this.air.idAir = responseAir.id_air;
-          this.air.nameAir = responseAir.name_air;
-          this.air.temperatureMinAir = responseAir.temperature_min_air;
-          this.air.temperature_max_air = responseAir.temperature_max_air;
-          this.air.url_device_air = responseAir.url_device_air;
-          this.air.active_air = responseAir.active_air;
-
-          this.edit = true;
-        },
-        error: err => this.messageService.openSnackBar(err.error, 'dangerMessage')
-      })
-    );
-  } */
-
-  private initObjRoom(): void {
+  private initObjAir(): void {
     this.air = {
       idAir: null,
       nameAir: null,
       currentTemperatureAir: null,
-      stateCoolAir: false,
-      stateFanAir: false,
-      turnOnAir: false,
-      allocatedAir: false,
+      stateCoolAir: null,
+      stateFanAir: null,
+      turnOnAir: null,
       temperatureMinAir: null,
       temperatureMaxAir: null,
       urlDeviceAir: null,
-      activeAir: false
+      activeAir: true
     };
   }
 
   ngOnDestroy(): void {
-    this.subscription.map(sub => sub.unsubscribe())
+    this._subscription?.unsubscribe();
   }
 }

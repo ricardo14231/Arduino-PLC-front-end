@@ -1,6 +1,3 @@
-
-
-
 .form-air .name_air, .form-air .temperature-container{
     display: inline;
 }
@@ -33,12 +30,6 @@
 
 .form-air .url_device_air{
     clear: both;
-}
-
-
-.form-air .active{
-    position: relative;
-    top: 30px;
 }
 
 .form-air .active ::ng-deep.mat-checkbox{

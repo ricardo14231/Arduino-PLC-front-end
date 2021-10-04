@@ -23,25 +23,25 @@
                   <td mat-cell *matCellDef="let element"> {{ element.idRoom }} </td>
                   </ng-container>
               
-                  <!-- Name Column -->
+                  <!-- Room Column -->
                   <ng-container matColumnDef="nameRoom">
                   <th mat-header-cell *matHeaderCellDef> Sala </th>
                   <td mat-cell *matCellDef="let element"> {{ element.nameRoom }} </td>
                   </ng-container>
 
-                  <!-- Name Column -->
+                  <!-- Air Column -->
                     <ng-container matColumnDef="air">
                       <th mat-header-cell *matHeaderCellDef> Ar-condicionado </th>
                       <td mat-cell *matCellDef="let element"> {{ element.nameAir }} </td>
                   </ng-container>
               
-                  <!-- active Column -->
+                  <!-- Active Column -->
                   <ng-container matColumnDef="active">
                   <th mat-header-cell *matHeaderCellDef> Ativo </th>
                   <td mat-cell *matCellDef="let element"> <mat-checkbox [checked]="element.activeRoom" disabled="true"></mat-checkbox> </td>
                   </ng-container>
 
-                  <!-- active Column -->
+                  <!-- Actions Column -->
                   <ng-container matColumnDef="actions">
                   <th mat-header-cell *matHeaderCellDef> Ações </th>
                   <td mat-cell *matCellDef="let element"> 

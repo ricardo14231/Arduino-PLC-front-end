@@ -1,5 +1,3 @@
-import { Timestamp } from 'rxjs';
-
 export interface Air{
     idAir?: number, 
     nameAir: string, 
@@ -7,7 +5,7 @@ export interface Air{
     stateCoolAir: boolean, 
     stateFanAir: boolean, 
     turnOnAir: boolean, 
-    allocatedAir: boolean, 
+    allocatedAir?: boolean, 
     temperatureMinAir: number, 
     temperatureMaxAir: number, 
     urlDeviceAir: string, 

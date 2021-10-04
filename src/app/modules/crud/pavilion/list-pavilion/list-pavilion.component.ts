@@ -21,7 +21,6 @@ export class ListPavilionComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'amountRoom', 'active', 'actions'];
   dataSource: MatTableDataSource<Pavilion>;
 
-
   constructor(
     private pavilionService: PavilionService,
     public dialog: MatDialog,
@@ -33,18 +32,7 @@ export class ListPavilionComponent implements OnInit {
     this.listAllPavilion();
   }
 
-  private listAllPavilion() {
-
-    this.pavilionService.listAllPavilion().subscribe({
-      next: responsePavilion => {
-        this.dataSource = new MatTableDataSource<Pavilion>(responsePavilion);
-        this.dataSource.paginator = this.paginator;
-      },
-      error: () => this.messageService.openSnackBar("Erro ao listar pavilhões!", 'dangerMessage')
-    })
-  }
-
-  public openDialogDelete(element): void {
+  openDialogDelete(element): void {
     let dialogRef = this.dialog.open(DialogDeleteItemComponent, {
       height: '20%',
       width: '30%',
@@ -55,6 +43,11 @@ export class ListPavilionComponent implements OnInit {
         this.deletePavilion(element.idPavilion);
       }
     });
+  }
+
+  editPavilion(element): void {
+    this.pavilionService.pavilion = element;
+    this.router.navigate(['homePavilion/edit']);
   }
 
   private deletePavilion(idPavilion: number): void {
@@ -68,9 +61,14 @@ export class ListPavilionComponent implements OnInit {
     })
   }
 
-  public editPavilion(element): void {
-    this.pavilionService.pavilion = element;
-    this.router.navigate(['homePavilion/edit']);
-  }
+  private listAllPavilion() {
 
+    this.pavilionService.listAllPavilion().subscribe({
+      next: responsePavilion => {
+        this.dataSource = new MatTableDataSource<Pavilion>(responsePavilion);
+        this.dataSource.paginator = this.paginator;
+      },
+      error: () => this.messageService.openSnackBar("Erro ao listar pavilhões!", 'dangerMessage')
+    })
+  }
 }

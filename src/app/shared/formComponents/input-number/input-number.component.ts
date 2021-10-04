@@ -11,20 +11,15 @@ export class InputNumberComponent {
 
   @Input() formGroup: FormGroup
 
-  @Input() controlName: string
-
   @Input() fieldIdentify: string
 
   @Input() fieldName: string
   
-
   constructor(
-    public ValidationFields: ValidationFieldsService
-  ) { }
+    public validationFields: ValidationFieldsService
+  ) {  }
 
   get formControl(): AbstractControl {
     return this.formGroup.controls[this.fieldIdentify];
   }
-
-
 }

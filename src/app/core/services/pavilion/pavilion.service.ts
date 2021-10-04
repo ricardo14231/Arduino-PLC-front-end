@@ -41,7 +41,7 @@ export class PavilionService {
     return this.http.put<any>(`${this.API}updatePavilion`, pavilion);
   }
 
-  get pavilion() {
+  get pavilion(): Pavilion {
     return this._pavilion;
   }
   
@@ -50,11 +50,11 @@ export class PavilionService {
     this._pavilion = value;
   }
 
-  get edit(): boolean {
+  get isEdit(): boolean {
     return this._isEdit;
   }
 
-  set edit(value: boolean) {
+  set isEdit(value: boolean) {
     this._isEdit = value;
   }
 

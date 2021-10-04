@@ -17,7 +17,7 @@ export class InputTextComponent {
   
 
   constructor(
-    public validationTextField: ValidationFieldsService
+    public validationField: ValidationFieldsService
   ) { }
 
   get formControl(): AbstractControl {

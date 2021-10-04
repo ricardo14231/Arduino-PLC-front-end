@@ -15,6 +15,12 @@ import { Pavilion } from 'src/app/shared/models/pavilion/pavilion.model';
 })
 export class FormUpdateCreatePavilionComponent implements OnInit {
 
+  pavilionForm: FormGroup;
+
+  private pavilion: Pavilion;
+  private _idPavilionEdit: number = null;
+  private _subscription: Subscription;
+
   constructor(
     public pavilionService: PavilionService,
     private router: Router,
@@ -23,20 +29,15 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
     public validationTextField: ValidationFieldsService
   ) { }
 
-  pavilionForm: FormGroup;
-
-  private pavilion: Pavilion;
-  private _idPavilionEdit: number = null;
-  private subscription: Subscription[] = [];
-
   ngOnInit(): void {
 
     this.initObjPavilion();
     this.createFormControl(this.pavilion);
 
-    if (this.pavilionService.edit) {
+    if (this.pavilionService.isEdit) {
       this.pavilion = this.pavilionService.pavilion;
-      this._idPavilionEdit = this.pavilion.idPavilion
+      this._idPavilionEdit = this.pavilion.idPavilion;
+
       this.pavilionForm.patchValue({
         namePavilion: this.pavilion.namePavilion,
         amountRoomPavilion: this.pavilion.amountRoomPavilion,
@@ -44,10 +45,6 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
       })
     }
 
-  }
-
-  get controlsForm() {
-    return this.pavilionForm.controls;
   }
 
   createFormControl(pavilion: Pavilion) {
@@ -67,12 +64,12 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
 
     this.pavilionService.onSave(this.pavilion);
 
-    this.subscription.push(this.pavilionService.responseOnSave.subscribe(() => {
+    this._subscription = this.pavilionService.responseOnSave.subscribe(() => {
       this.messageService.openSnackBar('Sucesso na operação!', 'successMessage');
       this.router.navigate(['/homePavilion/list']);
 
     }, () => this.messageService.openSnackBar('Erro ao salvar o pavilhão!', 'dangerMessage')
-    ))
+    )
   }
 
   resetForm(): void {
@@ -80,20 +77,20 @@ export class FormUpdateCreatePavilionComponent implements OnInit {
   }
 
   cancelForm(): void {
-    this.pavilionService.edit = false;
+    this.pavilionService.isEdit = false;
     this.router.navigate(['/homePavilion/list']);
   }
 
   private initObjPavilion(): void {
     this.pavilion = {
       idPavilion: null,
-      namePavilion: "",
+      namePavilion: null,
       amountRoomPavilion: 0,
       activePavilion: true
     };
   }
 
   ngOnDestroy(): void {
-    this.subscription.forEach(sub => sub.unsubscribe())
+    this._subscription?.unsubscribe();
   }
 }

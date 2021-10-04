@@ -6,14 +6,13 @@
     </div>
 
     <fieldset>
-        <legend> {{ pavilionService.edit ? "Atualizar" : "Novo" }} </legend>
+        <legend> {{ pavilionService.isEdit ? "Atualizar" : "Novo" }} </legend>
         <form autocomplete="off" novalidate class="pavilionForm" [formGroup]="pavilionForm" (ngSubmit)="onSave()"
             (ngReset)="resetForm()">
 
             <app-input-text fieldName="Nome" fieldIdentify="namePavilion" [formGroup]="pavilionForm"></app-input-text>
 
-            <app-input-number fieldName="Qtd. Salas" fieldIdentify="amountRoomPavilion" [formGroup]="pavilionForm">
-            </app-input-number>
+            <app-input-number class="amountRoom" fieldName="Qtd. Salas" fieldIdentify="amountRoomPavilion" [formGroup]="pavilionForm"></app-input-number>
 
             <app-input-checkbox fieldIdentify="activePavilion" [formGroup]="pavilionForm"></app-input-checkbox>
 
